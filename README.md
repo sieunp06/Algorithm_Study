@@ -5,4 +5,4 @@
 # Baekjoon
 
 🌻백준🌻
-Solved.ac Profile
+https://solved.ac/profile/teetoos
