@@ -27,6 +27,7 @@
 |[11720](https://www.acmicpc.net/problem/11720)|숫자의 합|<img src="https://static.solved.ac/tier_small/2.svg" width="20px"/>|[Py]()|
 |[15596](https://www.acmicpc.net/problem/15596)|정수 N개의 합|<img src="https://static.solved.ac/tier_small/4.svg" width="20px"/>|[Py]()|
 |[18108](https://www.acmicpc.net/problem/18108)|1998년생인 내가 태국에서는 2541년생?!|<img src="https://static.solved.ac/tier_small/1.svg" width="20px"/>|[Py]()|
+|[25304](https://www.acmicpc.net/problem/25304)|영수증|<img src="https://static.solved.ac/tier_small/1.svg" width="20px"/>|[Py]()|
 
 <br>
 
