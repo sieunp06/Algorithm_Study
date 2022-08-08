@@ -13,7 +13,8 @@
 |[2588](https://www.acmicpc.net/problem/2588)|곱셈|<img src="https://static.solved.ac/tier_small/3.svg" width="20px"/>|[Py]()<br>[Java]()|
 |[2742](https://www.acmicpc.net/problem/2742)|기찍 N|<img src="https://static.solved.ac/tier_small/2.svg" width="20px"/>|[Py]()<br>[Java]()|
 |[2884](https://www.acmicpc.net/problem/2884)|알람 시계|<img src="https://static.solved.ac/tier_small/3.svg" width="20px"/>|[Py]()<br>[Java]()|
-|[3052](https://www.acmicpc.net/problem/3052)|나머지|<img src="https://static.solved.ac/tier_small/4.svg" width="20px"/>|[Py]()<br>[Java]()|
+|[3003](https://www.acmicpc.net/problem/3003)|킹, 퀸, 룩, 비숍, 나이트, 폰|<img src="https://static.solved.ac/tier_small/1.svg" width="20px"/>|[Py]()<br>[Java]()|
+|[3052](https://www.acmicpc.net/problem/3052)|나머지|<img src="https://static.solved.ac/tier_small/4.svg" width="20px"/>|[Py]()|
 |[4344](https://www.acmicpc.net/problem/4344)|평균은 넘겠지|<img src="https://static.solved.ac/tier_small/5.svg" width="20px"/>|[Py]()|
 |[8393](https://www.acmicpc.net/problem/8393)|합|<img src="https://static.solved.ac/tier_small/1.svg" width="20px"/>|[Py]()<br>[Java]()|
 |[8958](https://www.acmicpc.net/problem/8958)|OX퀴즈|<img src="https://static.solved.ac/tier_small/4.svg" width="20px"/>|[Py]()<br>[Java]()|
