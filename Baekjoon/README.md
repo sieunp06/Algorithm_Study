@@ -11,6 +11,7 @@
 |[2562](https://www.acmicpc.net/problem/2562)|최댓값|<img src="https://static.solved.ac/tier_small/3.svg" width="20px"/>|[Py]()<br>[Java]()|
 |[2577](https://www.acmicpc.net/problem/2577)|숫자의 개수|<img src="https://static.solved.ac/tier_small/4.svg" width="20px"/>|[Py]()<br>[Java]()|
 |[2588](https://www.acmicpc.net/problem/2588)|곱셈|<img src="https://static.solved.ac/tier_small/3.svg" width="20px"/>|[Py]()<br>[Java]()|
+|[2675](https://www.acmicpc.net/problem/2675)|문자열 반복|<img src="https://static.solved.ac/tier_small/4.svg" width="20px"/>|[Py]()|
 |[2742](https://www.acmicpc.net/problem/2742)|기찍 N|<img src="https://static.solved.ac/tier_small/2.svg" width="20px"/>|[Py]()<br>[Java]()|
 |[2884](https://www.acmicpc.net/problem/2884)|알람 시계|<img src="https://static.solved.ac/tier_small/3.svg" width="20px"/>|[Py]()<br>[Java]()|
 |[3003](https://www.acmicpc.net/problem/3003)|킹, 퀸, 룩, 비숍, 나이트, 폰|<img src="https://static.solved.ac/tier_small/1.svg" width="20px"/>|[Py]()<br>[Java]()|
