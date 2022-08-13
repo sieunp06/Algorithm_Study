@@ -4,6 +4,7 @@
 |번호|제목|난이도|코드|풀이|
 |--|--|--|--|--|
 |[1110](https://www.acmicpc.net/problem/1110)|더하기 사이클|<img src="https://static.solved.ac/tier_small/5.svg" width="20px"/>|[Py](https://github.com/sieunp06/Algorithm_Study/blob/main/Baekjoon/bronze/1110/1110.py)<br>[Java](https://github.com/sieunp06/Algorithm_Study/blob/main/Baekjoon/bronze/1110/1110.java)|
+|[1152](https://www.acmicpc.net/problem/1152)|단어의 개수|<img src="https://static.solved.ac/tier_small/4.svg" width="20px"/>|[Py](https://github.com/sieunp06/Algorithm_Study/blob/main/Baekjoon/bronze/1152/1152.py)|
 |[1157](https://www.acmicpc.net/problem/1157)|단어 공부|<img src="https://static.solved.ac/tier_small/5.svg" width="20px"/>|[Py](https://github.com/sieunp06/Algorithm_Study/blob/main/Baekjoon/bronze/1157/1157.py)|
 |[1546](https://www.acmicpc.net/problem/1546)|평균|<img src="https://static.solved.ac/tier_small/5.svg" width="20px"/>|[Py](https://github.com/sieunp06/Algorithm_Study/blob/main/Baekjoon/bronze/1546/1546.py)<br>[Java](https://github.com/sieunp06/Algorithm_Study/blob/main/Baekjoon/bronze/1546/1546.java)|
 |[2439](https://www.acmicpc.net/problem/2439)|별 찍기 - 2|<img src="https://static.solved.ac/tier_small/2.svg" width="20px"/>|[Py](https://github.com/sieunp06/Algorithm_Study/blob/main/Baekjoon/bronze/2439/12439.py)<br>[Java](https://github.com/sieunp06/Algorithm_Study/blob/main/Baekjoon/bronze/2439/2439.java)|
