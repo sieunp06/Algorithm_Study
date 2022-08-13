@@ -4,6 +4,7 @@
 |번호|제목|난이도|코드|풀이|
 |--|--|--|--|--|
 |[1110](https://www.acmicpc.net/problem/1110)|더하기 사이클|<img src="https://static.solved.ac/tier_small/5.svg" width="20px"/>|[Py]()<br>[Java]()|
+|[1157](https://www.acmicpc.net/problem/1157)|단어 공부|<img src="https://static.solved.ac/tier_small/5.svg" width="20px"/>|[Py]()|
 |[1546](https://www.acmicpc.net/problem/1546)|평균|<img src="https://static.solved.ac/tier_small/5.svg" width="20px"/>|[Py]()<br>[Java]()|
 |[2439](https://www.acmicpc.net/problem/2439)|별 찍기 - 2|<img src="https://static.solved.ac/tier_small/2.svg" width="20px"/>|[Py]()<br>[Java]()|
 |[2480](https://www.acmicpc.net/problem/2480)|주사위 세개|<img src="https://static.solved.ac/tier_small/2.svg" width="20px"/>|[Py]()|
