@@ -40,4 +40,5 @@
 |번호|제목|난이도|코드|풀이|
 |--|--|--|--|--|
 |[1065](https://www.acmicpc.net/problem/1065)|한수|<img src="https://static.solved.ac/tier_small/7.svg" width="20px"/>|[Py](https://github.com/sieunp06/Algorithm_Study/blob/main/Baekjoon/bronze/1065/1065.py)|
+|[2941](https://www.acmicpc.net/problem/2941)|크로아티아 알파벳|<img src="https://static.solved.ac/tier_small/7.svg" width="20px"/>|[Py](https://github.com/sieunp06/Algorithm_Study/blob/main/Baekjoon/bronze/2941/2941.py)|
 |[4673](https://www.acmicpc.net/problem/4673)|셀프 넘버|<img src="https://static.solved.ac/tier_small/6.svg" width="20px"/>|[Py](https://github.com/sieunp06/Algorithm_Study/blob/main/Baekjoon/bronze/4673/4673.py)|
