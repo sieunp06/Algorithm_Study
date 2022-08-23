@@ -3,10 +3,12 @@
 ## Bronze
 |번호|제목|난이도|코드|풀이|
 |--|--|--|--|--|
+|[1085](https://www.acmicpc.net/problem/1085)|직사각형에서 탈출|<img src="https://static.solved.ac/tier_small/3.svg" width="20px"/>|[Py](https://github.com/sieunp06/Algorithm_Study/blob/main/Baekjoon/bronze/1085/1085.py)
 |[1110](https://www.acmicpc.net/problem/1110)|더하기 사이클|<img src="https://static.solved.ac/tier_small/5.svg" width="20px"/>|[Py](https://github.com/sieunp06/Algorithm_Study/blob/main/Baekjoon/bronze/1110/1110.py)<br>[Java](https://github.com/sieunp06/Algorithm_Study/blob/main/Baekjoon/bronze/1110/1110.java)|
 |[1152](https://www.acmicpc.net/problem/1152)|단어의 개수|<img src="https://static.solved.ac/tier_small/4.svg" width="20px"/>|[Py](https://github.com/sieunp06/Algorithm_Study/blob/main/Baekjoon/bronze/1152/1152.py)|
 |[1157](https://www.acmicpc.net/problem/1157)|단어 공부|<img src="https://static.solved.ac/tier_small/5.svg" width="20px"/>|[Py](https://github.com/sieunp06/Algorithm_Study/blob/main/Baekjoon/bronze/1157/1157.py)|
 |[1546](https://www.acmicpc.net/problem/1546)|평균|<img src="https://static.solved.ac/tier_small/5.svg" width="20px"/>|[Py](https://github.com/sieunp06/Algorithm_Study/blob/main/Baekjoon/bronze/1546/1546.py)<br>[Java](https://github.com/sieunp06/Algorithm_Study/blob/main/Baekjoon/bronze/1546/1546.java)|
+|[1712](https://www.acmicpc.net/problem/1712)|손익분기점|<img src="https://static.solved.ac/tier_small/5.svg" width="20px"/>|[Py](https://github.com/sieunp06/Algorithm_Study/blob/main/Baekjoon/bronze/1712/1712.py)|
 |[2439](https://www.acmicpc.net/problem/2439)|별 찍기 - 2|<img src="https://static.solved.ac/tier_small/2.svg" width="20px"/>|[Py](https://github.com/sieunp06/Algorithm_Study/blob/main/Baekjoon/bronze/2439/12439.py)<br>[Java](https://github.com/sieunp06/Algorithm_Study/blob/main/Baekjoon/bronze/2439/2439.java)|
 |[2480](https://www.acmicpc.net/problem/2480)|주사위 세개|<img src="https://static.solved.ac/tier_small/2.svg" width="20px"/>|[Py](https://github.com/sieunp06/Algorithm_Study/blob/main/Baekjoon/bronze/2480/2480.py)|
 |[2525](https://www.acmicpc.net/problem/2525)|오븐 시계|<img src="https://static.solved.ac/tier_small/3.svg" width="20px"/>|[Py](https://github.com/sieunp06/Algorithm_Study/blob/main/Baekjoon/bronze/2525/2525.py)|
