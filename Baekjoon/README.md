@@ -3,6 +3,7 @@
 ## Bronze
 |번호|제목|난이도|코드|풀이|
 |--|--|--|--|--|
+|[1009](https://www.acmicpc.net/problem/1009)|분산처리|<img src="https://static.solved.ac/tier_small/4.svg" width="20px"/>|[Py](https://github.com/sieunp06/Algorithm_Study/blob/main/Baekjoon/bronze/1009/1009.py)
 |[1085](https://www.acmicpc.net/problem/1085)|직사각형에서 탈출|<img src="https://static.solved.ac/tier_small/3.svg" width="20px"/>|[Py](https://github.com/sieunp06/Algorithm_Study/blob/main/Baekjoon/bronze/1085/1085.py)
 |[1110](https://www.acmicpc.net/problem/1110)|더하기 사이클|<img src="https://static.solved.ac/tier_small/5.svg" width="20px"/>|[Py](https://github.com/sieunp06/Algorithm_Study/blob/main/Baekjoon/bronze/1110/1110.py)<br>[Java](https://github.com/sieunp06/Algorithm_Study/blob/main/Baekjoon/bronze/1110/1110.java)|
 |[1152](https://www.acmicpc.net/problem/1152)|단어의 개수|<img src="https://static.solved.ac/tier_small/4.svg" width="20px"/>|[Py](https://github.com/sieunp06/Algorithm_Study/blob/main/Baekjoon/bronze/1152/1152.py)|
