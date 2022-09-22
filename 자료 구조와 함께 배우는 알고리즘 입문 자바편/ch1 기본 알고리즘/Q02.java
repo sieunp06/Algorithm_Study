@@ -3,7 +3,7 @@
  * 세 값의 최솟값을 구하는 min3 메서드를 작성하세요.
  */
 
-public class min3 {
+public class Min3 {
 	static int min3(int a, int b, int c) {
 		int min = a;
 		
