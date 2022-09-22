@@ -11,7 +11,7 @@
 
 import java.util.Scanner;
 
-public class Minus {
+public class Q10 {
     public static void main(String[] args) {
         Scanner stdIn = new Scanner(System.in);
 

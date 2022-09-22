@@ -8,7 +8,7 @@
 
 import java.util.Scanner;
 
-public class Sumof {
+public class Q09 {
     static int sumof(int a, int b) {
         int min;
 		int max;

@@ -3,7 +3,7 @@
  * 네 값의 최댓값을 구하는 max4 메서드를 작성하세요.
  */
 
-public class Max4 {
+public class Q01 {
     static int max4(int a, int b, int c, int d) {
         int max = a;
         

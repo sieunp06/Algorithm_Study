@@ -3,7 +3,7 @@
  * 세 값의 대소 관계 13종류의 모든 조합에 대해 중앙값을 구하여 출력하는 프로그램을 작성하세요.
  */
 
-public class Median13 {
+public class Q04 {
     static int med3(int a, int b, int c) {
         
         if (a >= b) 

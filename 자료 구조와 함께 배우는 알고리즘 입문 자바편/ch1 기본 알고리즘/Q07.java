@@ -5,7 +5,7 @@
 
 import java.util.Scanner;
 
-public class Sum {
+public class Q07 {
     public static void main(String[] args) {
         Scanner stdIn = new Scanner(System.in);
 
