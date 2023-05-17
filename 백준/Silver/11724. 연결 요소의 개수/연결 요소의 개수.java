@@ -5,22 +5,24 @@ import java.util.ArrayList;
 import java.util.StringTokenizer;
 
 public class Main {
-    static boolean[] visited;
     static ArrayList<Integer>[] closeList;
+    static boolean[] visited;
     public static void main(String[] args) throws IOException {
         BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st;
 
         st = new StringTokenizer(bf.readLine());
-        int N = Integer.parseInt(st.nextToken());   // N: 정점의 개수
-        int M = Integer.parseInt(st.nextToken());   // M: 간선의 개수
 
-        visited = new boolean[N + 1];   // 방문 기록 저장 배열
-        closeList = new ArrayList[N + 1];    // 인접 리스트
+        int N = Integer.parseInt(st.nextToken());
+        int M = Integer.parseInt(st.nextToken());
 
-        // 인접 리스트 초기화
-        for (int i = 1; i <= N; i++)
+        closeList = new ArrayList[N + 1];
+        visited = new boolean[N + 1];
+
+        for (int i = 1; i <= N; i++) {
             closeList[i] = new ArrayList<>();
+        }
+
         for (int i = 0; i < M; i++) {
             st = new StringTokenizer(bf.readLine());
 
@@ -30,10 +32,9 @@ public class Main {
             closeList[u].add(v);
             closeList[v].add(u);
         }
-
         int count = 0;
 
-        for (int i = 1; i < N + 1; i++) {
+        for (int i = 1; i <= N; i++) {
             if (!visited[i]) {
                 count++;
                 DFS(i);
@@ -42,12 +43,14 @@ public class Main {
         System.out.println(count);
     }
 
-    private static void DFS(int v) {
-        if (visited[v]) return;
-        visited[v] = true;
-        for (int i : closeList[v]) {
-            if (!visited[i])
+    static void DFS(int num) {
+        if (visited[num])
+            return;
+        visited[num] = true;
+        for (int i : closeList[num]) {
+            if (!visited[i]) {
                 DFS(i);
+            }
         }
     }
 }
