@@ -1,0 +1,16 @@
+import java.util.ArrayList;
+import java.util.Collections;
+
+class Solution {
+    public ArrayList<Integer> solution(int n) {
+        ArrayList<Integer> answer = new ArrayList<>();
+        
+        for (int i = 1; i <= n; i++) {
+            if (n % i == 0) answer.add(i);
+        }
+        
+        Collections.sort(answer);
+        
+        return answer;
+    }
+}
