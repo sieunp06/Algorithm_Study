@@ -1,17 +1,17 @@
 import java.util.Scanner;
 
-public class Main {
+class Main {
     public static void main(String[] args) {
-        Scanner stdIn = new Scanner(System.in);
+        Scanner sc = new Scanner(System.in);
+        int answer = 0;
         
-        int N = stdIn.nextInt();
-        String input = stdIn.next();
-        int total = 0;
+        int num1 = sc.nextInt();
+        String num2 = sc.next();
         
-        for (int i = 0; i < N; i++) {
-            total += input.charAt(i) - '0';
+        for (char numChar : num2.toCharArray()) {
+            answer += numChar - '0';
         }
         
-        System.out.println(total);
+        System.out.println(answer);
     }
 }
