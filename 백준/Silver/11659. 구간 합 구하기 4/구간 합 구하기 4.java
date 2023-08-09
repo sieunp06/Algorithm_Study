@@ -1,8 +1,6 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.StringTokenizer;
 
 public class Main {
@@ -14,19 +12,20 @@ public class Main {
         st = new StringTokenizer(bf.readLine());
         int N = Integer.parseInt(st.nextToken());
         int M = Integer.parseInt(st.nextToken());
+        int[] numbers = new int[N + 1];
 
-        int[] nums = new int[N + 1];
         st = new StringTokenizer(bf.readLine());
-        nums[0] = 0;
-        for (int i = 1; i <= N; i ++) nums[i] = nums[i - 1] + Integer.parseInt(st.nextToken());
+        numbers[0] = 0;
+        for (int i = 1; i <= N; i++) {
+            numbers[i] = Integer.parseInt(st.nextToken()) + numbers[i - 1];
+        }
 
-        for (int i = 0 ; i < M; i++) {
+        for (int i = 0; i < M; i++) {
             st = new StringTokenizer(bf.readLine());
+            int start = Integer.parseInt(st.nextToken()) - 1;
+            int end = Integer.parseInt(st.nextToken());
 
-            int A = Integer.parseInt(st.nextToken());
-            int B = Integer.parseInt(st.nextToken());
-
-            sb.append(nums[B] - nums[A - 1]).append('\n');
+            sb.append(numbers[end] - numbers[start]).append('\n');
         }
 
         System.out.println(sb);
