@@ -1,27 +1,23 @@
-import java.util.Scanner;
-import java.util.Arrays;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
 
 public class Main {
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        
-        int N = scanner.nextInt();
-        double score[] = new double[N];
-        
-        double sum = 0;
-        
+    public static void main(String[] args) throws IOException {
+        BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st;
+
+        int N = Integer.parseInt(bf.readLine());
+        int[] numbers = new int[N];
+        long max = 0; long total = 0;
+
+        st = new StringTokenizer(bf.readLine());
         for (int i = 0; i < N; i++) {
-            score[i] = scanner.nextDouble();
+            numbers[i] = Integer.parseInt(st.nextToken());
+            total += numbers[i];
+            if (numbers[i] > max) max = numbers[i];
         }
-        
-        Arrays.sort(score);
-        
-        for (int i = 0; i < N; i++) {
-            sum += ((score[i] / score[N-1])*100);
-        }
-        
-        System.out.println(sum / N);
-        
-        scanner.close();
+        System.out.println(total * 100.0 / N / max);
     }
 }
