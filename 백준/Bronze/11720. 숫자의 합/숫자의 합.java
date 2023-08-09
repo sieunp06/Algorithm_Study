@@ -1,17 +1,19 @@
-import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
-class Main {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
+
+        int N = Integer.parseInt(bf.readLine());
+        String numbers = bf.readLine();
         int answer = 0;
-        
-        int num1 = sc.nextInt();
-        String num2 = sc.next();
-        
-        for (char numChar : num2.toCharArray()) {
-            answer += numChar - '0';
+
+        for (char num : numbers.toCharArray()) {
+            answer += num - '0';
         }
-        
+
         System.out.println(answer);
     }
 }
