@@ -7,13 +7,13 @@ public class Main {
         BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
 
         int N = Integer.parseInt(bf.readLine());
-        String numbers = bf.readLine();
-        int answer = 0;
+        String input = bf.readLine();
 
-        for (char num : numbers.toCharArray()) {
-            answer += num - '0';
+        int total = 0;
+        for (char alpha : input.toCharArray()) {
+            total += alpha - '0';
         }
 
-        System.out.println(answer);
+        System.out.println(total);
     }
 }
