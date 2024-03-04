@@ -1,38 +1,45 @@
 import java.util.Queue;
 import java.util.LinkedList;
-import java.util.Arrays;
+import java.util.PriorityQueue;
+import java.util.Collections;
 
 class Solution {
-    public int solution(int[] priorities, int location) {
-        int answer = 1;
+    public int solution(int[] priorities, int location) {        
+        PriorityQueue<Integer> processQueue = new PriorityQueue<>(Collections.reverseOrder());
+        Queue<Process> q = new LinkedList<>();
         
-        Queue<Integer> queue = new LinkedList<>();
-        
-        for (int priority : priorities) {
-            queue.add(priority);
+        for (int i = 0; i < priorities.length; i++) {
+            processQueue.add(priorities[i]);
+            q.add(new Process(i, priorities[i]));
         }
-    
-        Arrays.sort(priorities);
         
-        int ind = priorities.length - 1;
+        int count = 0;
         
-        while (!queue.isEmpty()) {
-            int num = queue.poll();
-            if (num != priorities[ind]) {
-                queue.add(num);
-            } else {
-                if (location == 0) {
-                    return answer;
+        while (!q.isEmpty()) {
+            int highestPriority = processQueue.peek();
+            Process nowProcess = q.poll();
+            
+            if (highestPriority == nowProcess.priority) {
+                processQueue.poll();
+                count++;
+                if (nowProcess.index == location) {
+                    return count;
                 }
-                answer++;
-                ind--;
-            }
-            location--;
-            if (location < 0) {
-                location += queue.size();
+            } else {
+                q.add(nowProcess);
             }
         }
         
-        return answer;
+        return count;
+    }
+}
+
+class Process {
+    int index;
+    int priority;
+    
+    Process(int index, int priority) {
+        this.index = index;
+        this.priority = priority;
     }
 }
