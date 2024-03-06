@@ -1,23 +1,31 @@
 class Solution {
     public int solution(int[][] sizes) {
-        int max_x = 0; int max_y = 0;
-        for (int i = 0; i < sizes.length; i++) {
-            if (sizes[i][0] < sizes[i][1]) {
-                int tmp = sizes[i][0];
-                sizes[i][0] = sizes[i][1];
-                sizes[i][1] = tmp;
+        int height = 0;
+        int width = 0;
+        
+        for (int[] size: sizes) {
+            int[] maxAndMin = calculateMaxAndMin(size[0], size[1]);
+            
+            int max = maxAndMin[0];
+            int min = maxAndMin[1];
+            
+            if (max > height) {
+                height = max;
+            }
+            if (min > width) {
+                width = min;
             }
         }
         
-        for (int[] size : sizes) {
-            if (max_x < size[0]) {
-                max_x = size[0];
-            }
-            if (max_y < size[1]) {
-                max_y = size[1];
-            }
+        return height * width;
+    }
+    
+    private int[] calculateMaxAndMin(int num1, int num2) {
+        int[] result = {num1, num2};
+        if (num1 < num2) {
+            result[0] = num2;
+            result[1] = num1;
         }
-        
-        return max_x * max_y;
+        return result;
     }
 }
