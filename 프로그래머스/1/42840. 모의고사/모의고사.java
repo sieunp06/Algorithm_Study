@@ -2,36 +2,40 @@ import java.util.List;
 import java.util.ArrayList;
 
 class Solution {
-    public List<Integer> solution(int[] answers) {
-        List<Integer> answer = new ArrayList<>();
-        int[] person1 = {1,2,3,4,5};
-        int[] person2 = {2,1,2,3,2,4,2,5};
-        int[] person3 = {3,3,1,1,2,2,4,4,5,5};
-        int[] scores = new int[3];
+    final int THE_NUMBER_OF_STUDENT = 3;
+    public int[] solution(int[] answers) {
+        List<Integer> answerList = new ArrayList<>();
+
+        int[][] students = {{1,2,3,4,5}, {2,1,2,3,2,4,2,5}, {3,3,1,1,2,2,4,4,5,5}};
+        int[] score = new int[THE_NUMBER_OF_STUDENT];
         
-        for (int i = 0; i < answers.length; i++) {
-            if (answers[i] == person1[i % person1.length]) {
-                scores[0]++;
+        int index = 0;
+        for (int answerNum: answers) {            
+            for (int i = 0; i < students.length; i++) {
+                if (answerNum == students[i][index % students[i].length]) {
+                    score[i]++;
+                }
             }
-            if (answers[i] == person2[i % person2.length]) {
-                scores[1]++;
-            }
-            if (answers[i] == person3[i % person3.length]) {
-                scores[2]++;
-            }
+            index++;
         }
         
         int max = 0;
-        for (int score : scores) {
-            if (score > max) {
-                max = score;
+        for (int i = 0; i < score.length; i++) {
+            if (score[i] > max) {
+                max = score[i];
             }
         }
         
-        for (int i = 0; i < scores.length; i++) {
-            if (max == scores[i]) {
-                answer.add(i + 1);
+        for (int i = 0; i < score.length; i++) {
+            if (score[i] == max) {
+                answerList.add(i);
             }
+        }
+        
+        int[] answer = new int[answerList.size()];
+        
+        for (int i = 0; i < answerList.size(); i++) {
+            answer[i] = answerList.get(i) + 1;
         }
         
         return answer;
