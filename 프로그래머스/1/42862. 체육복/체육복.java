@@ -2,32 +2,39 @@ import java.util.Arrays;
 
 class Solution {
     public int solution(int n, int[] lost, int[] reserve) {
-        int answer = n - lost.length;
+        int answer = 0;
         
         Arrays.sort(lost);
         Arrays.sort(reserve);
         
-        for (int i = 0; i < lost.length; i++) {
-            for (int j = 0; j < reserve.length; j++) {
-                if (lost[i] == reserve[j]) {
-                    lost[i] = -1;
-                    reserve[j] = -1;
-                    answer++;
-                    break;
-                }
+        int[] num = new int[n + 2];
+        
+        for (int lostNum: lost) {
+            num[lostNum]--;
+        }
+        
+        for (int reserveNum: reserve) {
+            num[reserveNum]++;
+        }
+        
+        for (int reserveNum: reserve) {
+            if (num[reserveNum] == 0) {
+                continue;
+            }
+            
+            if (num[reserveNum - 1] < 0) {
+                num[reserveNum - 1]++;
+                continue;
+            }
+            if (num[reserveNum + 1] < 0) {
+                num[reserveNum + 1]++;
+                continue;
             }
         }
         
-        for (int num : lost) {
-            if (num == -1) {
-                continue;
-            } 
-            for (int i = 0; i < reserve.length; i++) {
-                if (num - 1 == reserve[i] || num + 1 == reserve[i]) {
-                    answer++;
-                    reserve[i] = -1;
-                    break;
-                }
+        for (int i = 1; i < num.length - 1; i++) {
+            if (num[i] > -1) {
+                answer++;
             }
         }
         
