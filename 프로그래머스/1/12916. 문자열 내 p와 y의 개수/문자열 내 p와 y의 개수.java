@@ -1,16 +1,20 @@
 class Solution {
     boolean solution(String s) {
-        int numP = 0;
-        int numY = 0;
-
-        for (char alpha: s.toUpperCase().toCharArray()) {
-            if (alpha == 'P') numP++;
-            if (alpha == 'Y') numY++;
+        int numberOfP = 0;
+        int numberOfY = 0;
+        
+        for (char alphabet : s.toUpperCase().toCharArray()) {
+            if (alphabet == 'P') {
+                numberOfP++;
+            }
+            if (alphabet == 'Y') {
+                numberOfY++;
+            }
         }
         
-        if (numP == numY) {
-            return true;
+        if (numberOfP != numberOfY) {
+            return false;
         }
-        return false;
+        return true;
     }
 }
