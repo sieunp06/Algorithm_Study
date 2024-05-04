@@ -7,12 +7,12 @@ class Solution {
         for (char alpha : s.toCharArray()) {
             if (st.isEmpty()) {
                 st.push(alpha);
+                continue;
+            }
+            if (st.peek() == alpha) {
+                st.pop();
             } else {
-                if (st.peek() == alpha) {
-                    st.pop();
-                } else {
-                    st.push(alpha);
-                }
+                st.push(alpha);
             }
         }
         
