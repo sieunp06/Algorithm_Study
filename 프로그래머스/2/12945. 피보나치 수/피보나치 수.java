@@ -3,17 +3,14 @@ import java.util.ArrayList;
 
 class Solution {
     public int solution(int n) {
-        List<Integer> list = new ArrayList<>();
-        for (int i = 1; i <= n; i++) {
-            if (i == 1) {
-                list.add(1);
-            } else if (i == 2) {
-                list.add(1);
-            } else {
-                list.add((list.get(i - 3) + list.get(i - 2)) % 1234567);
-            }
+        List<Integer> num = new ArrayList<>();
+        num.add(0);
+        num.add(1);
+        
+        for (int i = 2; i <= n; i++) {
+            num.add((num.get(i - 2) + num.get(i - 1)) % 1234567); 
         }
-
-        return list.get(list.size() - 1);
+        
+        return num.get(n);
     }
 }
