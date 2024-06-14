@@ -1,18 +1,12 @@
-import java.util.Map;
-import java.util.HashMap;
+import java.util.List;
+import java.util.ArrayList;
 
 class Solution {
     public int solution(String s) {
-        Map<String, String> numberMap = new HashMap<>();
+        List<String> numbers = List.of("zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine");
         
-        numberMap.put("zero", "0"); numberMap.put("one", "1");
-        numberMap.put("two", "2"); numberMap.put("three", "3");
-        numberMap.put("four", "4"); numberMap.put("five",  "5");
-        numberMap.put("six", "6"); numberMap.put("seven", "7");
-        numberMap.put("eight", "8"); numberMap.put("nine", "9");
-        
-        for (String number : numberMap.keySet()) {
-            s = s.replaceAll(number, numberMap.get(number));
+        for (int i = 0; i < numbers.size(); i++) {
+            s = s.replaceAll(numbers.get(i), String.valueOf(i));
         }
         
         return Integer.parseInt(s);
