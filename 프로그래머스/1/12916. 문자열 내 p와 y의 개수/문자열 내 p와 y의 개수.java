@@ -1,20 +1,19 @@
 class Solution {
     boolean solution(String s) {
-        int numberOfP = 0;
-        int numberOfY = 0;
+        int numOfy = 0; int numOfp = 0;
         
-        for (char alphabet : s.toUpperCase().toCharArray()) {
-            if (alphabet == 'P') {
-                numberOfP++;
+        for (char alphabet: s.toLowerCase().toCharArray()) {
+            if (alphabet == 'y') {
+                numOfy++;
             }
-            if (alphabet == 'Y') {
-                numberOfY++;
+            if (alphabet == 'p') {
+                numOfp++;
             }
         }
         
-        if (numberOfP != numberOfY) {
-            return false;
+        if (numOfy == numOfp) {
+            return true;
         }
-        return true;
+        return false;
     }
 }
