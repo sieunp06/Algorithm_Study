@@ -1,18 +1,16 @@
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Arrays;
+import java.util.Comparator;
 
 class Solution {
     public String[] solution(String[] strings, int n) {
-        List<String> arr = new ArrayList<>();
-        for (int i = 0; i < strings.length; i++) {
-            arr.add("" + strings[i].charAt(n) + strings[i]);
-        }
-        Collections.sort(arr);
-        String[] answer = new String[arr.size()];
-        for (int i = 0; i < arr.size(); i++) {
-            answer[i] = arr.get(i).substring(1, arr.get(i).length());
-        }
-        return answer;
+        Arrays.sort(strings, new Comparator<String>() {
+            @Override
+            public int compare(String s1, String s2) {
+                if (s1.charAt(n) == s2.charAt(n)) return s1.compareTo(s2);
+                if (s1.charAt(n) > s2.charAt(n)) return 1;
+                return -1;
+            }
+        });
+        return strings;
     }
 }
