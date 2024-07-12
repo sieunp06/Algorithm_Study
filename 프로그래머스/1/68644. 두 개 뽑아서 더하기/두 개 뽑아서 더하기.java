@@ -1,6 +1,6 @@
 import java.util.Set;
 import java.util.HashSet;
-import java.util.stream.Collectors;
+import java.util.stream.*;
 import java.util.List;
 
 class Solution {
@@ -13,8 +13,8 @@ class Solution {
             }
         }
         
-        List<Integer> answer = set.stream().sorted().collect(Collectors.toList());
-        
-        return answer;
+        return set.stream()
+            .sorted()
+            .collect(Collectors.toList());
     }
 }
