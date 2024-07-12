@@ -2,28 +2,29 @@ class Solution {
     public String[] solution(int n, int[] arr1, int[] arr2) {
         String[] answer = new String[n];
         
-        for (int i = 0; i < n; i++) {
-            String text = "";
-            String map1 = Integer.toBinaryString(arr1[i]);
-            String map2 = Integer.toBinaryString(arr2[i]);
+        for (int i = 0; i < arr1.length; i++) {
+            String map1 = makeMap(Integer.toString(arr1[i], 2), n);
+            String map2 = makeMap(Integer.toString(arr2[i], 2), n);
             
-            while (map1.length() < n) {
-                map1 = "0" + map1;
-            }
-            while (map2.length() < n) {
-                map2 = "0" + map2;
-            }
-            
+            String result = "";
             for (int j = 0; j < n; j++) {
                 if (map1.charAt(j) == '1' || map2.charAt(j) == '1') {
-                    text += "#";
-                } else if (map1.charAt(j) == '0' && map2.charAt(j) == '0') {
-                    text += " ";
+                    result += '#';
+                } else {
+                    result += ' ';
                 }
             }
-            answer[i] = text;
+            answer[i] = result;
         }
         
         return answer;
+    }
+    
+    private String makeMap (String text, int n) {
+        String result = "";
+        for (int i = 0; i < n - text.length(); i++) {
+            result += '0';
+        }
+        return result + text;
     }
 }
