@@ -1,10 +1,10 @@
 # [level 1] 카드 뭉치 - 159994 
 
-[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/159994#) 
+[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/159994) 
 
 ### 성능 요약
 
-메모리: 78.7 MB, 시간: 0.02 ms
+메모리: 72.9 MB, 시간: 0.03 ms
 
 ### 구분
 
@@ -16,7 +16,7 @@
 
 ### 제출 일자
 
-2023년 11월 4일 0:5:13
+2024년 07월 14일 17:20:37
 
 ### 문제 설명
 
