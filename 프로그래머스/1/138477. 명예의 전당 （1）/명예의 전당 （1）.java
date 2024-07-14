@@ -1,23 +1,24 @@
 import java.util.List;
 import java.util.ArrayList;
 import java.util.PriorityQueue;
+import java.util.Collections;
 
 class Solution {
     public List<Integer> solution(int k, int[] score) {
-        List<Integer> answer = new ArrayList<>();
-        PriorityQueue<Integer> q = new PriorityQueue<>();
-        
-        for (int num : score) {
-            if (q.size() < k) {
-                q.add(num);   
+        PriorityQueue<Integer> pq = new PriorityQueue<>();
+        List<Integer> list = new ArrayList<>();
+
+        for (int s: score) {
+            if (pq.size() < k) {
+                pq.add(s);
             } else {
-                if (num > q.peek()) {
-                    q.poll();
-                    q.add(num);
+                if (pq.peek() < s) {
+                    pq.poll();
+                    pq.add(s);
                 }
             }
-            answer.add(q.peek());
-        }
-        return answer;
+            list.add(pq.peek());
+        }        
+        return list;
     }
 }
