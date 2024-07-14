@@ -2,11 +2,10 @@ class Solution {
     public String solution(int a, int b) {
         String answer = "";
         int[] days = {31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
-        int total = 0;
+        int total = b;
         for (int i = 0; i < a - 1; i++) {
             total += days[i];
         }
-        total += b;
         
         if (total % 7 == 1) {
             answer = "FRI";
