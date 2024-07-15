@@ -1,30 +1,32 @@
 class Solution {
     public int solution(String[] babbling) {
         int answer = 0;
-        String[] word = {"aya", "ye", "woo", "ma"};
+        String[] text = {"aya", "ye", "woo", "ma"};
         
-        for (int i = 0; i < babbling.length; i++) {
-            for (int j = 0; j < word.length; j++) {
-                String num = "" + j;
-                babbling[i] = babbling[i].replaceAll(word[j], num);
+        for (String babb: babbling) {
+            boolean flag = true;
+            String replaced = babb;
+            for (int i = 0; i < text.length; i++) {
+                replaced = replaced.replaceAll(text[i], String.valueOf(i));
             }
-        }
-        
-        for (String babb : babbling) {
-            String text = babb.replaceAll("[a-z]", "");
-            if (text.length() == babb.length()) {
-                boolean flag = true;
-                for (int i = 1; i < text.length(); i++) {
-                    if (text.charAt(i) == text.charAt(i - 1)) {
+            char[] alphabets = replaced.toCharArray();
+            for (int j = 0; j < alphabets.length; j++) {
+                if (!Character.isDigit(alphabets[j])) {
+                    flag = false;
+                    break;
+                }
+                if (j > 0) {
+                    if (alphabets[j - 1] == alphabets[j]) {
                         flag = false;
+                        break;
                     }
                 }
-                
-                if (flag) {
-                    answer++;
-                }
+            }
+            if (flag) {
+                answer++;
             }
         }
+        
         return answer;
     }
 }
