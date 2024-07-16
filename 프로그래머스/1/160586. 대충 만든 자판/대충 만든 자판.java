@@ -6,26 +6,28 @@ class Solution {
         int[] answer = new int[targets.length];
         Map<Character, Integer> map = new HashMap<>();
         
-        for (String text : keymap) {
-            char[] alpha = text.toCharArray();
-            for (int i = 0; i < alpha.length; i++) {
-                if (!map.containsKey(alpha[i])) {
-                    map.put(alpha[i], i);
+        for (String key: keymap) {
+            for (char alphabet: key.toCharArray()) {
+                if (!map.containsKey(alphabet)) {
+                    map.put(alphabet, key.indexOf(alphabet));
                 } else {
-                    if (map.get(alpha[i]) > i) {
-                        map.put(alpha[i], i);
+                    int idx = map.get(alphabet);
+                    if (key.indexOf(alphabet) < idx) {
+                        map.put(alphabet, key.indexOf(alphabet));
                     }
                 }
             }
         }
         
         for (int i = 0; i < targets.length; i++) {
-            for (char al : targets[i].toCharArray()) {
-                if (!map.containsKey(al)) {
+            String target = targets[i];
+            for (char alphabet: target.toCharArray()) {
+                if (map.containsKey(alphabet)) {
+                    answer[i] += map.get(alphabet) + 1;
+                } else {
                     answer[i] = -1;
                     break;
                 }
-                answer[i] += map.get(al) + 1;
             }
         }
         
