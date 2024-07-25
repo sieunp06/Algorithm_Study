@@ -1,23 +1,18 @@
+import java.util.List;
+import java.util.stream.*;
+import java.util.Arrays;
+
 class Solution {
     public String solution(String s) {
-        String[] splitedNumbers = s.split(" ");
-        int[] numbers = new int[splitedNumbers.length];
+        StringBuilder answer = new StringBuilder();
         
-        for (int i = 0; i < numbers.length; i++) {
-            numbers[i] = Integer.parseInt(splitedNumbers[i]);
-        }
+        List<Integer> list = Arrays.stream(s.split(" "))
+            .map(Integer::parseInt)
+            .sorted()
+            .collect(Collectors.toList());
         
-        int min = Integer.MAX_VALUE;
-        int max = Integer.MIN_VALUE;
+        answer.append(list.get(0)).append(" ").append(list.get(list.size() - 1));
         
-        for (int i = 0; i < numbers.length; i++) {
-            if (numbers[i] < min) {
-                min = numbers[i];
-            }
-            if (numbers[i] > max) {
-                max = numbers[i];
-            }
-        }
-        return min + " " + max;
+        return answer.toString();
     }
 }
