@@ -1,24 +1,25 @@
 import java.util.Stack;
 
 class Solution {
-    final char OPEN_BRACKET = '(';
-    final char CLOSE_BRACKET = ')';
-    
     boolean solution(String s) {
-        Stack<Character> brackets = new Stack<>();
+        Stack<Character> st = new Stack<>();
         
-        for (char bracket: s.toCharArray()) {
-            if (bracket == OPEN_BRACKET) {
-                brackets.push(bracket);
+        for (char target : s.toCharArray()) {
+            if (target == '(') {
+                st.add(target);
                 continue;
-            } 
-            if (brackets.isEmpty()) {
+            }
+            if (st.isEmpty()) {
                 return false;
             }
-            brackets.pop();
+            if (st.peek() == '(') {
+                st.pop();
+                continue;
+            }
+            return false;
         }
-        
-        if (!brackets.isEmpty()) {
+
+        if (!st.isEmpty()) {
             return false;
         }
         return true;
