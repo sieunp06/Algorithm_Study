@@ -1,35 +1,24 @@
 class Solution {
     public int solution(int n) {
         int answer = 0;
-        int[] numbers = new int[n + 1];
         
-        if (n == 1) {
-            return 1;
-        }
-        
-        for (int i = 0; i <= n; i++) {
-            numbers[i] = i;
-        }
-        
-        int left = 1;
-        int right = 2;
-        int total = numbers[left] + numbers[right];
-        
-        while (right < n) {
+        int start = 1; int end = 1;
+        int total = 1;
+        while (end <= n) {
             if (total == n) {
                 answer++;
-                total -= numbers[left];
-                left++; right++;
-                total += numbers[right];
+                total -= start; 
+                start++; end++;
+                total += end;
             } else if (total < n) {
-                right++;
-                total += numbers[right];
+                end++;
+                total += end;
             } else {
-                total -= numbers[left];
-                left++;
+                total -= start;
+                start++;
             }
         }
         
-        return answer + 1;
+        return answer;
     }
 }
