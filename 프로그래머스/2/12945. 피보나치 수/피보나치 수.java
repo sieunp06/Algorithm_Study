@@ -10,7 +10,6 @@ class Solution {
         for (int i = 2; i <= n; i++) {
             num.add((num.get(i - 2) + num.get(i - 1)) % 1234567); 
         }
-        
         return num.get(n);
     }
 }
