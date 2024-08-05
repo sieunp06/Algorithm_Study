@@ -1,17 +1,23 @@
 class Solution {
     public int solution(int n) {
-        int answer = 0;
-        int num = n;
-        int nCount = Integer.bitCount(n);
-                
+        int target = countNumOne(Integer.toBinaryString(n));
+        int num = n + 1;
         while (true) {
-            int count = Integer.bitCount(++num);
-            if (nCount == count) {
-                answer = num;
-                break;
+            int count = countNumOne(Integer.toBinaryString(num));
+            if (count == target) {
+                return num;
+            }
+            num++;
+        }
+    }
+    
+    private int countNumOne(String num) {
+        int count = 0;
+        for (char each : num.toCharArray()) {
+            if (each == '1') {
+                count++;
             }
         }
-        
-        return answer;
+        return count;
     }
 }
