@@ -1,49 +1,70 @@
+import java.util.List;
+import java.util.ArrayList;
+
 class Solution {
-    public String solution(int[] numbers, String hand) {
-        String answer = "";
-        int[] leftHand = {3, 0};
-        int[] rightHand = {3, 2};
-        
+    StringBuilder answer = new StringBuilder();
+    final List<Integer> LEFT = List.of(1, 4, 7);
+    final List<Integer> RIGHT = List.of(3, 6, 9);
+    int[] lefthand = {3, 0};
+    int[] righthand = {3, 2};
+    
+    public String solution(int[] numbers, String hand) {        
         for (int number : numbers) {
-            int x = number % 3;
-            if (x == 1) {
-                answer += "L";
-                leftHand[0] = number / 3;
-                leftHand[1] = 0;
-            } else if (x == 0 && number != 0) {
-                answer += "R";
-                rightHand[0] = number / 3 - 1;
-                rightHand[1] = 2;
+            if (LEFT.contains(number)) {
+                answer.append("L");
+                lefthand[0] = number / 3;
+                lefthand[1] = 0;
+                continue;
+            }
+            if (RIGHT.contains(number)) {
+                answer.append("R");
+                righthand[0] = number / 3 - 1;
+                righthand[1] = 2;
+                continue;
+            }
+            calDistance(number, hand);
+        }
+        return answer.toString();
+    }
+    
+    private void calDistance(int num, String hand) {
+        int[] target = {num / 3, 1};
+        if (num == 0) {
+            target[0] = 3;
+        }
+        int leftDistance = Math.abs(target[0] - lefthand[0]) + Math.abs(target[1] - lefthand[1]);
+        int rightDistance = Math.abs(target[0] - righthand[0]) + Math.abs(target[1] - righthand[1]);
+        
+        if (leftDistance < rightDistance) {
+            lefthand[0] = num / 3;
+            if (num == 0) {
+                lefthand[0] = 3;
+            }
+            lefthand[1] = 1;
+            answer.append("L");
+        } else if (leftDistance > rightDistance) {
+            righthand[0] = num / 3;
+            if (num == 0) {
+                righthand[0] = 3;
+            }
+            righthand[1] = 1;
+            answer.append("R");
+        } else {
+            if (hand.equals("right")) {
+                righthand[0] = num / 3;
+                if (num == 0) {
+                    righthand[0] = 3;
+                }
+                righthand[1] = 1;
+                answer.append("R");
             } else {
-                int y = number / 3;   
-                if (number == 0) {
-                    y = 3;
+                lefthand[0] = num / 3;
+                if (num == 0) {
+                    lefthand[0] = 3;
                 }
-                int leftD = Math.abs(leftHand[0] - y) + Math.abs(leftHand[1] - 1);
-                int rightD = Math.abs(rightHand[0] - y) + Math.abs(rightHand[1] - 1);
-                
-                if (leftD > rightD) {
-                    answer += "R";
-                    rightHand[0] = y;
-                    rightHand[1] = 1;
-                } else if (leftD == rightD) {
-                    if (hand.equals("right")) {
-                        answer += "R";
-                        rightHand[0] = y;
-                        rightHand[1] = 1;
-                    } else {
-                        answer += "L";
-                        leftHand[0] = y;
-                        leftHand[1] = 1;
-                    }
-                } else {
-                    answer += "L";
-                    leftHand[0] = y;
-                    leftHand[1] = 1;
-                }
+                lefthand[1] = 1;
+                answer.append("L");
             }
         }
-        
-        return answer;
     }
 }
