@@ -1,9 +1,8 @@
 class Solution {
     public String solution(String new_id) {
         String answer = new_id.toLowerCase();
-        StringBuilder sb;
+        StringBuilder sb = new StringBuilder();
         
-        sb = new StringBuilder();
         for (char alpha : answer.toCharArray()) {
             if (alpha >= 'a' && alpha <= 'z') {
                 sb.append(alpha);
