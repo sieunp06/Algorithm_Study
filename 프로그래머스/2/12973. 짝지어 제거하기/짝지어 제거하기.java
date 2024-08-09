@@ -15,7 +15,7 @@ class Solution {
                 st.push(alpha);
             }
         }
-        
+
         if (st.isEmpty()) {
             return 1;
         }
