@@ -5,22 +5,19 @@ import java.util.ArrayList;
 
 class Solution {
     public int solution(int k, int[] tangerine) {
-        int answer = 0;
-        
         Map<Integer, Integer> map = new HashMap<>();
         
         for (int tan : tangerine) {
             map.put(tan, map.getOrDefault(tan, 0) + 1);
         }
         
-        List<Integer> keySet = new ArrayList<>(map.keySet());
+        List<Integer> list = new ArrayList<>(map.keySet());
+        list.sort((t1, t2) -> map.get(t2).compareTo(map.get(t1)));
         
-        keySet.sort((o1, o2) -> map.get(o2).compareTo(map.get(o1)));
-        
+        int answer = 0;
         int total = 0;
-        
-        for (int key : keySet) {
-            total += map.get(key);
+        for (int num : list) {
+            total += map.get(num);
             answer++;
             if (total >= k) {
                 break;
