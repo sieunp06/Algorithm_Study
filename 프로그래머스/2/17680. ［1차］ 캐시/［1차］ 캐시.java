@@ -1,37 +1,38 @@
-import java.util.Deque;
+import java.util.Queue;
 import java.util.LinkedList;
 
 class Solution {
+    private final int CACHE_HIT = 1;
+    private final int CACHE_MISS = 5;
     public int solution(int cacheSize, String[] cities) {
         int answer = 0;
-        Deque<String> cache = new LinkedList<>();
+        Queue<String> queue = new LinkedList<>();
         
         if (cacheSize == 0) {
-            return 5 * cities.length;
+            return cities.length * CACHE_MISS;
         }
         
-        for (String city : cities) {
-            String target = city.toLowerCase();
-            if (cache.size() < cacheSize) {
-                if (cache.contains(target)) {
-                    answer += 1;
-                    cache.remove(target);
-                    cache.add(target);
+        for (String city: cities) {
+            String name = city.toLowerCase();
+            if (queue.size() < cacheSize) {
+                if (queue.contains(name)) {
+                    queue.remove(name);
+                    queue.add(name);
+                    answer += CACHE_HIT;
                 } else {
-                    cache.add(target);
-                    answer += 5;   
+                    queue.add(name);
+                    answer += CACHE_MISS;   
                 }
-            } else {
-                if (cache.contains(target)) {
-                    answer += 1;
-                    cache.remove(target);
-                    cache.add(target);
-                } else {
-                    answer += 5;
-                    cache.pollFirst();
-                    cache.add(target);
-                }
+                continue;
             }
+            if (queue.contains(name)) {
+                answer += CACHE_HIT;
+                queue.remove(name);
+            } else {
+                answer += CACHE_MISS;
+                queue.poll();
+            }
+            queue.add(name);
         }
         
         return answer;
