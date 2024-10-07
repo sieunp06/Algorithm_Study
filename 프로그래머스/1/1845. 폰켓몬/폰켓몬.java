@@ -1,20 +1,20 @@
-import java.util.Map;
-import java.util.HashMap;
+import java.util.Set;
+import java.util.HashSet;
 
 class Solution {
     public int solution(int[] nums) {
-        int target = nums.length / 2;
-        
-        Map<Integer, Integer> map = new HashMap<>();
-        
-        for (int num: nums) {
-            map.put(num, map.getOrDefault(num, 0) + 1);
+        int size = getPocketmonSize(nums);
+        if (size < nums.length / 2) {
+            return size;
         }
-        System.out.println(map);
-        
-        if (map.size() < target) {
-            return map.size();
+        return nums.length / 2;
+    }
+    
+    private int getPocketmonSize(int[] nums) {
+        Set<Integer> set = new HashSet<>();
+        for (int num : nums) {
+            set.add(num);
         }
-        return target;
+        return set.size();
     }
 }
