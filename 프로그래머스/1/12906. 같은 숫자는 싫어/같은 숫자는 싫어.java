@@ -3,21 +3,21 @@ import java.util.LinkedList;
 
 public class Solution {
     public int[] solution(int []arr) {
-        Deque<Integer> dq = new LinkedList<>();
+        Deque<Integer> queue = new LinkedList<>();
         
-        for (int num: arr) {
-            if (dq.isEmpty()) {
-                dq.add(num);
+        for (int num : arr) {
+            if (queue.isEmpty()) {
+                queue.add(num);
                 continue;
             }
-            if (dq.peekLast() != num) {
-                dq.add(num);
+            if (queue.peekLast() != num) {
+                queue.add(num);
             }
         }
         
-        int[] answer = new int[dq.size()];
+        int[] answer = new int[queue.size()];
         for (int i = 0; i < answer.length; i++) {
-            answer[i] = dq.pollFirst();
+            answer[i] = queue.poll();
         }
 
         return answer;
