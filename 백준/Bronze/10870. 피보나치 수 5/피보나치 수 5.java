@@ -1,20 +1,15 @@
-import java.io.IOException;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
+import java.io.*;
 
-public class Main {
-    public static int solution(int N) {
-        if (N <= 1) return N;
-        else {
-            return solution(N - 1) + solution(N - 2);
-        }
+public class Main { 
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        
+        int n = Integer.parseInt(br.readLine());
+        System.out.println(fibo(n));
     }
     
-    public static void main(String[] args) throws IOException {
-        BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
-        
-        int N = Integer.parseInt(bf.readLine());
-        
-        System.out.println(solution(N));
+    private static int fibo(int num) {
+        if (num <= 1) return num;
+        return fibo(num - 2) + fibo(num - 1);
     }
 }
