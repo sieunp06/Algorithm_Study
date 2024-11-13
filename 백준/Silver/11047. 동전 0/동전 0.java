@@ -1,31 +1,27 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.StringTokenizer;
+import java.util.*;
 
 public class Main {
     public static void main(String[] args) throws IOException {
-        BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st = new StringTokenizer(bf.readLine());
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer stringTokenizer = new StringTokenizer(bufferedReader.readLine());
 
-        int N = Integer.parseInt(st.nextToken());
-        int K = Integer.parseInt(st.nextToken());
+        int N = Integer.parseInt(stringTokenizer.nextToken());
+        int K = Integer.parseInt(stringTokenizer.nextToken());
 
         int[] coins = new int[N];
-
-        for (int i = 0; i < N; i++) {
-            coins[i] = Integer.parseInt(bf.readLine());
-        }
-
-        int cnt = 0;
-
         for (int i = N - 1; i >= 0; i--) {
-            if (K >= coins[i]) {
-                cnt += (K / coins[i]);
-                K = K % coins[i];
-            }
+            coins[i] = Integer.parseInt(bufferedReader.readLine());
         }
 
-        System.out.println(cnt);
+        int total = 0;
+        for (int coin : coins) {
+            total += K / coin;
+            K %= coin;
+        }
+
+        System.out.println(total);
     }
 }
