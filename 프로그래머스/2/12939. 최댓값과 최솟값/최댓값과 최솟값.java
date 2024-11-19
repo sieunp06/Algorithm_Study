@@ -1,18 +1,17 @@
-import java.util.List;
-import java.util.stream.*;
-import java.util.Arrays;
+import java.util.StringTokenizer;
 
 class Solution {
     public String solution(String s) {
-        StringBuilder answer = new StringBuilder();
+        int max = Integer.MIN_VALUE;
+        int min = Integer.MAX_VALUE;
+        StringTokenizer stringTokenizer = new StringTokenizer(s);
         
-        List<Integer> list = Arrays.stream(s.split(" "))
-            .map(Integer::parseInt)
-            .sorted()
-            .collect(Collectors.toList());
+        while (stringTokenizer.hasMoreTokens()) {
+            int num = Integer.parseInt(stringTokenizer.nextToken());
+            max = Math.max(max, num);
+            min = Math.min(min, num);
+        }
         
-        answer.append(list.get(0)).append(" ").append(list.get(list.size() - 1));
-        
-        return answer.toString();
+        return min + " " + max;
     }
 }
