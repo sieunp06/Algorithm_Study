@@ -8,7 +8,6 @@ class Solution {
             answer[1] += len - s.length();
             s = Integer.toString(s.length(), 2);
             answer[0]++;
-            
         }
         
         return answer;
