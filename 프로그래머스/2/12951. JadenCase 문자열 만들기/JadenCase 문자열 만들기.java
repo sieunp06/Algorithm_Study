@@ -1,26 +1,21 @@
 class Solution {
     public String solution(String s) {
-        StringBuilder answer = new StringBuilder();
+        StringBuilder stringBuilder = new StringBuilder();
         
-        boolean spaceFlag = false;
-        for (char alphabet: s.toCharArray()) {
-            if (answer.length() == 0) {
-                answer.append(Character.toUpperCase(alphabet));
+        boolean isAfterSpace = true;
+        for (char alpha : s.toCharArray()) {
+            if (isAfterSpace && alpha != ' ') {
+                stringBuilder.append(Character.toUpperCase(alpha));
+                isAfterSpace = false;
                 continue;
             }
-            if (alphabet == ' ') {
-                spaceFlag = true;
-                answer.append(alphabet);
-                continue;
+        
+            stringBuilder.append(Character.toLowerCase(alpha));
+            if (alpha == ' ') {
+                isAfterSpace = true;
             }
-            if (spaceFlag) {
-                answer.append(Character.toUpperCase(alphabet));
-                spaceFlag = false;
-                continue;
-            }
-            answer.append(Character.toLowerCase(alphabet));
         }
         
-        return answer.toString();
+        return stringBuilder.toString();
     }
 }
