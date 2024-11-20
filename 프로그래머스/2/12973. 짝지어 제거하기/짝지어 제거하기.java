@@ -2,21 +2,21 @@ import java.util.Stack;
 
 class Solution {
     public int solution(String s) {
-        Stack<Character> st = new Stack<>();
+        Stack<Character> stack = new Stack<>();
         
         for (char alpha : s.toCharArray()) {
-            if (st.isEmpty()) {
-                st.push(alpha);
+            if (stack.isEmpty()) {
+                stack.push(alpha);
                 continue;
             }
-            if (st.peek() == alpha) {
-                st.pop();
-            } else {
-                st.push(alpha);
+            if (stack.peek() == alpha) {
+                stack.pop();
+                continue;
             }
+            stack.push(alpha);
         }
 
-        if (st.isEmpty()) {
+        if (stack.isEmpty()) {
             return 1;
         }
         return 0;
