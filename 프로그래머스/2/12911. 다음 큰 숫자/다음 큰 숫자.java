@@ -1,20 +1,22 @@
 class Solution {
     public int solution(int n) {
-        int target = countNumOne(Integer.toBinaryString(n));
-        int num = n + 1;
+        int answer = n + 1;
+        
+        int target = countOne(Integer.toString(n, 2));
         while (true) {
-            int count = countNumOne(Integer.toBinaryString(num));
-            if (count == target) {
-                return num;
+            if (target == countOne(Integer.toString(answer, 2))) {
+                break;
             }
-            num++;
+            answer++;
         }
+        
+        return answer;
     }
     
-    private int countNumOne(String num) {
+    private int countOne(String target) {
         int count = 0;
-        for (char each : num.toCharArray()) {
-            if (each == '1') {
+        for (char alpha : target.toCharArray()) {
+            if (alpha == '1') {
                 count++;
             }
         }
