@@ -1,29 +1,28 @@
+import java.util.Arrays;
+
 class Solution {
     public int solution(int n) {
         int answer = 0;
         
-        if (n == 1) {
-            return 1;
+        int[] numbers = new int[n + 1];
+        for (int i = 1; i <= n; i++) {
+            numbers[i] = i + numbers[i - 1];
         }
         
-        int start = 1; int end = 2;
-        int total = start + end;
+        int start = 1; int end = 1;
         
-        while (end < n) {
-            if (total == n) {
+        while (end < n + 1) {
+            int target = numbers[end] - numbers[start - 1];
+            if (target == n) {
                 answer++;
-                total -= start;
                 start++; end++;
-                total += end;
-            } else if (total < n) {
-                end++;
-                total += end;
-            } else {
-                total -= start;
+            } else if (target > n) {
                 start++;
+            } else {
+                end++;
             }
         }
         
-        return answer + 1;
+        return answer;
     }
 }
