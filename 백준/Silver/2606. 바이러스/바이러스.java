@@ -1,61 +1,53 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.StringTokenizer;
+import java.util.*;
 
 public class Main {
-    static ArrayList<Integer>[] computers;
-    static boolean[] visited;
+    private static int numOfComputer;
+    private static int numOfpairComputer;
 
-    static int numOfComputer;
-    static int numOfNetworkConnectedComputer;
+    private static boolean[] visited;
+    private static List<Integer>[] computers;
 
-    static int wormedComputerCount;
+    private static int answer = 0;
+
+    private static final BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+    private static StringTokenizer stringTokenizer;
+
     public static void main(String[] args) throws IOException {
-        BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st;
+        init();
+        dfs(1);
+        System.out.println(answer - 1);
+    }
 
-        numOfComputer = Integer.parseInt(bf.readLine());
-        numOfNetworkConnectedComputer = Integer.parseInt(bf.readLine());
+    private static void init() throws IOException {
+        numOfComputer = Integer.parseInt(bufferedReader.readLine());
+        numOfpairComputer = Integer.parseInt(bufferedReader.readLine());
 
-        computers = new ArrayList[numOfComputer + 1];
         visited = new boolean[numOfComputer + 1];
-
+        computers = new List[numOfComputer + 1];
         for (int i = 1; i <= numOfComputer; i++) {
             computers[i] = new ArrayList<>();
         }
-        for (int i = 0; i < numOfNetworkConnectedComputer; i++) {
-            st = new StringTokenizer(bf.readLine());
 
-            int u = Integer.parseInt(st.nextToken());
-            int v = Integer.parseInt(st.nextToken());
+        for (int i = 0; i < numOfpairComputer; i++) {
+            stringTokenizer = new StringTokenizer(bufferedReader.readLine());
+            int a = Integer.parseInt(stringTokenizer.nextToken());
+            int b = Integer.parseInt(stringTokenizer.nextToken());
 
-            computers[u].add(v);
-            computers[v].add(u);
+            computers[a].add(b);
+            computers[b].add(a);
         }
-        /**
-         * 1 -> 2 5
-         * 2 -> 3 5
-         * 3 -> 2
-         * 4 -> 7
-         * 5 -> 1 2 6
-         * 6 -> 5
-         * 7 -> 4
-         */
-        wormedComputerCount = 0;
-
-        DFS(1);
-
-        System.out.println(wormedComputerCount - 1);
     }
-    public static void DFS(int computerNum) {
-        wormedComputerCount++;
-        visited[computerNum] = true;
 
-        for (int i : computers[computerNum]) {
+    private static void dfs(int num) {
+        answer++;
+        visited[num] = true;
+
+        for (int i : computers[num]) {
             if (!visited[i]) {
-                DFS(i);
+                dfs(i);
             }
         }
     }
