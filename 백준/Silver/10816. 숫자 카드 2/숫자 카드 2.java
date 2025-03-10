@@ -5,70 +5,65 @@ import java.util.Arrays;
 import java.util.StringTokenizer;
 
 public class Main {
-	public static int Search_up(int[] A, int num) {
-		int lt = 0; int rt = A.length;
-		int mid;
-		
-		while (lt < rt) {
-			mid = (lt + rt) / 2;
-			
-			if (num <= A[mid]) {
-				rt = mid;
-			}
-	 
-			else {
-				lt = mid + 1;
-			}
-		}
-		
-		return lt;
-	}
-	
-	public static int Search_down(int[] A, int num) {
-		int lt = 0; int rt = A.length;
-		int mid;
-		
-		while (lt < rt) {
-			mid = (lt + rt) / 2;
-			
-			if (num < A[mid]) {
-				rt = mid;
-			}
-	 
-			else {
-				lt = mid + 1;
-			}
-		}
-		
-		return lt;
-	}
-	
+    private static int N, M;
+    private static int[] cards, target;
+
+    private static final BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+    private static final StringBuilder stringBuilder = new StringBuilder();
+    private static StringTokenizer stringTokenizer;
+
     public static void main(String[] args) throws IOException {
-    	BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
-    	StringTokenizer st;
-    	StringBuilder sb = new StringBuilder();
-    	
-    	int N = Integer.parseInt(bf.readLine());
-    	int[] A = new int[N];
-    	
-    	st = new StringTokenizer(bf.readLine());
-    	for (int i = 0; i < N; i++) 
-    		A[i] = Integer.parseInt(st.nextToken());
-    	
-    	Arrays.sort(A);
-    	
-    	int M = Integer.parseInt(bf.readLine());
-    	
-    	int[] B = new int[N];
-    	
-    	st = new StringTokenizer(bf.readLine());
-    	for (int i = 0; i < M; i++) 
-    		B[i] = Integer.parseInt(st.nextToken());
-    	
-    	
-    	for (int i = 0; i < M; i++)
-    		sb.append(Search_down(A, B[i]) - Search_up(A, B[i])).append(' ');
-    	
-    	System.out.println(sb);
+        init();
+        for (int num : target) {
+            stringBuilder.append(search_down(num) - search_up(num)).append(" ");
+        }
+        System.out.println(stringBuilder);
+    }
+
+    private static void init() throws IOException {
+        N = Integer.parseInt(bufferedReader.readLine());
+        cards = new int[N];
+        stringTokenizer = new StringTokenizer(bufferedReader.readLine());
+        for (int i = 0; i < N; i++) {
+            cards[i] = Integer.parseInt(stringTokenizer.nextToken());
+        }
+        Arrays.sort(cards);
+
+        M = Integer.parseInt(bufferedReader.readLine());
+        target = new int[M];
+        stringTokenizer = new StringTokenizer(bufferedReader.readLine());
+        for (int i = 0; i < M; i++) {
+            target[i] = Integer.parseInt(stringTokenizer.nextToken());
+        }
+    }
+
+    private static int search_down(int num) {
+        int left = 0; int right = N;
+        int mid;
+
+        while (left < right) {
+            mid = (left + right) / 2;
+            if (num < cards[mid]) {
+                right = mid;
+            } else {
+                left = mid + 1;
+            }
+        }
+        return left;
+    }
+
+    private static int search_up(int num) {
+        int left = 0; int right = N;
+        int mid;
+
+        while (left < right) {
+            mid = (left + right) / 2;
+            if (num <= cards[mid]) {
+                right = mid;
+            } else {
+                left = mid + 1;
+            }
+        }
+        return left;
     }
 }
