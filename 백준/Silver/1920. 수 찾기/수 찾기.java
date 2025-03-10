@@ -5,40 +5,54 @@ import java.util.Arrays;
 import java.util.StringTokenizer;
 
 public class Main {
-	public static int Search(int[] A, int num) {
-		int lt = 0; int rt = A.length - 1;
-		int mid;
-		
-		while (lt <= rt) {
-			mid = (lt + rt) / 2;
-			if (A[mid] == num) return 1;
-			else if (A[mid] < num) lt = mid + 1;
-			else rt = mid - 1;
-		}
-		return 0;
-	}
-    public static void main(String[] args) throws IOException {
-    	BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st;
-    	
-        int N = Integer.parseInt(bf.readLine());
-        st = new StringTokenizer(bf.readLine());
-        int[] A = new int[N];
-        
-        for (int i = 0; i < N; i++)
-        	A[i] = Integer.parseInt(st.nextToken());
-        
-        Arrays.sort(A);
+    private static int N, M;
+    private static int[] numbers;
+    private static int[] target;
 
-        
-        int M = Integer.parseInt(bf.readLine());
-        st = new StringTokenizer(bf.readLine());
-        int[] B = new int[M];
-        
-        for (int i = 0; i < M; i++)
-        	B[i] = Integer.parseInt(st.nextToken());
-        
-        for (int i = 0; i < M; i++)
-        	System.out.println(Search(A, B[i]));
+    private static final BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+    private static StringTokenizer stringTokenizer;
+
+    public static void main(String[] args) throws IOException {
+        init();
+        for (int num : target) {
+            System.out.println(search(num) ? 1 : 0);
+        }
+    }
+
+    private static void init() throws IOException {
+       N = Integer.parseInt(bufferedReader.readLine());
+       numbers = new int[N];
+
+       stringTokenizer = new StringTokenizer(bufferedReader.readLine());
+       for (int i = 0; i < N; i++) {
+           numbers[i] = Integer.parseInt(stringTokenizer.nextToken());
+       }
+        Arrays.sort(numbers);
+
+       M = Integer.parseInt(bufferedReader.readLine());
+       target = new int[M];
+
+       stringTokenizer = new StringTokenizer(bufferedReader.readLine());
+       for (int i = 0; i < M; i++) {
+           target[i] = Integer.parseInt(stringTokenizer.nextToken());
+       }
+    }
+
+    private static boolean search(int num) {
+        int left = 0; int right = N - 1;
+        int mid;
+
+        while (left <= right) {
+            mid = (left + right) / 2;
+            if (numbers[mid] == num) {
+                return true;
+            }
+            if (numbers[mid] < num) {
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+        return false;
     }
 }
