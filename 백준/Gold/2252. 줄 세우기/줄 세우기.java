@@ -13,6 +13,7 @@ public class Main {
     public static void main(String[] args) throws IOException {
         init();
         topologySort();
+        System.out.println(stringBuilder);
     }
 
     private static void init() throws IOException {
@@ -20,7 +21,7 @@ public class Main {
         N = Integer.parseInt(stringTokenizer.nextToken());
         M = Integer.parseInt(stringTokenizer.nextToken());
 
-        graph = new ArrayList[N + 1];
+        graph = new List[N + 1];
         inDegree = new int[N + 1];
 
         for (int i = 1; i <= N; i++) {
@@ -29,16 +30,16 @@ public class Main {
 
         for (int i = 0; i < M; i++) {
             stringTokenizer = new StringTokenizer(bufferedReader.readLine());
-            int a = Integer.parseInt(stringTokenizer.nextToken());
-            int b = Integer.parseInt(stringTokenizer.nextToken());
+            int A = Integer.parseInt(stringTokenizer.nextToken());
+            int B = Integer.parseInt(stringTokenizer.nextToken());
 
-            graph[a].add(b);
-            inDegree[b]++;
+            graph[A].add(B);
+            inDegree[B]++;
         }
     }
 
     private static void topologySort() {
-        Queue<Integer> queue = new LinkedList<>();
+        Queue<Integer> queue = new ArrayDeque<>();
         for (int i = 1; i <= N; i++) {
             if (inDegree[i] == 0) {
                 queue.add(i);
@@ -46,16 +47,15 @@ public class Main {
         }
 
         while (!queue.isEmpty()) {
-            int current = queue.poll();
-            stringBuilder.append(current).append(" ");
+            int now = queue.poll();
+            stringBuilder.append(now).append(" ");
 
-            for (int next : graph[current]) {
-                inDegree[next]--;
-                if (inDegree[next] == 0) {
-                    queue.add(next);
+            for (int num : graph[now]) {
+                inDegree[num]--;
+                if (inDegree[num] == 0) {
+                    queue.add(num);
                 }
             }
         }
-        System.out.println(stringBuilder);
     }
 }
