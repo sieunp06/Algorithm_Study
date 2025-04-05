@@ -3,38 +3,35 @@ import java.util.*;
 
 public class Solution {
     static int V, E;
-    static int[] parent;
-    static PriorityQueue<Edge> edgeList;
+    static boolean[] visited;
+    static List<Edge>[] adjList;
 
     static class Edge implements Comparable<Edge> {
-        int from, to, weight;
+        int to, weight;
 
-        Edge(int from, int to, int weight) {
-            this.from = from;
+        Edge(int to, int weight) {
             this.to = to;
             this.weight = weight;
         }
 
         @Override
         public int compareTo(Edge o) {
-            return Integer.compare(this.weight, o.weight);
+            return weight - o.weight;
         }
     }
 
-    static final BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));;
+    static final BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
     static final StringBuilder stringBuilder = new StringBuilder();
     static StringTokenizer stringTokenizer;
 
     public static void main(String[] args) throws IOException {
         int T = Integer.parseInt(bufferedReader.readLine());
 
-        for (int tc = 1; tc <= T; tc++) {
-            stringBuilder.append("#").append(tc).append(" ");
+        for (int testCase = 1; testCase <= T; testCase++) {
             init();
-            stringBuilder.append(kruskal()).append("\n");
+            stringBuilder.append("#").append(testCase).append(" ").append(prim()).append("\n");
         }
-
-        System.out.print(stringBuilder);
+        System.out.println(stringBuilder);
     }
 
     static void init() throws IOException {
@@ -42,51 +39,47 @@ public class Solution {
         V = Integer.parseInt(stringTokenizer.nextToken());
         E = Integer.parseInt(stringTokenizer.nextToken());
 
-        parent = new int[V + 1];
+        adjList = new ArrayList[V + 1];
         for (int i = 1; i <= V; i++) {
-            parent[i] = i;
+            adjList[i] = new ArrayList<>();
         }
-
-        edgeList = new PriorityQueue<>();
 
         for (int i = 0; i < E; i++) {
             stringTokenizer = new StringTokenizer(bufferedReader.readLine());
             int from = Integer.parseInt(stringTokenizer.nextToken());
             int to = Integer.parseInt(stringTokenizer.nextToken());
             int weight = Integer.parseInt(stringTokenizer.nextToken());
-            edgeList.add(new Edge(from, to, weight));
+
+            adjList[from].add(new Edge(to, weight));
+            adjList[to].add(new Edge(from, weight));
         }
+        visited = new boolean[V + 1];
     }
 
-    static long kruskal() {
+    static long prim() {
+        PriorityQueue<Edge> pq = new PriorityQueue<>();
+        pq.add(new Edge(1, 0));
+
         long totalWeight = 0;
         int count = 0;
 
-        while (!edgeList.isEmpty()) {
-            Edge e = edgeList.poll();
+        while (!pq.isEmpty()) {
+            Edge now = pq.poll();
 
-            if (union(e.from, e.to)) {
-                totalWeight += e.weight;
-                if (++count == V - 1) break;
+            if (visited[now.to]) continue;
+
+            visited[now.to] = true;
+            totalWeight += now.weight;
+            count++;
+
+            if (count == V) break;
+
+            for (Edge edge : adjList[now.to]) {
+                if (!visited[edge.to])  {
+                    pq.offer(edge);
+                }
             }
         }
-
         return totalWeight;
-    }
-
-    static int find(int x) {
-        if (x != parent[x])
-            parent[x] = find(parent[x]);
-        return parent[x];
-    }
-
-    static boolean union(int a, int b) {
-        int rootA = find(a);
-        int rootB = find(b);
-
-        if (rootA == rootB) return false;
-
-        parent[rootB] = rootA;
-        return true;
     }
 }
