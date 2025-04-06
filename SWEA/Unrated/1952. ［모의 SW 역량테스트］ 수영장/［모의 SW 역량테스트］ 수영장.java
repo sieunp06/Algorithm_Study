@@ -1,36 +1,29 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.*;
 
-class Solution {
-    private static final int NUM_OF_TICKETS = 4;
-    private static final int MONTH = 12;
+public class Solution {
+    static final int NUM_OF_TICKETS = 4;
+    static final int MONTH = 12;
 
-    private static int T;
+    static int[] tickets = new int[NUM_OF_TICKETS];
+    static int[] months = new int[MONTH + 1];
+    static int[] dp = new int[MONTH + 1];
 
-    private static int[] tickets = new int[NUM_OF_TICKETS];
-    private static int[] months = new int[MONTH + 1];
+    static final BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+    static final StringBuilder stringBuilder = new StringBuilder();
+    static StringTokenizer stringTokenizer;
 
-    private static int answer;
+    public static void main(String[] args) throws IOException {
+        int T = Integer.parseInt(bufferedReader.readLine());
 
-    private static final BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
-    private static final StringBuilder stringBuilder = new StringBuilder();
-    private static StringTokenizer stringTokenizer;
-
-    public static void main(String[] args) throws Exception {
-        T = Integer.parseInt(bufferedReader.readLine());
-        for (int testCase = 1; testCase <= T; testCase++) {
+        for (int tc = 1; tc <= T; tc++) {
             init();
-            find(1, 0);
-            stringBuilder.append("#").append(testCase).append(" ").append(answer).append("\n");
+            stringBuilder.append("#").append(tc).append(" ").append(dp()).append("\n");
         }
         System.out.println(stringBuilder);
     }
 
-    private static void init() throws IOException {
-        answer = Integer.MAX_VALUE;
-
+    static void init() throws IOException {
         stringTokenizer = new StringTokenizer(bufferedReader.readLine());
         for (int i = 0; i < NUM_OF_TICKETS; i++) {
             tickets[i] = Integer.parseInt(stringTokenizer.nextToken());
@@ -42,20 +35,15 @@ class Solution {
         }
     }
 
-    private static void find(int month, int total) {
-        if (month > 12) {
-            answer = Math.min(answer, total);
-            return;
+    static int dp() {
+        for (int i = 1; i <= MONTH; i++) {
+            int oneDay = dp[i - 1] + tickets[0] * months[i];
+            int month = dp[i - 1] + tickets[1];
+            int threeMonth = dp[Math.max(0, i - 3)] + tickets[2];
+
+            dp[i] = Math.min(oneDay, Math.min(month, threeMonth));
         }
 
-        if (months[month] > 0) {
-            find(month + 1, total + months[month] * tickets[0]);
-            find(month + 1, total + tickets[1]);
-            find(month + 3, total + tickets[2]);
-            find(month + 12, total + tickets[3]);
-        } else {
-            find(month + 1, total);
-        }
-
+        return Math.min(tickets[3], dp[MONTH]);
     }
 }
