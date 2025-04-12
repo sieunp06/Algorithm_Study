@@ -15,7 +15,6 @@ public class Main {
         int[] numbers = new int[N + 1];
 
         st = new StringTokenizer(bf.readLine());
-        numbers[0] = 0;
         for (int i = 1; i <= N; i++) {
             numbers[i] = Integer.parseInt(st.nextToken()) + numbers[i - 1];
         }
