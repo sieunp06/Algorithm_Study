@@ -1,23 +1,25 @@
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.*;
 
 public class Main {
-    static int V, E, start;
-    static List<Node>[] graph;
+    static int V, E, K;
+    static List<Node>[] nodes;
     static int[] dist;
     static final int INF = Integer.MAX_VALUE;
 
     static class Node implements Comparable<Node> {
-        int to, cost;
+        int v, w;
 
-        Node(int to, int cost) {
-            this.to = to;
-            this.cost = cost;
+        Node (int v, int w) {
+            this.v = v;
+            this.w = w;
         }
 
         @Override
         public int compareTo(Node o) {
-            return cost - o.cost;
+            return w - o.w;
         }
     }
 
@@ -27,33 +29,32 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
         init();
-        dijkstra(start);
+        dijkstra(K);
         printResult();
     }
 
     static void init() throws IOException {
         stringTokenizer = new StringTokenizer(bufferedReader.readLine());
-        V = Integer.parseInt(stringTokenizer.nextToken());
-        E = Integer.parseInt(stringTokenizer.nextToken());
+        V = Integer.parseInt(stringTokenizer.nextToken());  // 정점의 개수
+        E = Integer.parseInt(stringTokenizer.nextToken());  // 간선의 개수
 
-        start = Integer.parseInt(bufferedReader.readLine());
+        K = Integer.parseInt(bufferedReader.readLine());
 
-        graph = new List[V + 1];
+        nodes = new ArrayList[V + 1];
+        for (int i = 1; i <= V; i++) {
+            nodes[i] = new ArrayList<>();
+        }
+
         dist = new int[V + 1];
         Arrays.fill(dist, INF);
 
-        for (int i = 1; i <= V; i++) {
-            graph[i] = new ArrayList<>();
-        }
-
         for (int i = 0; i < E; i++) {
             stringTokenizer = new StringTokenizer(bufferedReader.readLine());
-
             int u = Integer.parseInt(stringTokenizer.nextToken());
             int v = Integer.parseInt(stringTokenizer.nextToken());
             int w = Integer.parseInt(stringTokenizer.nextToken());
 
-            graph[u].add(new Node(v, w));
+            nodes[u].add(new Node(v, w));
         }
     }
 
@@ -63,16 +64,17 @@ public class Main {
         dist[start] = 0;
 
         while (!pq.isEmpty()) {
-            Node current = pq.poll();
-            int now = current.to;
+            Node now = pq.poll();
 
-            if (dist[now] < current.cost) continue;
+            int cur = now.v;
+            int w = now.w;
 
-            for (Node next : graph[now]) {
-                int newCost = dist[now] + next.cost;
-                if (newCost < dist[next.to]) {
-                    dist[next.to] = newCost;
-                    pq.offer(new Node(next.to, newCost));
+            if (w > dist[cur]) continue;
+
+            for (Node node : nodes[cur]) {
+                if (dist[node.v] > dist[cur] + node.w) {
+                    dist[node.v] = dist[cur] + node.w;
+                    pq.offer(new Node(node.v, dist[node.v]));
                 }
             }
         }
@@ -80,8 +82,8 @@ public class Main {
 
     static void printResult() {
         for (int i = 1; i <= V; i++) {
-            stringBuilder.append(dist[i] == INF ? "INF" : dist[i]).append('\n');
+            stringBuilder.append(dist[i] == INF ? "INF" : dist[i]).append("\n");
         }
-        System.out.print(stringBuilder);
+        System.out.println(stringBuilder);
     }
 }
