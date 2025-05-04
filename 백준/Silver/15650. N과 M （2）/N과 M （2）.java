@@ -4,37 +4,43 @@ import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
 public class Main {
-    private static int N;
-    private static int M;
+    static int N, M;
+    static int[] answer;
 
-    private static int[] arr;
+    static final BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+    static final StringBuilder stringBuilder = new StringBuilder();
+    static StringTokenizer stringTokenizer;
 
-    private static final BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
-    private static final StringBuilder stringBuilder = new StringBuilder();
-
-    public static void main(String[] args) throws IOException {
-        StringTokenizer stringTokenizer = new StringTokenizer(bufferedReader.readLine());
-        N = Integer.parseInt(stringTokenizer.nextToken());
-        M = Integer.parseInt(stringTokenizer.nextToken());
-
-        arr = new int[M];
-        combination(1, 0);
-
+    public static void main(String[] args) throws IOException{
+        init();
+        solve(0, 1);
         System.out.print(stringBuilder);
     }
 
-    private static void combination(int at, int depth) {
+    static void init() throws IOException {
+        stringTokenizer = new StringTokenizer(bufferedReader.readLine());
+        N = Integer.parseInt(stringTokenizer.nextToken());
+        M = Integer.parseInt(stringTokenizer.nextToken());
+
+        answer = new int[M];
+    }
+
+    static void solve(int depth, int start) {
         if (depth == M) {
-            for (int num : arr) {
-                stringBuilder.append(num).append(" ");
-            }
-            stringBuilder.append("\n");
+            printResult();
             return;
         }
 
-        for (int i = at; i <= N; i++) {
-            arr[depth] = i;
-            combination(i + 1, depth + 1);
+        for (int i = start; i <= N; i++) {
+            answer[depth] = i;
+            solve(depth + 1, i + 1);
         }
+    }
+
+    static void printResult() {
+        for (int i = 0; i < M; i++) {
+            stringBuilder.append(answer[i]).append(" ");
+        }
+        stringBuilder.append("\n");
     }
 }
