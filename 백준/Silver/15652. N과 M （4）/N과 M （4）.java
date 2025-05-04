@@ -5,7 +5,7 @@ import java.util.StringTokenizer;
 
 public class Main {
     static int N, M;
-    static int[] numbers;
+    static int[] answer;
 
     static final BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
     static final StringBuilder stringBuilder = new StringBuilder();
@@ -13,7 +13,7 @@ public class Main {
 
     public static void main(String[] args) throws IOException{
         init();
-        combination(1, 0);
+        solve(0, 1);
         System.out.print(stringBuilder);
     }
 
@@ -22,24 +22,24 @@ public class Main {
         N = Integer.parseInt(stringTokenizer.nextToken());
         M = Integer.parseInt(stringTokenizer.nextToken());
 
-        numbers = new int[M];
+        answer = new int[M];
     }
 
-    static void combination(int start, int depth) {
+    static void solve(int depth, int start) {
         if (depth == M) {
             printResult();
             return;
         }
 
         for (int i = start; i <= N; i++) {
-            numbers[depth] = i;
-            combination(i, depth + 1);
+            answer[depth] = i;
+            solve(depth + 1, i);
         }
     }
 
     static void printResult() {
-        for (int num : numbers) {
-            stringBuilder.append(num).append(" ");
+        for (int i = 0; i < M; i++) {
+            stringBuilder.append(answer[i]).append(" ");
         }
         stringBuilder.append("\n");
     }
