@@ -1,24 +1,29 @@
 import java.io.*;
-import java.util.StringTokenizer;
+import java.util.*;
 
 public class Main {
-    public static void main(String[] arg) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st = new StringTokenizer(br.readLine());
+    static final BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+    static final StringBuilder stringBuilder = new StringBuilder();
+    static StringTokenizer stringTokenizer;
 
-        int N = Integer.parseInt(st.nextToken());
-        int M = Integer.parseInt(st.nextToken());
+    public static void main(String[] args) throws IOException {
+        stringTokenizer = new StringTokenizer(bufferedReader.readLine());
+        int a = Integer.parseInt(stringTokenizer.nextToken());
+        int b = Integer.parseInt(stringTokenizer.nextToken());
 
-        int max = 0;
-        for (int i = 1; i <= N && i <= M; i++) {
-            if (N % i == 0 && M % i == 0) {
-                if (max < i) {
-                    max = i;
-                }
-            }
+        int gcd = getGCD(a, b);
+        int lcm = (a * b) / gcd;
+
+        System.out.println(gcd);
+        System.out.println(lcm);
+    }
+
+    private static int getGCD(int a, int b) {
+        while (b != 0) {
+            int temp = a % b;
+            a = b;
+            b = temp;
         }
-        
-        System.out.println(max);
-        System.out.println(N * M / max);
+        return a;
     }
 }
