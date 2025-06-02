@@ -1,40 +1,29 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
+import java.io.*;
+import java.util.*;
 
 public class Main {
-	public static void main(String[] args) throws IOException {
-        BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
-        
-        int N = Integer.parseInt(bf.readLine());
-        
-        ArrayList<String> answer = new ArrayList<>();
-        
-        for (int i = 0; i < N; i++) {
-        	String input = bf.readLine(); 
-        
-        	if (!answer.contains(input))
-        		answer.add(input);
-        }
-        
-        Collections.sort(answer, new Comparator<String>() {		
-        	@Override
-        	public int compare(String s1, String s2) {
-        		// 단어 길이가 같을 경우
-        		if(s1.length() == s2.length()) {
-        			return s1.compareTo(s2);	// 사전 순 정렬
-        		}
-        		// 그 외의 경우
-        		else {
-        			return s1.length() - s2.length();
-        		}
-        	}
+    static final BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+    static final StringBuilder stringBuilder = new StringBuilder();
+    static StringTokenizer stringTokenizer;
+
+    public static void main(String[] args) throws IOException {
+        int N = Integer.parseInt(bufferedReader.readLine());
+        Set<String> words = new TreeSet<>(new Comparator<String>() {
+            @Override
+            public int compare(String o1, String o2) {
+                if (o1.length() == o2.length()) {
+                    return o1.compareTo(o2);
+                }
+                return o1.length() - o2.length();
+            }
         });
-        
-        for (String x : answer)
-        	System.out.println(x);
-	}
+
+        for (int i = 0; i < N; i++) {
+            words.add(bufferedReader.readLine());
+        }
+
+        for (String word : words) {
+            System.out.println(word);
+        }
+    }
 }
