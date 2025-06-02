@@ -1,30 +1,32 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
+import java.util.*;
 
 public class Main {
-    public static void main(String[] args) throws IOException {
-        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
-        StringBuilder stringBuilder = new StringBuilder();
+    static final BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+    static final StringBuilder stringBuilder = new StringBuilder();
+    static StringTokenizer stringTokenizer;
 
+    public static void main(String[] args) throws IOException {
         while (true) {
             String input = bufferedReader.readLine();
             if (input.equals("0")) {
                 break;
             }
-            String text = input.substring(0, input.length() / 2);
-            String reversed;
-            if (input.length() % 2 == 0) {
-                reversed = new StringBuilder(input.substring(input.length() / 2)).reverse().toString();
-            } else {
-                reversed = new StringBuilder(input.substring(input.length() / 2 + 1)).reverse().toString();
+
+            boolean flag = true;
+            for (int i = 0; i < input.length() / 2; i++) {
+                if (input.charAt(i) != input.charAt(input.length() - i - 1)) {
+                    flag = false;
+                    break;
+                }
             }
-            if (text.equals(reversed)) {
+            if (flag) {
                 stringBuilder.append("yes").append("\n");
-                continue;
+            } else {
+                stringBuilder.append("no").append("\n");
             }
-            stringBuilder.append("no").append("\n");
         }
+
         System.out.println(stringBuilder);
     }
 }
