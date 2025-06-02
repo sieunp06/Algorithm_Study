@@ -1,33 +1,54 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.Arrays;
-import java.util.StringTokenizer;
+import java.io.*;
+import java.util.*;
 
 public class Main {
-    public static void main(String[] arg) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    static int N;
+    static int[] numbers;
+    static boolean[] isComposite;
 
-        int answer = 0;
-        int N = Integer.parseInt(br.readLine());
-        StringTokenizer st = new StringTokenizer(br.readLine());
+    static final BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+    static final StringBuilder stringBuilder = new StringBuilder();
+    static StringTokenizer stringTokenizer;
 
+    public static void main(String[] args) throws IOException {
+        init();
+        System.out.println(getPrimeCount());
+    }
+
+    private static void init() throws IOException {
+        N = Integer.parseInt(bufferedReader.readLine());
+        numbers = new int[N];
+
+        int max = Integer.MIN_VALUE;
+        stringTokenizer = new StringTokenizer(bufferedReader.readLine());
         for (int i = 0; i < N; i++) {
-            int num = Integer.parseInt(st.nextToken());
-            if (num == 1) {
-                continue;
-            }
-            boolean flag = true;
-            for (int j = 2; j < num; j++) {
-                if (num % j == 0) {
-                    flag = false;
-                    break;
+            numbers[i] = Integer.parseInt(stringTokenizer.nextToken());
+            max = Math.max(max, numbers[i]);
+        }
+
+        isComposite = new boolean[max + 1];
+        sieve(max);
+    }
+
+    private static void sieve(int max) {
+        isComposite[0] = true;
+        isComposite[1] = true;
+        for (int i = 2; i * i <= max; i++) {
+            if (!isComposite[i]) {
+                for (int j = i * i; j <= max; j += i) {
+                    isComposite[j] = true;
                 }
             }
-            if (flag) {
-                answer++;
+        }
+    }
+
+    private static int getPrimeCount() {
+        int total = 0;
+        for (int number : numbers) {
+            if (!isComposite[number]) {
+                total++;
             }
         }
-        System.out.println(answer);
+        return total;
     }
 }
