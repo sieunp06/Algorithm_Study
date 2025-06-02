@@ -1,23 +1,22 @@
-import java.util.Scanner;
+import java.io.*;
+import java.util.*;
 
 public class Main {
-    public static void main(String[] args) {
-        Scanner stdIn = new Scanner(System.in);
-        
-        int num = stdIn.nextInt();
-        
-        int min = 1;
+    static final BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+    static final StringBuilder stringBuilder = new StringBuilder();
+    static StringTokenizer stringTokenizer;
+
+    public static void main(String[] args) throws IOException {
+        int n = Integer.parseInt(bufferedReader.readLine());
+
+        int count = 1;
         int max = 1;
-        int val = 1;
-       
-        for(int i = 1; max <= 2000000000; i++) {
-    	    if(min <= num && num <= max) {
-			    System.out.println(val);
-			    break;
-			}
-    	    min = max + 1; 
-    	    max = max + i * 6;
-    	    val++;
-         }
+
+        while (n > max) {
+            max += 6 * count;
+            count++;
+        }
+
+        System.out.println(count);
     }
 }
