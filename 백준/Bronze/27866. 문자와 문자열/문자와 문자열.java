@@ -1,13 +1,15 @@
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.*;
 
-interface Main {
-    public static void main(String[] args) throws Exception {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        String S = br.readLine();
-        int i = Integer.parseInt(br.readLine());
+public class Main {
+    static final BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+    static final StringBuilder stringBuilder = new StringBuilder();
+    static StringTokenizer stringTokenizer;
 
-        System.out.println(S.charAt(i-1));
+    public static void main(String[] args) throws IOException {
+        String input = bufferedReader.readLine();
+        int idx = Integer.parseInt(bufferedReader.readLine());
+
+        System.out.println(input.charAt(idx - 1));
     }
 }
