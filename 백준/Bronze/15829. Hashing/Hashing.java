@@ -2,9 +2,6 @@ import java.io.*;
 import java.util.*;
 
 public class Main {
-    private static int L;
-    private static String input;
-
     static final BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
     static final StringBuilder stringBuilder = new StringBuilder();
     static StringTokenizer stringTokenizer;
@@ -13,11 +10,15 @@ public class Main {
         int L = Integer.parseInt(bufferedReader.readLine());
         String input = bufferedReader.readLine();
 
+        final int r = 31;
+        final int M = 1234567891;
+
         long total = 0;
-        int idx = 0;
-        for (char alpha : input.toCharArray()) {
-            total += (Math.pow(31, idx) * (alpha - 'a' + 1)) % 1234567891;
-            idx++;
+        long pow = 1;
+        for (int i = 0; i < L; i++) {
+            int value = input.charAt(i) - 'a' + 1;
+            total = (total + (value * pow) % M) % M;
+            pow = (pow * r) % M;
         }
 
         System.out.println(total);
