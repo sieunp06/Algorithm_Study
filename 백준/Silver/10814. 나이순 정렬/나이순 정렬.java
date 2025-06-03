@@ -1,47 +1,45 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.StringTokenizer;
-
-class Point implements Comparable<Point> {
-	public int age;
-	public int index;
-	
-	Point(int age, int index) {
-		this.age = age;
-		this.index = index;
-	}
-	
-	public int compareTo(Point o) {
-		if (this.age == o.age)
-			return this.index - o.index;
-		else 
-			return this.age - o.age;
-	}
-}
+import java.io.*;
+import java.util.*;
+import java.util.stream.Collector;
 
 public class Main {
-	public static void main(String[] args) throws IOException {
-        BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
-        
-        int N = Integer.parseInt(bf.readLine());
-        
-        ArrayList<Point> arr = new ArrayList<>();
-        ArrayList<String> name_arr = new ArrayList<>();
-        
-        for (int i = 0; i < N; i++) {
-        	StringTokenizer st = new StringTokenizer(bf.readLine());
-        	int age = Integer.parseInt(st.nextToken());
-        	String name = st.nextToken();
-        	arr.add(new Point(age, i));
-        	name_arr.add(name);
+    static final BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+    static final StringBuilder stringBuilder = new StringBuilder();
+    static StringTokenizer stringTokenizer;
+
+    static class Person {
+        int idx;
+        int age;
+        String name;
+        Person(int idx, int age, String name) {
+            this.idx = idx;
+            this.age = age;
+            this.name = name;
         }
-        
-        Collections.sort(arr);
-        
-        for (Point o : arr) 
-        	System.out.println(o.age + " " + name_arr.get(o.index));
-	}
+    }
+
+    public static void main(String[] args) throws IOException {
+        List<Person> persons = new ArrayList<>();
+
+        int N = Integer.parseInt(bufferedReader.readLine());
+
+        for (int i = 0; i < N; i++) {
+            stringTokenizer = new StringTokenizer(bufferedReader.readLine());
+            persons.add(new Person(i, Integer.parseInt(stringTokenizer.nextToken()), stringTokenizer.nextToken()));
+        }
+
+        Collections.sort(persons, new Comparator<Person>() {
+            @Override
+            public int compare(Person o1, Person o2) {
+                if (o1.age == o2.age) {
+                    return o1.idx - o2.idx;
+                }
+                return o1.age - o2.age;
+            }
+        });
+
+        for (Person person : persons) {
+            System.out.println(person.age + " " + person.name);
+        }
+    }
 }
