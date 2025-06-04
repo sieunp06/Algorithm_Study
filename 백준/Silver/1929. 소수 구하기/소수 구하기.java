@@ -1,34 +1,32 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.PriorityQueue;
-import java.util.StringTokenizer;
+import java.io.*;
+import java.util.*;
 
 public class Main {
+    static final BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+    static final StringBuilder stringBuilder = new StringBuilder();
+    static StringTokenizer stringTokenizer;
+
     public static void main(String[] args) throws IOException {
-        BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st = new StringTokenizer(bf.readLine());
-        StringBuilder sb = new StringBuilder();
+        stringTokenizer = new StringTokenizer(bufferedReader.readLine());
 
-        int M = Integer.parseInt(st.nextToken());
-        int N = Integer.parseInt(st.nextToken());
-
-        int[] numbers = new int[N + 1];
-
-        for (int i = 2; i <= N; i++)
-            numbers[i] = i;
-
-        for (int i = 2; i <= Math.sqrt(N); i++) {
-            if (numbers[i] == 0)
-                continue;
-            for (int j = i + i; j <= N; j += i) {
-                numbers[j] = 0;
-            }
-        }
+        int M = Integer.parseInt(stringTokenizer.nextToken());
+        int N = Integer.parseInt(stringTokenizer.nextToken());
 
         for (int i = M; i <= N; i++) {
-            if (numbers[i] != 0)
-                System.out.println(numbers[i]);
+            boolean flag = true;
+            if (i == 1) {
+                continue;
+            }
+            for (int j = 2; j <= Math.sqrt(i); j++) {
+                if (i % j == 0) {
+                    flag = false;
+                    break;
+                }
+            }
+            if (flag) {
+                stringBuilder.append(i).append("\n");
+            }
         }
+        System.out.println(stringBuilder);
     }
 }
