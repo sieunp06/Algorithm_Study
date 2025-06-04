@@ -1,52 +1,49 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.LinkedList;
-import java.util.StringTokenizer;
+import java.io.*;
+import java.util.*;
 
 public class Main {
-	public static void main(String[] args) throws IOException {
-        BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
-        StringBuilder sb = new StringBuilder();
-        
-        int T = Integer.parseInt(bf.readLine());
-        
-        while(T --> 0) {
-            StringTokenizer st = new StringTokenizer(bf.readLine());
-            LinkedList<int[]> q = new LinkedList<>();
-            
-            int N = Integer.parseInt(st.nextToken());
-            int M = Integer.parseInt(st.nextToken());
-            
-            st = new StringTokenizer(bf.readLine());
-            for (int i = 0; i < N; i++) 
-                q.offer(new int[] {i, Integer.parseInt(st.nextToken())});
-            
-            int turn = 0;
-            
-            while (!q.isEmpty()) {
-            	int[] first = q.poll();
-            	boolean isMax = true;
-            	
-            	for (int k = 0; k < q.size(); k++) {
-            		if (first[1] < q.get(k)[1]) {
-            			q.offer(first);
-            			for (int m = 0; m < k; m++)
-            				q.offer(q.poll());
-            			isMax = false;
-                		break;
-            		}
-            	}
-            	
-            	if(!isMax) 
-					continue;
-            	
-            	turn++;
-            	if (first[0] == M) 
-            		break;
+    static final BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+    static final StringBuilder stringBuilder = new StringBuilder();
+    static StringTokenizer stringTokenizer;
+
+    public static void main(String[] args) throws IOException {
+        int T = Integer.parseInt(bufferedReader.readLine());
+
+        while (T-- > 0) {
+            stringTokenizer = new StringTokenizer(bufferedReader.readLine());
+            int N = Integer.parseInt(stringTokenizer.nextToken());
+            int M = Integer.parseInt(stringTokenizer.nextToken());
+
+            stringTokenizer = new StringTokenizer(bufferedReader.readLine());
+            Queue<int[]> queue = new LinkedList<>();
+            PriorityQueue<Integer> priorityQueue = new PriorityQueue<>(Collections.reverseOrder());
+
+            for (int i = 0; i < N; i++) {
+                int priority = Integer.parseInt(stringTokenizer.nextToken());
+                queue.offer(new int[]{i, priority});
+                priorityQueue.offer(priority);
             }
-            sb.append(turn).append('\n');
+
+            int count = 0;
+            while (!queue.isEmpty()) {
+                int[] current = queue.poll();
+                int idx = current[0];
+                int pri = current[1];
+
+                if (pri == priorityQueue.peek()) {
+                    count++;
+                    priorityQueue.poll();
+
+                    if (idx == M) {
+                        stringBuilder.append(count).append("\n");
+                        break;
+                    }
+                } else {
+                    queue.offer(current);
+                }
+            }
         }
-        System.out.println(sb);
+
+        System.out.print(stringBuilder);
     }
 }
