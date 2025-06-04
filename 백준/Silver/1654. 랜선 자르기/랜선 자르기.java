@@ -1,35 +1,38 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
+import java.io.*;
+import java.util.*;
 
 public class Main {
-    private static int K, N;
-    private static long[] cables;
-    private static long max = Long.MIN_VALUE;
+    static final BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+    static final StringBuilder stringBuilder = new StringBuilder();
+    static StringTokenizer stringTokenizer;
 
-    private static final BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+    private static int K, N;
+    private static long max;
+    private static int[] lines;
 
     public static void main(String[] args) throws IOException {
         init();
-        System.out.println(search());
+        System.out.println(find());
     }
 
     private static void init() throws IOException {
-        StringTokenizer stringTokenizer = new StringTokenizer(bufferedReader.readLine());
+        stringTokenizer = new StringTokenizer(bufferedReader.readLine());
         K = Integer.parseInt(stringTokenizer.nextToken());
         N = Integer.parseInt(stringTokenizer.nextToken());
 
-        cables = new long[K];
+        lines = new int[K];
+        max = Long.MIN_VALUE;
         for (int i = 0; i < K; i++) {
-            cables[i] = Integer.parseInt(bufferedReader.readLine());
-            max = Math.max(max, cables[i]);
+            lines[i] = Integer.parseInt(bufferedReader.readLine());
+            max = Math.max(lines[i], max);
         }
+
+        Arrays.sort(lines);
     }
 
-    private static long search() {
+    private static long find() {
         long left = 1; long right = max;
-        long result = 0;
+        long result = -1;
 
         while (left <= right) {
             long mid = (left + right) / 2;
@@ -43,10 +46,10 @@ public class Main {
         return result;
     }
 
-    private static boolean count(long cutLength) {
+    private static boolean count(long cableLength) {
         long count = 0;
-        for (long cable : cables) {
-            count += cable / cutLength;
+        for (int line : lines) {
+            count += line / cableLength;
         }
         return count >= N;
     }
