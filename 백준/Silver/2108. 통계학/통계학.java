@@ -1,51 +1,57 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
+import java.io.*;
+import java.util.*;
 
 public class Main {
+    static final BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+    static final StringBuilder stringBuilder = new StringBuilder();
+    static StringTokenizer stringTokenizer;
+
     public static void main(String[] args) throws IOException {
-        BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
-        
-        int N = Integer.parseInt(bf.readLine());
-        int[] numbers = new int[N];
-        HashMap<Integer, Integer> map = new HashMap<>();
-        ArrayList<Integer> mostUsedKeys = new ArrayList<>();      
-        
-        int total = 0;
-        
+        int N = Integer.parseInt(bufferedReader.readLine());
+        int[] nums = new int[N];
+        int[] count = new int[8001];
+        int sum = 0;
+
+        int min = Integer.MAX_VALUE;
+        int max = Integer.MIN_VALUE;
+
         for (int i = 0; i < N; i++) {
-            int num = Integer.parseInt(bf.readLine());
-            numbers[i] = num;
-            total += num;
+            int num = Integer.parseInt(bufferedReader.readLine());
+            nums[i] = num;
+            sum += num;
+            count[num + 4000]++;
+
+            if (num < min) min = num;
+            if (num > max) max = num;
         }
-        
-        Arrays.sort(numbers);
-        
-        for (int x : numbers)
-        	map.put(x, map.getOrDefault(x, 0) + 1);
-        Integer maxValue = Collections.max(map.values());
-        
-        for (int key : map.keySet()) {
-            if (map.get(key).equals(maxValue))
-                mostUsedKeys.add(key);
+
+        Arrays.sort(nums);
+
+        stringBuilder.append(Math.round((double) sum / N)).append("\n");
+        stringBuilder.append(nums[N / 2]).append("\n");
+        int modeMax = 0;
+        for (int i = 0; i < 8001; i++) {
+            if (count[i] > modeMax) {
+                modeMax = count[i];
+            }
         }
-        mostUsedKeys.sort(Comparator.naturalOrder());
-        
-        // 산술 평균
-        System.out.println((int)Math.round((double)total / N));
-        // 중앙값
-        System.out.println(numbers[N / 2]);
-        // 최빈값
-        if (mostUsedKeys.size() == 1)
-            System.out.println(mostUsedKeys.get(0));
-        else
-        	System.out.println(mostUsedKeys.get(1));
-        // 범위
-        System.out.println(numbers[N - 1] - numbers[0]);
+
+        List<Integer> modeList = new ArrayList<>();
+        for (int i = 0; i < 8001; i++) {
+            if (count[i] == modeMax) {
+                modeList.add(i - 4000);
+            }
+        }
+
+        if (modeList.size() == 1) {
+            stringBuilder.append(modeList.get(0)).append("\n");
+        } else {
+            Collections.sort(modeList);
+            stringBuilder.append(modeList.get(1)).append("\n");
+        }
+
+        stringBuilder.append(max - min).append("\n");
+
+        System.out.print(stringBuilder);
     }
-} 
+}
