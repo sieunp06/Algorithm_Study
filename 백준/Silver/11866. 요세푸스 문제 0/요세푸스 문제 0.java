@@ -1,33 +1,39 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.LinkedList;
-import java.util.Queue;
-import java.util.StringTokenizer;
+import java.io.*;
+import java.util.*;
 
 public class Main {
-	public static void main(String[] args) throws IOException {
-        BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st = new StringTokenizer(bf.readLine());
-        StringBuilder sb = new StringBuilder();
-        sb.append('<');
-        		
-        int N = Integer.parseInt(st.nextToken());
-        int K = Integer.parseInt(st.nextToken());
-        
-        Queue<Integer> q = new LinkedList<>();
-        
-        for (int i = 1; i <= N; i++)
-        	q.offer(i);
-        
-        while (q.size() > 0) {
-            for (int i = 0; i < K - 1; i++)
-            	q.offer(q.poll());
-            if (q.size() != 1)
-            	sb.append(q.poll()).append(", ");
-            else sb.append(q.poll()).append('>');
+    static final BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+    static final StringBuilder stringBuilder = new StringBuilder();
+    static StringTokenizer stringTokenizer;
+
+    public static void main(String[] args) throws IOException {
+        stringTokenizer = new StringTokenizer(bufferedReader.readLine());
+
+        int N = Integer.parseInt(stringTokenizer.nextToken());
+        int K = Integer.parseInt(stringTokenizer.nextToken());
+
+        List<Integer> list = new ArrayList<>();
+        List<Integer> result = new ArrayList<>();
+
+        for (int i = 1; i <= N; i++) {
+            list.add(i);
         }
-        
-        System.out.println(sb);
+
+        int idx = 0;
+        while (!list.isEmpty()) {
+            idx = (idx + K - 1) % list.size();
+            result.add(list.remove(idx));
+        }
+
+        stringBuilder.append("<");
+        for (int i = 0; i < result.size(); i++) {
+            stringBuilder.append(result.get(i));
+            if (i != result.size() - 1) {
+                stringBuilder.append(", ");
+            }
+        }
+        stringBuilder.append(">");
+
+        System.out.println(stringBuilder);
     }
 }
