@@ -1,16 +1,14 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.Arrays;
-import java.util.StringTokenizer;
+import java.io.*;
+import java.util.*;
 
 public class Main {
+    static final BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+    static final StringBuilder stringBuilder = new StringBuilder();
+    static StringTokenizer stringTokenizer;
+
     private static int N, M;
     private static int[] numbers;
     private static int[] target;
-
-    private static final BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
-    private static StringTokenizer stringTokenizer;
 
     public static void main(String[] args) throws IOException {
         init();
@@ -20,22 +18,22 @@ public class Main {
     }
 
     private static void init() throws IOException {
-       N = Integer.parseInt(bufferedReader.readLine());
-       numbers = new int[N];
+        N = Integer.parseInt(bufferedReader.readLine());
+        numbers = new int[N];
 
-       stringTokenizer = new StringTokenizer(bufferedReader.readLine());
-       for (int i = 0; i < N; i++) {
-           numbers[i] = Integer.parseInt(stringTokenizer.nextToken());
-       }
+        stringTokenizer = new StringTokenizer(bufferedReader.readLine());
+        for (int i = 0; i < N; i++) {
+            numbers[i] = Integer.parseInt(stringTokenizer.nextToken());
+        }
         Arrays.sort(numbers);
 
-       M = Integer.parseInt(bufferedReader.readLine());
-       target = new int[M];
+        M = Integer.parseInt(bufferedReader.readLine());
+        target = new int[M];
 
-       stringTokenizer = new StringTokenizer(bufferedReader.readLine());
-       for (int i = 0; i < M; i++) {
-           target[i] = Integer.parseInt(stringTokenizer.nextToken());
-       }
+        stringTokenizer = new StringTokenizer(bufferedReader.readLine());
+        for (int i = 0; i < M; i++) {
+            target[i] = Integer.parseInt(stringTokenizer.nextToken());
+        }
     }
 
     private static boolean search(int num) {
