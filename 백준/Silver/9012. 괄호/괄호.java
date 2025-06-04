@@ -1,40 +1,50 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.Stack;
+import java.io.*;
+import java.util.*;
 
 public class Main {
-	public static void main(String[] args) throws IOException {
-        BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
-        StringBuilder sb = new StringBuilder();
-        
-        int N = Integer.parseInt(bf.readLine());
-        
-        for (int i = 0; i < N; i++) {
-        	Stack<Character> st = new Stack<>();
-        	String input = bf.readLine();
-        	boolean check = true;
-        	
-        	for (int j = 0; j < input.length(); j++) {
-        		char te = input.charAt(j);
-        		
-        		if (te == '(')
-        			st.add(te);
-        		else {
-        			if (st.isEmpty()) {
-        				check = false;
-        				break;
-        			}
-        			else st.pop();
-        		}
-        	}
-        	if (!st.isEmpty()) check = false;
-        	
-        	
-        	if (!check) sb.append("NO").append('\n');
-        	else sb.append("YES").append('\n');
+    static final BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+    static final StringBuilder stringBuilder = new StringBuilder();
+    static StringTokenizer stringTokenizer;
+
+    public static void main(String[] args) throws IOException {
+        int N = Integer.parseInt(bufferedReader.readLine());
+        while (N-- > 0) {
+            String input = bufferedReader.readLine();
+
+            if (input.equals(".")) {
+                break;
+            }
+
+            Stack<Character> st = new Stack<>();
+            boolean isBalanced = true;
+
+            for (int i = 0; i < input.length(); i++) {
+                char ch = input.charAt(i);
+
+                if (ch == '(' || ch == '[') {
+                    st.push(ch);
+                } else if (ch == ')') {
+                    if (st.isEmpty() || st.peek() != '(') {
+                        isBalanced = false;
+                        break;
+                    }
+                    st.pop();
+                } else if (ch == ']') {
+                    if (st.isEmpty() || st.peek() != '[') {
+                        isBalanced = false;
+                        break;
+                    }
+                    st.pop();
+                }
+            }
+
+            if (isBalanced && st.isEmpty()) {
+                stringBuilder.append("YES\n");
+            } else {
+                stringBuilder.append("NO\n");
+            }
         }
-        
-        System.out.print(sb);
-	}
+
+        System.out.print(stringBuilder);
+    }
 }
