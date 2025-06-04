@@ -1,34 +1,32 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.Arrays;
+import java.io.*;
+import java.util.*;
 
 public class Main {
-    public static void main(String[] args) throws IOException {
-        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
-        int N = Integer.parseInt(bufferedReader.readLine());
-        int[] nums = new int[N + 3];
-        Arrays.fill(nums, 0);
+    static final BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+    static final StringBuilder stringBuilder = new StringBuilder();
+    static StringTokenizer stringTokenizer;
 
-        nums[3] = 1; nums[5] = 1;
+    public static void main(String[] args) throws IOException {
+        int N = Integer.parseInt(bufferedReader.readLine());
+        int[] dp = new int[Math.max(N + 1, 6)];
+
+        Arrays.fill(dp, Integer.MAX_VALUE);
+        dp[3] = 1;
+        dp[5] = 1;
 
         for (int i = 6; i <= N; i++) {
-            if (i % 5 == 0) {
-                nums[i] = nums[i - 5] + 1;
-                continue;
+            if (dp[i - 3] != Integer.MAX_VALUE) {
+                dp[i] = Math.min(dp[i], dp[i - 3] + 1);
             }
-            if (i % 3 == 0) {
-                nums[i] = nums[i - 3] + 1;
-                continue;
-            }
-            if (nums[i - 3] != 0 && nums[i - 5] != 0) {
-                nums[i] = Math.min(nums[i - 3], nums[i - 5]) + 1;
+            if (dp[i - 5] != Integer.MAX_VALUE) {
+                dp[i] = Math.min(dp[i], dp[i - 5] + 1);
             }
         }
-        if (nums[N] == 0) {
+
+        if (dp[N] == Integer.MAX_VALUE) {
             System.out.println(-1);
         } else {
-            System.out.println(nums[N]);
+            System.out.println(dp[N]);
         }
     }
 }
