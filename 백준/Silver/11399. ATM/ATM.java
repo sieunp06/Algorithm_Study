@@ -1,33 +1,29 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.StringTokenizer;
+import java.io.*;
+import java.util.*;
 
 public class Main {
+    static final BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+    static final StringBuilder stringBuilder = new StringBuilder();
+    static StringTokenizer stringTokenizer;
+
     public static void main(String[] args) throws IOException {
-        BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st;
+        stringTokenizer = new StringTokenizer(bufferedReader.readLine());
+        int N = Integer.parseInt(stringTokenizer.nextToken());
+        int[] times = new int[N];
 
-        int answer = 0;
-        int N = Integer.parseInt(bf.readLine());
-        int[] minutes = new int[N + 1];
-
-        st = new StringTokenizer(bf.readLine());
-        for (int i = 1; i <= N; i++) {
-            minutes[i] = Integer.parseInt(st.nextToken());
-        }
-
-        Arrays.sort(minutes);
-
+        stringTokenizer = new StringTokenizer(bufferedReader.readLine());
         for (int i = 0; i < N; i++) {
-            minutes[i + 1] += minutes[i];
+            times[i] = Integer.parseInt(stringTokenizer.nextToken());
+        }
+        Arrays.sort(times);
+
+        int sum = 0;
+        int total = 0;
+        for (int i = 0; i < N; i++) {
+            sum += times[i];
+            total += sum;
         }
 
-        for (int i = 1; i <= N; i++)
-            answer += minutes[i];
-
-        System.out.println(answer);
+        System.out.println(total);
     }
 }
