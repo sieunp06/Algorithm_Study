@@ -1,11 +1,12 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.Arrays;
+import java.io.*;
+import java.util.*;
 
 public class Main {
+    static final BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+    static final StringBuilder stringBuilder = new StringBuilder();
+    static StringTokenizer stringTokenizer;
+
     public static void main(String[] args) throws IOException {
-        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
         int N = Integer.parseInt(bufferedReader.readLine());
         int[] nums = new int[N + 3];
         Arrays.fill(nums, Integer.MAX_VALUE);
@@ -20,7 +21,7 @@ public class Main {
             }
             nums[i] = Math.min(nums[i], nums[i - 1] + 1);
         }
-        
+
         System.out.println(nums[N]);
     }
 }
