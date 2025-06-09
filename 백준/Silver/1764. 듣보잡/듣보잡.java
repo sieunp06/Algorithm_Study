@@ -1,30 +1,35 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.*;
 
 public class Main {
-    public static void main(String[] args) throws IOException {
-        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer stringTokenizer = new StringTokenizer(bufferedReader.readLine());
+    static final BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+    static final StringBuilder stringBuilder = new StringBuilder();
+    static StringTokenizer stringTokenizer;
 
+    public static void main(String[] args) throws IOException {
+        stringTokenizer = new StringTokenizer(bufferedReader.readLine());
         int N = Integer.parseInt(stringTokenizer.nextToken());
         int M = Integer.parseInt(stringTokenizer.nextToken());
 
-        List<String> answers = new ArrayList<>();
-        Set<String> names = new HashSet<>();
-        for (int i = 0; i < N + M; i++) {
+        Set<String> unheard = new HashSet<>();
+        for (int i = 0; i < N; i++) {
+            unheard.add(bufferedReader.readLine());
+        }
+
+        List<String> answer = new ArrayList<>();
+        for (int i = 0; i < M; i++) {
             String name = bufferedReader.readLine();
-            if (!names.contains(name)) {
-                names.add(name);
-                continue;
+            if (unheard.contains(name)) {
+                answer.add(name);
             }
-            answers.add(name);
         }
-        Collections.sort(answers);
-        System.out.println(answers.size());
-        for (String name : answers) {
-            System.out.println(name);
+
+        Collections.sort(answer);
+        stringBuilder.append(answer.size()).append("\n");
+        for (String name : answer) {
+            stringBuilder.append(name).append("\n");
         }
+
+        System.out.println(stringBuilder);
     }
 }
