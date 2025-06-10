@@ -1,37 +1,32 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.*;
 
 public class Main {
-    private static int numOfComputer;
-    private static int numOfpairComputer;
+    static final BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+    static final StringBuilder stringBuilder = new StringBuilder();
+    static StringTokenizer stringTokenizer;
 
-    private static boolean[] visited;
-    private static List<Integer>[] computers;
-
-    private static int answer = 0;
-
-    private static final BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
-    private static StringTokenizer stringTokenizer;
+    static int numOfComputer, pairOfComputer;
+    static List<Integer>[] computers;
+    static boolean[] visited;
 
     public static void main(String[] args) throws IOException {
         init();
-        dfs(1);
-        System.out.println(answer - 1);
+        System.out.println(bfs(1));
     }
 
-    private static void init() throws IOException {
+    static void init() throws IOException {
         numOfComputer = Integer.parseInt(bufferedReader.readLine());
-        numOfpairComputer = Integer.parseInt(bufferedReader.readLine());
+        pairOfComputer = Integer.parseInt(bufferedReader.readLine());
 
-        visited = new boolean[numOfComputer + 1];
         computers = new List[numOfComputer + 1];
+        visited = new boolean[numOfComputer + 1];
+
         for (int i = 1; i <= numOfComputer; i++) {
-            computers[i] = new ArrayList<>();
+            computers[i] = new ArrayList<Integer>();
         }
 
-        for (int i = 0; i < numOfpairComputer; i++) {
+        for (int i = 0; i < pairOfComputer; i++) {
             stringTokenizer = new StringTokenizer(bufferedReader.readLine());
             int a = Integer.parseInt(stringTokenizer.nextToken());
             int b = Integer.parseInt(stringTokenizer.nextToken());
@@ -41,14 +36,22 @@ public class Main {
         }
     }
 
-    private static void dfs(int num) {
-        answer++;
-        visited[num] = true;
+    private static int bfs(int start) {
+        Queue<Integer> q = new ArrayDeque<>();
+        q.add(start);
+        visited[start] = true;
 
-        for (int i : computers[num]) {
-            if (!visited[i]) {
-                dfs(i);
+        int count = 0;
+        while (!q.isEmpty()) {
+            int now = q.poll();
+            for (int num : computers[now]) {
+                if (!visited[num]) {
+                    q.add(num);
+                    visited[num] = true;
+                    count++;
+                }
             }
         }
+        return count;
     }
 }
