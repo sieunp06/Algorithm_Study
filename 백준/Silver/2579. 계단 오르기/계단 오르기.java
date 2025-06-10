@@ -1,50 +1,42 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
+import java.io.*;
+import java.util.*;
 
 public class Main {
-    static int numOfStair;
-    static int[] stairs;
-    static int[] scores;
-
     static final BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+    static final StringBuilder stringBuilder = new StringBuilder();
     static StringTokenizer stringTokenizer;
 
-    public static void main(String[] args) throws IOException{
+    static int N;
+    static int[] stairs;
+    static int[] dp;
+
+    public static void main(String[] args) throws IOException {
         init();
-        System.out.println(goUp(numOfStair));
+        solve();
+        System.out.println(dp[N]);
     }
 
     static void init() throws IOException {
-        numOfStair = Integer.parseInt(bufferedReader.readLine());
+        N = Integer.parseInt(bufferedReader.readLine());
+        stairs = new int[N + 1];
+        dp = new int[N + 1];
 
-        stairs = new int[Math.max(4, numOfStair + 1)];
-        scores = new int[Math.max(4, numOfStair + 1)];
-
-        for (int i = 1; i <= numOfStair; i++) {
+        for (int i = 1; i <= N; i++) {
             stairs[i] = Integer.parseInt(bufferedReader.readLine());
-        }
-
-        if (numOfStair >= 1) {
-            scores[1] = stairs[1];
-        }
-        if (numOfStair >= 2) {
-            scores[2] = stairs[1] + stairs[2];
-        }
-        if (numOfStair >= 3) {
-            scores[3] = Math.max(stairs[1] + stairs[3], stairs[2] + stairs[3]);
         }
     }
 
-    static int goUp(int stair) {
-        if (stair <= 0) return 0;
-        if (scores[stair] != 0) return scores[stair];
+    static void solve() {
+        if (N == 1) {
+            dp[1] = stairs[1];
+            return;
+        }
 
-        scores[stair] = Math.max(
-                goUp(stair - 2) + stairs[stair],
-                goUp(stair - 3) + stairs[stair - 1] + stairs[stair]
-        );
-        return scores[stair];
+        dp[1] = stairs[1];
+        dp[2] = stairs[1] + stairs[2];
+
+        for (int i = 3; i <= N; i++) {
+            dp[i] = Math.max(dp[i - 2] + stairs[i], dp[i - 3] + stairs[i - 1] + stairs[i]);
+        }
     }
 }
