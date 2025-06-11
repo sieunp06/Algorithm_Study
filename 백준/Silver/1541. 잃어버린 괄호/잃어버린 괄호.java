@@ -1,47 +1,30 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.*;
 
 public class Main {
+    static final BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+    static final StringBuilder stringBuilder = new StringBuilder();
+    static StringTokenizer stringTokenizer;
+
     public static void main(String[] args) throws IOException {
-        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
-        String input = bufferedReader.readLine();
+        String expression = bufferedReader.readLine();
+        String[] subtractParts = expression.split("-");
 
-        Deque<Integer> numbers = new ArrayDeque<>();
+        int result = sum(subtractParts[0]);
 
-        boolean isPlus = false;
-        String number = "";
-        for (char alpha : input.toCharArray()) {
-            if (Character.isDigit(alpha)) {
-                number += alpha;
-                continue;
-            }
-            numbers.add(Integer.parseInt(number));
-            number = "";
-
-            if (isPlus) {
-                numbers.add(numbers.pollLast() + numbers.pollLast());
-            }
-
-            if (alpha == '+') {
-                isPlus = true;
-                continue;
-            }
-            if (alpha == '-') {
-                isPlus = false;
-                continue;
-            }
-        }
-        numbers.add(Integer.parseInt(number));
-        if (isPlus) {
-            numbers.add(numbers.pollLast() + numbers.pollLast());
+        for (int i = 1; i < subtractParts.length; i++) {
+            result -= sum(subtractParts[i]);
         }
 
-        int total = numbers.pollFirst();
-        while (!numbers.isEmpty()) {
-            total -= numbers.pollFirst();
+        System.out.println(result);
+    }
+
+    private static int sum(String part) {
+        String[] numbers = part.split("\\+");
+        int total = 0;
+        for (String number : numbers) {
+            total += Integer.parseInt(number);
         }
-        System.out.println(total);
+        return total;
     }
 }
