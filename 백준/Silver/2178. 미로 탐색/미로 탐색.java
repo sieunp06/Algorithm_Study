@@ -1,57 +1,65 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.*;
 
 public class Main {
-    static int[] dx = {0, 1, 0, -1};
-    static int[] dy = {1, 0, -1, 0};
-    static int N;
-    static int M;
+    static final BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+    static final StringBuilder stringBuilder = new StringBuilder();
+    static StringTokenizer stringTokenizer;
 
-    static boolean[][] visited;
-    static int[][] mirro;
+    private static int N, M;
+    private static int[][] maze;
+    private static boolean[][] visited;
+
+    private static int[] dr = {-1, 1, 0, 0};
+    private static int[] dc = {0, 0, -1, 1};
 
     public static void main(String[] args) throws IOException {
-        BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st;
+        init();
+        System.out.println(bfs());
+    }
 
-        st = new StringTokenizer(bf.readLine());
+    private static void init() throws IOException {
+        stringTokenizer = new StringTokenizer(bufferedReader.readLine());
 
-        N = Integer.parseInt(st.nextToken());
-        M = Integer.parseInt(st.nextToken());
+        N = Integer.parseInt(stringTokenizer.nextToken());
+        M = Integer.parseInt(stringTokenizer.nextToken());
 
+        maze = new int[N][M];
         visited = new boolean[N][M];
-        mirro = new int[N][M];
 
         for (int i = 0; i < N; i++) {
-            String text = bf.readLine();
+            String input = bufferedReader.readLine();
             for (int j = 0; j < M; j++) {
-                mirro[i][j] = Integer.parseInt(text.substring(j, j + 1));
+                maze[i][j] = input.charAt(j) - '0';
             }
         }
-
-        BFS(0, 0);
-        System.out.println(mirro[N - 1][M - 1]);
     }
-    public static void BFS(int i, int j) {
-        Queue<int[]> q = new LinkedList<>();
-        q.offer(new int[] {i, j});
-        visited[i][j] = true;
 
-        while (!q.isEmpty()) {
-            int now[] = q.poll();
-            for (int k = 0; k < 4; k++) {
-                int x = now[0] + dx[k];
-                int y = now[1] + dy[k];
-                if (x >= 0 && y >= 0 && x < N && y < M) {
-                    if (mirro[x][y] != 0 && !visited[x][y]) {
-                        visited[x][y] = true;
-                        mirro[x][y] = mirro[now[0]][now[1]] + 1;
-                        q.add(new int[] {x, y});
-                    }
+    private static int bfs() {
+        Queue<int[]> queue = new ArrayDeque<>();
+        queue.add(new int[] {0, 0});
+        visited[0][0] = true;
+
+        while (!queue.isEmpty()) {
+            int[] now = queue.poll();
+            int r = now[0];
+            int c = now[1];
+
+            for (int i = 0; i < 4; i++) {
+                int nr = r + dr[i];
+                int nc = c + dc[i];
+
+                if (isIn(nr, nc) && !visited[nr][nc] && maze[nr][nc] == 1) {
+                    visited[nr][nc] = true;
+                    maze[nr][nc] = maze[r][c] + 1;
+                    queue.add(new int[] {nr, nc});
                 }
             }
         }
+        return maze[N - 1][M - 1];
+    }
+
+    private static boolean isIn(int r, int c) {
+        return r < N && r >= 0 && c < M && c >= 0;
     }
 }
