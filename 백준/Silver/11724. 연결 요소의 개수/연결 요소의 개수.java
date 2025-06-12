@@ -1,55 +1,55 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.StringTokenizer;
+import java.io.*;
+import java.util.*;
 
 public class Main {
-    static ArrayList<Integer>[] closeList;
-    static boolean[] visited;
+    static final BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+    static final StringBuilder stringBuilder = new StringBuilder();
+    static StringTokenizer stringTokenizer;
+
+    private static int N, M;
+    private static List<Integer>[] list;
+    private static boolean[] visited;
+
     public static void main(String[] args) throws IOException {
-        BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st;
+        init();
+        int count = 0;
+        for (int i = 1; i <= N; i++) {
+            if (!visited[i]) {
+                dfs(i);
+                count++;
+            }
+        }
+        stringBuilder.append(count);
+        System.out.println(stringBuilder);
+    }
 
-        st = new StringTokenizer(bf.readLine());
+    private static void init() throws IOException {
+        stringTokenizer = new StringTokenizer(bufferedReader.readLine());
+        N = Integer.parseInt(stringTokenizer.nextToken());
+        M = Integer.parseInt(stringTokenizer.nextToken());
 
-        int N = Integer.parseInt(st.nextToken());
-        int M = Integer.parseInt(st.nextToken());
-
-        closeList = new ArrayList[N + 1];
+        list = new ArrayList[N + 1];
         visited = new boolean[N + 1];
 
         for (int i = 1; i <= N; i++) {
-            closeList[i] = new ArrayList<>();
+            list[i] = new ArrayList<>();
         }
 
         for (int i = 0; i < M; i++) {
-            st = new StringTokenizer(bf.readLine());
+            stringTokenizer = new StringTokenizer(bufferedReader.readLine());
+            int u = Integer.parseInt(stringTokenizer.nextToken());
+            int v = Integer.parseInt(stringTokenizer.nextToken());
 
-            int u = Integer.parseInt(st.nextToken());
-            int v = Integer.parseInt(st.nextToken());
-
-            closeList[u].add(v);
-            closeList[v].add(u);
+            list[u].add(v);
+            list[v].add(u);
         }
-        int count = 0;
-
-        for (int i = 1; i <= N; i++) {
-            if (!visited[i]) {
-                count++;
-                DFS(i);
-            }
-        }
-        System.out.println(count);
     }
 
-    static void DFS(int num) {
-        if (visited[num])
-            return;
-        visited[num] = true;
-        for (int i : closeList[num]) {
-            if (!visited[i]) {
-                DFS(i);
+    private static void dfs(int node) {
+        visited[node] = true;
+        for (int next : list[node]) {
+            if (!visited[next]) {
+                dfs(next);
             }
         }
     }
