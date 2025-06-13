@@ -1,43 +1,42 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.lang.reflect.Array;
-import java.util.Arrays;
-import java.util.StringTokenizer;
+import java.io.*;
+import java.util.*;
 
 public class Main {
-    private static int N, C;
-    private static int[] homes;
+    static final BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+    static final StringBuilder stringBuilder = new StringBuilder();
+    static StringTokenizer stringTokenizer;
 
-    private static int max = Integer.MIN_VALUE;
-
-    private static final BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+    static int N, C;
+    static int max;
+    static int[] homes;
 
     public static void main(String[] args) throws IOException {
         init();
-        System.out.println(search());
+        System.out.println(find());
     }
 
     private static void init() throws IOException {
-        StringTokenizer stringTokenizer = new StringTokenizer(bufferedReader.readLine());
+        stringTokenizer = new StringTokenizer(bufferedReader.readLine());
         N = Integer.parseInt(stringTokenizer.nextToken());
         C = Integer.parseInt(stringTokenizer.nextToken());
 
         homes = new int[N];
-        for (int i = 0; i < N ; i++) {
+        max = Integer.MIN_VALUE;
+        for (int i = 0; i < N; i++) {
             homes[i] = Integer.parseInt(bufferedReader.readLine());
-            max = Math.max(max, homes[i]);
+            max = Math.max(homes[i], max);
         }
+
         Arrays.sort(homes);
     }
 
-    private static long search() {
-        int left = 1; int right = max;
-        int result = 0;
+    private static int find() {
+        int left = 0; int right = max;
+        int result = -1;
 
         while (left <= right) {
             int mid = (left + right) / 2;
-            if (canInstall(mid)) {
+            if (check(mid)) {
                 result = mid;
                 left = mid + 1;
             } else {
@@ -47,15 +46,15 @@ public class Main {
         return result;
     }
 
-    private static boolean canInstall(int distance) {
-        int count = 1;
-        int lastInstalled = homes[0];
-        for (int i = 1; i < N; i++) {
-            if (homes[i] - lastInstalled >= distance) {
-                lastInstalled = homes[i];
-                count++;
+    private static boolean check(int mid) {
+        int total = 1;
+        int installed = homes[0];
+        for (int i = 1; i < homes.length; i++) {
+            if (homes[i] - installed >= mid) {
+                total++;
+                installed = homes[i];
             }
         }
-        return count >= C;
+        return total >= C;
     }
 }
