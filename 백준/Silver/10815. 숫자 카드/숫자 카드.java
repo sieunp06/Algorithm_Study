@@ -1,37 +1,38 @@
-import java.io.IOException;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
-import java.util.HashMap;
+import java.io.*;
+import java.util.*;
 
 public class Main {
-    public static void main(String[] args) throws IOException {
-		
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    static final BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+    static final StringBuilder stringBuilder = new StringBuilder();
+    static StringTokenizer stringTokenizer;
 
-		HashMap<Integer, Integer> map = new HashMap<Integer, Integer>();
-		
-		int N = Integer.parseInt(br.readLine());
-		
-		StringTokenizer st = new StringTokenizer(br.readLine(), " ");
-		
-		for(int i = 0; i < N; i++) {
-			int key = Integer.parseInt(st.nextToken());
-			
-			map.put(key, map.getOrDefault(key, 0) + 1);
-		}
-		
-		int M = Integer.parseInt(br.readLine());
-		
-		StringBuilder sb = new StringBuilder();
-		
-		st = new StringTokenizer(br.readLine(), " ");
-		for(int i = 0; i < M; i++) {
-			int key = Integer.parseInt(st.nextToken());
-			
-			sb.append(map.getOrDefault(key, 0)).append(' ');
-		}
-		
-		System.out.println(sb);
-	}
+    static int N, M;
+    static Map<Integer, Boolean> cardMap;
+
+    public static void main(String[] args) throws IOException {
+        init();
+        checkCards();
+        System.out.println(stringBuilder);
+    }
+
+    private static void init() throws IOException {
+        N = Integer.parseInt(bufferedReader.readLine());
+        cardMap = new HashMap<>();
+
+        stringTokenizer = new StringTokenizer(bufferedReader.readLine());
+        for (int i = 0; i < N; i++) {
+            int card = Integer.parseInt(stringTokenizer.nextToken());
+            cardMap.put(card, true);
+        }
+
+        M = Integer.parseInt(bufferedReader.readLine());
+    }
+
+    private static void checkCards() throws IOException {
+        stringTokenizer = new StringTokenizer(bufferedReader.readLine());
+        for (int i = 0; i < M; i++) {
+            int query = Integer.parseInt(stringTokenizer.nextToken());
+            stringBuilder.append(cardMap.containsKey(query) ? "1 " : "0 ");
+        }
+    }
 }
