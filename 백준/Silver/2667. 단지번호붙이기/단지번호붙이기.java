@@ -2,19 +2,18 @@ import java.io.*;
 import java.util.*;
 
 public class Main {
-    static int N;
-    static int[][] map;
-    static boolean[][] isVisited;
-
-    static List<Integer> answer;
-
-    // 상하좌우
-    static int[] dr = {-1, 1, 0, 0};
-    static int[] dc = {0, 0, -1, 1};
-
     static final BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
     static final StringBuilder stringBuilder = new StringBuilder();
     static StringTokenizer stringTokenizer;
+
+    private static int N, count;
+    private static int[][] homes;
+    private static boolean[][] visited;
+
+    private static List<Integer> answer;
+
+    private static int[] dr = {-1, 1, 0, 0};
+    private static int[] dc = {0, 0, -1, 1};
 
     public static void main(String[] args) throws IOException {
         init();
@@ -22,63 +21,56 @@ public class Main {
         printResult();
     }
 
-    static void init() throws IOException {
+    private static void init() throws IOException {
         N = Integer.parseInt(bufferedReader.readLine());
-        map = new int[N][N];
-        isVisited = new boolean[N][N];
+        homes = new int[N][N];
+        visited = new boolean[N][N];
+        answer = new ArrayList<>();
 
         for (int i = 0; i < N; i++) {
             String input = bufferedReader.readLine();
             for (int j = 0; j < N; j++) {
-                map[i][j] = input.charAt(j) - '0';
+                homes[i][j] = input.charAt(j) - '0';
             }
         }
-
-        answer = new ArrayList<>();
     }
 
-    static void findHome() {
+    private static void findHome() {
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < N; j++) {
-                if (map[i][j] == 1 && !isVisited[i][j]) {
-                    answer.add(bfs(i, j));
+                if (homes[i][j] == 1 && !visited[i][j]) {
+                    count = 0;
+                    dfs(i, j);
+                    answer.add(count);
                 }
             }
         }
     }
 
-    static int bfs(int r, int c) {
-        int count = 1;
-        Queue<int[]> queue = new ArrayDeque<>();
-        queue.add(new int[] {r, c});
-        isVisited[r][c] = true;
+    private static void dfs(int r, int c) {
+        visited[r][c] = true;
+        count++;
 
-        while (!queue.isEmpty()) {
-            int[] now = queue.poll();
+        for (int i = 0; i < 4; i++) {
+            int nr = r + dr[i];
+            int nc = c + dc[i];
 
-            for (int i = 0; i < 4; i++) {
-                int nr = now[0] + dr[i];
-                int nc = now[1] + dc[i];
-
-                if (isIn(nr, nc) && !isVisited[nr][nc] && map[nr][nc] == 1) {
-                    isVisited[nr][nc] = true;
-                    queue.add(new int[] {nr, nc});
-                    count++;
-                }
+            if (isIn(nr, nc) && !visited[nr][nc] && homes[nr][nc] == 1) {
+                dfs(nr, nc);
             }
         }
-        return count;
     }
 
-    static boolean isIn(int r, int c) {
-        return r >= 0 && c >= 0 && r < N && c < N;
+    private static boolean isIn(int r, int c) {
+        return r >= 0 && r < N && c >= 0 && c < N;
     }
 
-    static void printResult() {
+    private static void printResult() {
         Collections.sort(answer);
-        System.out.println(answer.size());
-        for (int num : answer) {
-            System.out.println(num);
+        stringBuilder.append(answer.size()).append("\n");
+        for (int size : answer) {
+            stringBuilder.append(size).append("\n");
         }
+        System.out.print(stringBuilder);
     }
 }
