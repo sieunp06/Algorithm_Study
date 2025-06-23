@@ -6,13 +6,15 @@ import java.util.List;
 import java.util.StringTokenizer;
 
 public class Main {
-    private static int N;   // 노드의 개수
+    private static final BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+    private static final StringBuilder stringBuilder = new StringBuilder();
+    private static StringTokenizer stringTokenizer;
+    
+    private static int N;
 
     private static boolean[] visited;
     private static List<Integer>[] list;
     private static int[] answers;
-
-    private static final BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
 
     public static void main(String[] args) throws IOException {
         init();
