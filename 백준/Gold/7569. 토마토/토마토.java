@@ -1,36 +1,36 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.ArrayDeque;
-import java.util.Queue;
-import java.util.StringTokenizer;
+import java.io.*;
+import java.util.*;
 
 public class Main {
-    private static int[][][] box;   // 높이, 세로 가로
-    private static Queue<int[]> tomatoes;
-
-    private static int M;   // 상자의 크기(가로)
-    private static int N;   // 상자의 크기(세로)
-    private static int H;   // 쌓아올려지는 상자의 수
-
-    private static int answer = 0;
-
-    // 상하좌우 위 아래
-    private static int[] dr = {-1, 1, 0, 0, 0, 0};
-    private static int[] dc = {0, 0, -1, 1, 0, 0};
-    private static int[] dh = {0, 0, 0, 0, -1, 1};
-
-    private final static BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+    private static final BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+    private static final StringBuilder stringBuilder = new StringBuilder();
     private static StringTokenizer stringTokenizer;
+
+    private static int M, N, H;
+    private static int[][][] box;
+    private static Queue<Tomato> tomatoes;
+
+    private static int result = 0;
+
+    private static class Tomato {
+        int r, c, z, day;
+
+        Tomato(int r, int c, int z, int day) {
+            this.r = r;
+            this.c = c;
+            this.z = z;
+            this.day = day;
+        }
+    }
+
+    private static int[] dr = {0, 0, -1, 1, 0, 0};
+    private static int[] dc = {0, 0, 0, 0, -1, 1};
+    private static int[] dz = {-1, 1, 0, 0, 0, 0};
 
     public static void main(String[] args) throws IOException {
         init();
-        bfs();
-        if (check()) {
-            System.out.println(answer);
-        } else {
-            System.out.println(-1);
-        }
+        countDays();
+        System.out.println(isAllRipe() ? result : -1);
     }
 
     private static void init() throws IOException {
@@ -48,47 +48,45 @@ public class Main {
                 for (int k = 0; k < M; k++) {
                     box[i][j][k] = Integer.parseInt(stringTokenizer.nextToken());
                     if (box[i][j][k] == 1) {
-                        tomatoes.add(new int[] {i, j, k, 0});
+                        tomatoes.add(new Tomato(j, k, i, 0));
                     }
                 }
             }
         }
-
     }
 
-    private static void bfs() {
+    private static int countDays() {
         while (!tomatoes.isEmpty()) {
-            int[] tomato = tomatoes.poll();
+            Tomato now = tomatoes.poll();
+            int now_r = now.r;
+            int now_c = now.c;
+            int now_z = now.z;
+            int day = now.day;
 
-            answer = Math.max(answer, tomato[3]);
+            for (int i = 0; i < 6; i++) {
+                int nr = now_r + dr[i];
+                int nc = now_c + dc[i];
+                int nz = now_z + dz[i];
 
-            for (int i = 0; i < dr.length; i++) {
-                int now_h = tomato[0] + dh[i];
-                int now_r = tomato[1] + dr[i];
-                int now_c = tomato[2] + dc[i];
-
-                if (now_h < 0 || now_h >= H) {
-                    continue;
-                }
-                if (now_r < 0 || now_r >= N) {
-                    continue;
-                }
-                if (now_c <0 || now_c >= M) {
-                    continue;
-                }
-                if (box[now_h][now_r][now_c] == 0) {
-                    box[now_h][now_r][now_c] = 1;
-                    tomatoes.add(new int[] {now_h, now_r, now_c, tomato[3] + 1});
+                if (isIn(nr, nc, nz) && box[nz][nr][nc] == 0) {
+                    box[nz][nr][nc] = 1;
+                    tomatoes.add(new Tomato(nr, nc, nz, day + 1));
+                    result = Math.max(result, day + 1);
                 }
             }
         }
+        return result;
     }
 
-    private static boolean check() {
-        for (int i = 0; i < H; i++) {
-            for (int j = 0; j < N; j++) {
-                for (int k = 0; k < M; k++) {
-                    if (box[i][j][k] == 0) {
+    private static boolean isIn(int r, int c, int z) {
+        return r >= 0 && r < N && c >= 0 && c < M && z >= 0 && z < H;
+    }
+
+    private static boolean isAllRipe() {
+        for (int z = 0; z < H; z++) {
+            for (int r = 0; r < N; r++) {
+                for (int c = 0; c < M; c++) {
+                    if (box[z][r][c] == 0) {
                         return false;
                     }
                 }
@@ -97,4 +95,3 @@ public class Main {
         return true;
     }
 }
-
