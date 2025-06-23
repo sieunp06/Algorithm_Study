@@ -9,7 +9,6 @@ public class Main {
     private static int answerArea = 0;
     private static int answerColorWeakness = 0;
 
-    // 상하좌우
     private static int[] dr = {-1, 1, 0, 0};
     private static int[] dc = {0, 0, -1, 1};
 
