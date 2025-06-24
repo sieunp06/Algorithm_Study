@@ -1,17 +1,18 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.*;
 
 public class Main {
-    static int V, E, K;
-    static List<Node>[] nodes;
-    static int[] dist;
-    static final int INF = Integer.MAX_VALUE;
+    static final BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+    static final StringBuilder stringBuilder = new StringBuilder();
+    static StringTokenizer stringTokenizer;
 
-    static class Node implements Comparable<Node> {
+    private static int V, E, K;
+    private static final int INF = Integer.MAX_VALUE;
+    private static List<Node>[] graph;
+    private static int[] distance;
+
+    private static class Node implements Comparable<Node> {
         int v, w;
-
         Node (int v, int w) {
             this.v = v;
             this.w = w;
@@ -19,13 +20,9 @@ public class Main {
 
         @Override
         public int compareTo(Node o) {
-            return w - o.w;
+            return Integer.compare(this.w, o.w);
         }
     }
-
-    static final BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
-    static final StringBuilder stringBuilder = new StringBuilder();
-    static StringTokenizer stringTokenizer;
 
     public static void main(String[] args) throws IOException {
         init();
@@ -33,20 +30,19 @@ public class Main {
         printResult();
     }
 
-    static void init() throws IOException {
+    private static void init() throws IOException {
         stringTokenizer = new StringTokenizer(bufferedReader.readLine());
-        V = Integer.parseInt(stringTokenizer.nextToken());  // 정점의 개수
-        E = Integer.parseInt(stringTokenizer.nextToken());  // 간선의 개수
-
+        V = Integer.parseInt(stringTokenizer.nextToken());
+        E = Integer.parseInt(stringTokenizer.nextToken());
         K = Integer.parseInt(bufferedReader.readLine());
 
-        nodes = new ArrayList[V + 1];
-        for (int i = 1; i <= V; i++) {
-            nodes[i] = new ArrayList<>();
-        }
+        graph = new List[V + 1];
+        distance = new int[V + 1];
+        Arrays.fill(distance, INF);
 
-        dist = new int[V + 1];
-        Arrays.fill(dist, INF);
+        for (int i = 1; i <= V; i++) {
+            graph[i] = new ArrayList<>();
+        }
 
         for (int i = 0; i < E; i++) {
             stringTokenizer = new StringTokenizer(bufferedReader.readLine());
@@ -54,36 +50,33 @@ public class Main {
             int v = Integer.parseInt(stringTokenizer.nextToken());
             int w = Integer.parseInt(stringTokenizer.nextToken());
 
-            nodes[u].add(new Node(v, w));
+            graph[u].add(new Node(v, w));
         }
     }
 
-    static void dijkstra(int start) {
-        PriorityQueue<Node> pq = new PriorityQueue<>();
-        pq.offer(new Node(start, 0));
-        dist[start] = 0;
+    private static void dijkstra(int start) {
+        PriorityQueue<Node> priorityQueue = new PriorityQueue<>();
+        priorityQueue.offer(new Node(start, 0));
+        distance[start] = 0;
 
-        while (!pq.isEmpty()) {
-            Node now = pq.poll();
+        while (!priorityQueue.isEmpty()) {
+            Node now = priorityQueue.poll();
 
-            int cur = now.v;
-            int w = now.w;
+            if (now.w > distance[now.v]) continue;
 
-            if (w > dist[cur]) continue;
-
-            for (Node node : nodes[cur]) {
-                if (dist[node.v] > dist[cur] + node.w) {
-                    dist[node.v] = dist[cur] + node.w;
-                    pq.offer(new Node(node.v, dist[node.v]));
+            for (Node next : graph[now.v]) {
+                if (distance[next.v] > distance[now.v] + next.w) {
+                    distance[next.v] = distance[now.v] + next.w;
+                    priorityQueue.offer(new Node(next.v, distance[next.v]));
                 }
             }
         }
     }
 
-    static void printResult() {
+    private static void printResult() {
         for (int i = 1; i <= V; i++) {
-            stringBuilder.append(dist[i] == INF ? "INF" : dist[i]).append("\n");
+            stringBuilder.append(distance[i] == Integer.MAX_VALUE ? "INF" : distance[i]).append("\n");
         }
-        System.out.println(stringBuilder);
+        System.out.print(stringBuilder);
     }
 }
