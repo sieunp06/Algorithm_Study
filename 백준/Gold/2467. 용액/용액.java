@@ -1,50 +1,46 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.Arrays;
-import java.util.StringTokenizer;
+import java.io.*;
+import java.util.*;
 
 public class Main {
-    private static int N;
-    private static long[] solutions;
-
-    private static int left, right;
-    private static long min;
-
-    private static final BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+    static final BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+    static final StringBuilder stringBuilder = new StringBuilder();
+    static StringTokenizer stringTokenizer;
 
     public static void main(String[] args) throws IOException {
-        init();
-        search();
-        System.out.println(solutions[left] + " " + solutions[right]);
-    }
+        int N = Integer.parseInt(bufferedReader.readLine());
+        int[] arr = new int[N];
 
-    private static void init() throws IOException {
-        N = Integer.parseInt(bufferedReader.readLine());
-        solutions = new long[N];
-
-        min = Long.MAX_VALUE;
-
-        StringTokenizer stringTokenizer = new StringTokenizer(bufferedReader.readLine());
+        stringTokenizer = new StringTokenizer(bufferedReader.readLine());
         for (int i = 0; i < N; i++) {
-            solutions[i] = Long.parseLong(stringTokenizer.nextToken());
+            arr[i] = Integer.parseInt(stringTokenizer.nextToken());
         }
-    }
 
-    private static void search() {
-        int lt = 0; int rt = N - 1;
+        Arrays.sort(arr); // 정렬 필수
 
-        while (lt < rt) {
-            long sum = solutions[lt] + solutions[rt];
-            if (Math.abs(min) > Math.abs(sum)) {
-                left = lt; right = rt;
-                min = sum;
+        int left = 0;
+        int right = N - 1;
+        int minDiff = Integer.MAX_VALUE;
+        int answerLeft = 0;
+        int answerRight = 0;
+
+        while (left < right) {
+            int sum = arr[left] + arr[right];
+            int absSum = Math.abs(sum);
+
+            if (absSum < minDiff) {
+                minDiff = absSum;
+                answerLeft = arr[left];
+                answerRight = arr[right];
             }
+
             if (sum < 0) {
-                lt++;
+                left++;
             } else {
-                rt--;
+                right--;
             }
         }
+
+        stringBuilder.append(answerLeft).append(" ").append(answerRight);
+        System.out.println(stringBuilder);
     }
 }
