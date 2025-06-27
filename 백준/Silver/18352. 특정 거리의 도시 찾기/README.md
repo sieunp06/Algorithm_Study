@@ -4,15 +4,15 @@
 
 ### 성능 요약
 
-메모리: 270336 KB, 시간: 1236 ms
+메모리: 278288 KB, 시간: 1096 ms
 
 ### 분류
 
-너비 우선 탐색, 데이크스트라, 그래프 이론, 그래프 탐색, 최단 경로
+그래프 이론, 그래프 탐색, 너비 우선 탐색, 최단 경로, 데이크스트라
 
 ### 제출 일자
 
-2024년 1월 26일 22:06:20
+2025년 6월 27일 13:03:09
 
 ### 문제 설명
 
@@ -22,7 +22,7 @@
 
 <p>예를 들어 <em>N</em>=4, <em>K</em>=2, <em>X</em>=1일 때 다음과 같이 그래프가 구성되어 있다고 가정하자.</p>
 
-<p style="text-align: center;"><img alt="" src="" style="height: 249px; width: 250px;"></p>
+<p style="text-align: center;"><img alt="" src="https://upload.acmicpc.net/a5e311d7-7ce4-4638-88a5-3665fb4459e5/-/preview/" style="height: 249px; width: 250px;"></p>
 
 <p style="text-align: justify;">이 때 1번 도시에서 출발하여 도달할 수 있는 도시 중에서, 최단 거리가 2인 도시는 4번 도시 뿐이다.  2번과 3번 도시의 경우, 최단 거리가 1이기 때문에 출력하지 않는다.</p>
 

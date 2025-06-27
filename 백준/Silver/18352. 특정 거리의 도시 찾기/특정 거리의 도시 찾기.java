@@ -1,78 +1,72 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.*;
 
 public class Main {
-    static List<Integer> answer;
-    static int[] visited;
-    static List<Integer>[] list;
+    private static final BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+    private static final StringBuilder stringBuilder = new StringBuilder();
+    private static StringTokenizer stringTokenizer;
+
+    private static int N, M, K, X;
+    private static List<Integer>[] graph;
+    private static int[] distance;
+
+    private static final int INF = Integer.MAX_VALUE;
 
     public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st;
+        init();
+        bfs();
+        printResult();
+    }
 
-        st = new StringTokenizer(br.readLine());
+    private static void init() throws IOException {
+        stringTokenizer = new StringTokenizer(bufferedReader.readLine());
+        N = Integer.parseInt(stringTokenizer.nextToken());
+        M = Integer.parseInt(stringTokenizer.nextToken());
+        K = Integer.parseInt(stringTokenizer.nextToken());
+        X = Integer.parseInt(stringTokenizer.nextToken());
 
-        int N = Integer.parseInt(st.nextToken());   // 도시의 개수 N
-        int M = Integer.parseInt(st.nextToken());   // 도로의 개수 M
-        int K = Integer.parseInt(st.nextToken());   // 거리 정보 K
-        int X = Integer.parseInt(st.nextToken());   // 출발 도시의 번호 X
-
-        answer = new ArrayList<>();
-        visited = new int[N + 1];
-        list = new ArrayList[N + 1];
-
-        for (int i = 0; i <= N; i++) {
-            visited[i] = -1;
-        }
-
+        graph = new ArrayList[N + 1];
         for (int i = 1; i <= N; i++) {
-            list[i] = new ArrayList<>();
+            graph[i] = new ArrayList<>();
         }
 
         for (int i = 0; i < M; i++) {
-            st = new StringTokenizer(br.readLine());
-
-            int A = Integer.parseInt(st.nextToken());
-            int B = Integer.parseInt(st.nextToken());
-
-            list[A].add(B);
+            stringTokenizer = new StringTokenizer(bufferedReader.readLine());
+            int A = Integer.parseInt(stringTokenizer.nextToken());
+            int B = Integer.parseInt(stringTokenizer.nextToken());
+            graph[A].add(B);
         }
 
-        BFS(X);
-
-        for (int i = 0; i <= N; i++) {
-            if (visited[i] == K) {
-                answer.add(i);
-            }
-        }
-
-        if (answer.isEmpty()) {
-            System.out.println("-1");
-        } else {
-            Collections.sort(answer);
-        }
-
-        for (int num : answer) {
-            System.out.println(num);
-        }
+        distance = new int[N + 1];
+        Arrays.fill(distance, -1);
+        distance[X] = 0;
     }
 
-    private static void BFS(int node) {
-        Queue<Integer> q = new LinkedList<>();
-        q.add(node);
-        visited[node]++;
+    private static void bfs() {
+        Queue<Integer> queue = new LinkedList<>();
+        queue.offer(X);
 
-        while (!q.isEmpty()) {
-            int now_node = q.poll();
-            for (int i: list[now_node]) {
-                if (visited[i] == -1) {
-                    visited[i] = visited[now_node] + 1;
-                    q.add(i);
+        while (!queue.isEmpty()) {
+            int current = queue.poll();
+
+            for (int next : graph[current]) {
+                if (distance[next] == -1) {
+                    distance[next] = distance[current] + 1;
+                    queue.offer(next);
                 }
             }
         }
     }
-}
 
+    private static void printResult() {
+        boolean found = false;
+        for (int i = 1; i <= N; i++) {
+            if (distance[i] == K) {
+                stringBuilder.append(i).append("\n");
+                found = true;
+            }
+        }
+
+        System.out.println(found ? stringBuilder : -1);
+    }
+}
