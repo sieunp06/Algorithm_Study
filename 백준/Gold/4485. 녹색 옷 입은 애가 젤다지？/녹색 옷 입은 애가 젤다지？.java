@@ -2,17 +2,18 @@ import java.io.*;
 import java.util.*;
 
 public class Main {
-    static int testCase = 1;
-    static int N;
-    static int[][] cave;
-    static int[][] dist;
-    static final int INF = Integer.MAX_VALUE;
+    private static final BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+    private static final StringBuilder stringBuilder = new StringBuilder();
+    private static StringTokenizer stringTokenizer;
 
-    // 상하좌우
-    static int[] dr = {-1, 1, 0, 0};
-    static int[] dc = {0, 0, -1, 1};
+    private static int N;
+    private static int[][] cave, distance;
+    private static final int INF = Integer.MAX_VALUE;
 
-    static class Node implements Comparable<Node> {
+    private static int[] dr = {-1, 1, 0, 0};
+    private static int[] dc = {0, 0, -1, 1};
+
+    private static class Node implements Comparable<Node> {
         int r, c, cost;
 
         Node(int r, int c, int cost) {
@@ -21,72 +22,68 @@ public class Main {
             this.cost = cost;
         }
 
-
         @Override
         public int compareTo(Node o) {
-            return cost - o.cost;
+            return this.cost - o.cost;
         }
     }
-
-    static final BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
-    static final StringBuilder stringBuilder = new StringBuilder();
-    static StringTokenizer stringTokenizer;
 
     public static void main(String[] args) throws IOException {
+        int testCase = 1;
         while (true) {
             N = Integer.parseInt(bufferedReader.readLine());
-            if (N == 0) break;
+            if (N == 0) {
+                break;
+            }
             init();
-            dijkstra(0, 0);
-            printResult();
+            dijkstra();
+            stringBuilder.append("Problem ").append(testCase++).append(": ")
+                    .append(distance[N - 1][N - 1]).append("\n");
         }
-        System.out.println(stringBuilder);
+        System.out.print(stringBuilder);
     }
 
-    static void init() throws IOException {
+    private static void init() throws IOException {
         cave = new int[N][N];
-        dist = new int[N][N];
+        distance = new int[N][N];
 
         for (int i = 0; i < N; i++) {
             stringTokenizer = new StringTokenizer(bufferedReader.readLine());
             for (int j = 0; j < N; j++) {
                 cave[i][j] = Integer.parseInt(stringTokenizer.nextToken());
-                dist[i][j] = INF;
+                distance[i][j] = INF;
             }
         }
     }
 
-    static void dijkstra(int r, int c) {
-        PriorityQueue<Node> pq = new PriorityQueue<>();
-        dist[0][0] = cave[0][0];
-        pq.offer(new Node(0, 0, cave[0][0]));
+    private static void dijkstra() {
+        PriorityQueue<Node> priorityQueue = new PriorityQueue<>();
+        priorityQueue.add(new Node(0, 0, cave[0][0]));
+        distance[0][0] = cave[0][0];
 
-        while (!pq.isEmpty()) {
-            Node current = pq.poll();
+        while (!priorityQueue.isEmpty()) {
+            Node node = priorityQueue.poll();
+            int r = node.r;
+            int c = node.c;
+            int cost = node.cost;
 
-            if (dist[current.r][current.c] < current.cost) continue;
+            if (distance[r][c] < cost) continue;
 
             for (int i = 0; i < 4; i++) {
-                int nr = current.r + dr[i];
-                int nc = current.c + dc[i];
+                int nr = r + dr[i];
+                int nc = c + dc[i];
 
-                if (!isIn(nr, nc)) continue;
-
-                int newCost = dist[current.r][current.c] + cave[nr][nc];
-
-                if (newCost < dist[nr][nc]) {
-                    dist[nr][nc] = newCost;
-                    pq.offer(new Node(nr, nc, newCost));
+                if (isIn(nr, nc)) {
+                    if (distance[nr][nc] > cave[nr][nc] + cost) {
+                        distance[nr][nc] = cave[nr][nc] + cost;
+                        priorityQueue.add(new Node(nr, nc, distance[nr][nc]));
+                    }
                 }
             }
         }
     }
 
-    static boolean isIn(int r, int c) {
-        return r >= 0 && c >= 0 && r < N && c < N;
-    }
-
-    static void printResult() {
-        stringBuilder.append("Problem ").append(testCase++).append(": ").append(dist[N - 1][N - 1]).append('\n');
+    private static boolean isIn(int r, int c) {
+        return r >= 0 && r < N && c >= 0 && c < N;
     }
 }
