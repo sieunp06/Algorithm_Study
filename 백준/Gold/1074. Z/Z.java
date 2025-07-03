@@ -31,15 +31,15 @@ public class Main {
         }
 
         int half = size / 2;
-        if (r < x + half && c < y + half) { // 좌상
+        if (r < x + half && c < y + half) {
             find(half, x, y);
-        } else if (r < x + half && c >= y + half) {  // 우상
+        } else if (r < x + half && c >= y + half) {  
             answer += half * half;
             find(half, x, y + half);
-        } else if (r >= x + half && c < y + half) { // 좌하
+        } else if (r >= x + half && c < y + half) { 
             answer += half * half * 2;
             find(half, x + half, y);
-        } else {                                    // 우하
+        } else {                                    
             answer += half * half * 3;
             find(half, x + half, y + half);
         }
