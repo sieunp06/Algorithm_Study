@@ -1,25 +1,24 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
+import java.util.*;
 
 public class Main {
+    static final BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+    static final StringBuilder stringBuilder = new StringBuilder();
+    static StringTokenizer stringTokenizer;
+
     public static void main(String[] args) throws IOException {
-        BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
+        int N = Integer.parseInt(bufferedReader.readLine());
+        int[] numbers = new int[N];
 
-        int N = Integer.parseInt(bf.readLine());
-        int[] nums = new int[N];
-
-        for (int i = 0; i < nums.length; i++) nums[i] = Integer.parseInt(bf.readLine());
-
-        for (int i = 0; i < N - 1; i++) {
-            for (int j = 0; j < N - i - 1; j++) {
-                if (nums[j] > nums[j + 1]) {
-                    int temp = nums[j];
-                    nums[j] = nums[j + 1];
-                    nums[j + 1] = temp;
-                }
-            }
+        for (int i = 0; i < N; i++) {
+            numbers[i] = Integer.parseInt(bufferedReader.readLine());
         }
-        for (int i = 0; i < N; i++) System.out.print(nums[i] + " ");
+
+        Arrays.sort(numbers);
+
+        for (int num : numbers) {
+            stringBuilder.append(num).append("\n");
+        }
+        System.out.println(stringBuilder);
     }
 }
