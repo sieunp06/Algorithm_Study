@@ -1,53 +1,49 @@
-import java.util.Queue;
-import java.util.LinkedList;
+import java.util.*;
 
 class Solution {
-    int[] dx = {0, 1, 0, -1};
-    int[] dy = {1, 0, -1, 0};
-    int[][] ways;
-    boolean[][] visited;
-    int N; int M;
+    private int answer = 0;
+    private int[][] map;
+    private boolean[][] visited;
+    
+    private int[] dr = {-1, 1, 0, 0};
+    private int[] dc = {0, 0, -1, 1};
     
     public int solution(int[][] maps) {
-        N = maps.length;
-        M = maps[0].length;
+        map = maps;
+        visited = new boolean[maps.length][maps[0].length];
+        return bfs();
+    }
+    
+    private int bfs() {
+        Queue<int[]> queue = new ArrayDeque<>();
+        queue.add(new int[] {0, 0, 1});
+        visited[0][0] = true;
         
-        ways = new int[N][M];
-        visited = new boolean[N][M];
-        
-        for (int i = 0; i < N; i++) {
-            for (int j = 0; j < M; j++) {
-                ways[i][j] = maps[i][j];
+        while(!queue.isEmpty()) {
+            int[] now = queue.poll();
+            
+            int now_r = now[0];
+            int now_c = now[1];
+            int len = now[2];
+            
+            if (now_r == map.length - 1 && now_c == map[0].length - 1) {
+                return len;
             }
-        }
-        
-        BFS(0, 0);
-        
-        if (ways[N - 1][M - 1] > 1) {
-            return ways[N - 1][M - 1];
+            
+            for (int i = 0; i < 4; i++) {
+                int nr = now_r + dr[i];
+                int nc = now_c + dc[i];
+                
+                if (isIn(nr, nc) && !visited[nr][nc] && map[nr][nc] == 1) {
+                    visited[nr][nc] = true;
+                    queue.add(new int[] {nr, nc, len + 1});
+                }
+            }
         }
         return -1;
     }
     
-    void BFS(int i, int j) {
-        Queue<int[]> queue = new LinkedList<>();
-        queue.offer(new int[] {i, j});
-        visited[i][j] = true;
-        
-        while (!queue.isEmpty()) {
-            int[] now = queue.poll();
-            for (int k = 0; k < 4; k++) {
-                int x = now[0] + dx[k];
-                int y = now[1] + dy[k];
-                
-                if (x >= 0 && y >= 0 && x < N && y < M) {
-                    if (ways[x][y] != 0 && !visited[x][y]) {
-                        ways[x][y] = ways[now[0]][now[1]] + 1;
-                        visited[x][y] = true;
-                        queue.add(new int[] {x, y});
-                    }
-                }
-            }
-        }
+    private boolean isIn(int r, int c) {
+        return r >= 0 && r < map.length && c >= 0 && c < map[0].length;
     }
 }
