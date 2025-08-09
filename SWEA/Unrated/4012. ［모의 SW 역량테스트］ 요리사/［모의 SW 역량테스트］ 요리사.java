@@ -1,70 +1,77 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Arrays;
 import java.util.StringTokenizer;
 
-class Solution {
-    private static int T, N;
-    private static int[][] foods;
-    private static boolean[] isSelected;
-
-    private static int answer;
-    
-    private static final BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
-    private static final StringBuilder stringBuilder = new StringBuilder();
-
-    public static void main(String[] args) throws Exception {
-        T = Integer.parseInt(bufferedReader.readLine());
-        for (int testCase = 1; testCase <= T; testCase++) {
-            init();
-            combinationOfFood(0, 0);
-            stringBuilder.append("#").append(testCase).append(" ").append(answer).append("\n");
-        }
-        System.out.print(stringBuilder);
-    }
-
-    private static void init() throws IOException {
-        N = Integer.parseInt(bufferedReader.readLine());
-        foods = new int[N][N];
-        isSelected = new boolean[N];
-        answer = Integer.MAX_VALUE;
-
+public class Solution {
+	private static final BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+	private static final StringBuilder stringBuilder = new StringBuilder();
+	private static StringTokenizer stringTokenizer;
+	
+	private static int N;	// 식재료의 수
+	private static boolean[] foods;
+	private static boolean[] visited;
+	private static int[][] scores;
+	private static int answer;
+	
+	public static void main(String[] args) throws NumberFormatException, IOException {
+		int T = Integer.parseInt(bufferedReader.readLine());
+		for (int tc = 1; tc <= T; tc++) {
+			init();
+			separate(0, 0);
+			stringBuilder.append("#").append(tc).append(" ").append(answer).append("\n");
+		}
+		System.out.print(stringBuilder);
+	}
+	
+	private static void init() throws NumberFormatException, IOException {
+		N = Integer.parseInt(bufferedReader.readLine());
+		foods = new boolean[N];
+		visited = new boolean[N];
+		
+		scores = new int[N][N];
+		
+		for (int i = 0; i < N; i++) {
+			stringTokenizer = new StringTokenizer(bufferedReader.readLine());
+			for (int j = 0; j < N; j++) {
+				scores[i][j] = Integer.parseInt(stringTokenizer.nextToken());
+			}
+		}
+		
+		answer = Integer.MAX_VALUE;
+	}
+	
+	// 조합 구하기
+	private static void separate(int depth, int start) {
+		if (depth == N / 2) {
+			calcDiff();
+			return;
+		}
+		
+		for (int i = start; i < N; i++) {
+			foods[i] = true;
+			separate(depth + 1, i + 1);
+			foods[i] = false;
+		}
+	}
+	
+	static void calcDiff() {
+        int sumA = 0;
+        int sumB = 0;
+        
         for (int i = 0; i < N; i++) {
-            StringTokenizer stringTokenizer = new StringTokenizer(bufferedReader.readLine());
-            for (int j = 0; j < N; j++) {
-                foods[i][j] = Integer.parseInt(stringTokenizer.nextToken());
-            }
+        	for (int j = i + 1; j < N; j++) {
+        		if (foods[i] && foods[j]) {
+        			sumA += scores[i][j] + scores[j][i];
+        		}
+        		if (!foods[i] && !foods[j]) {
+        			sumB += scores[i][j] + scores[j][i];
+        		}
+        	}
         }
-    }
-
-    private static void combinationOfFood(int idx, int cnt) {
-        if (cnt == N / 2) {
-            answer = Math.min(answer, countScore());
-            return;
-        }
-
-        for (int i = idx; i < N; i++) {
-            isSelected[i] = true;
-            combinationOfFood(i + 1, cnt + 1);
-            isSelected[i] = false;
-        }
-    }
-
-    private static int countScore() {
-        int A = 0;
-        int B = 0;
-
-        for (int i = 0; i < isSelected.length; i++) {
-            for (int j = i + 1; j < isSelected.length; j++) {
-                if (isSelected[i] && isSelected[j]) {
-                    A += foods[i][j] + foods[j][i];
-                }
-                if (!isSelected[i] && !isSelected[j]) {
-                    B += foods[i][j] + foods[j][i];
-                }
-            }
-        }
-
-        return Math.abs(A - B);
+        
+        int diff = Math.abs(sumA - sumB);
+        answer = Math.min(answer, diff);
     }
 }
