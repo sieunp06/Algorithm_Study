@@ -1,7 +1,6 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Arrays;
 import java.util.StringTokenizer;
 
 public class Solution {
@@ -11,8 +10,8 @@ public class Solution {
 	
 	private static int N;	// 식재료의 수
 	private static boolean[] foods;
-	private static boolean[] visited;
 	private static int[][] scores;
+	private static int[][] pairsum;
 	private static int answer;
 	
 	public static void main(String[] args) throws NumberFormatException, IOException {
@@ -28,9 +27,12 @@ public class Solution {
 	private static void init() throws NumberFormatException, IOException {
 		N = Integer.parseInt(bufferedReader.readLine());
 		foods = new boolean[N];
-		visited = new boolean[N];
+		foods[0] = true;
 		
 		scores = new int[N][N];
+		pairsum = new int[N][N];
+		
+		answer = Integer.MAX_VALUE;
 		
 		for (int i = 0; i < N; i++) {
 			stringTokenizer = new StringTokenizer(bufferedReader.readLine());
@@ -39,7 +41,11 @@ public class Solution {
 			}
 		}
 		
-		answer = Integer.MAX_VALUE;
+		for (int i = 0; i < N; i++) {
+			for (int j = i + 1; j < N; j++) {
+				pairsum[i][j] = scores[i][j] + scores[j][i];
+			}
+		}
 	}
 	
 	// 조합 구하기
@@ -63,10 +69,10 @@ public class Solution {
         for (int i = 0; i < N; i++) {
         	for (int j = i + 1; j < N; j++) {
         		if (foods[i] && foods[j]) {
-        			sumA += scores[i][j] + scores[j][i];
+        			sumA += pairsum[i][j];
         		}
         		if (!foods[i] && !foods[j]) {
-        			sumB += scores[i][j] + scores[j][i];
+        			sumB += pairsum[i][j];
         		}
         	}
         }
