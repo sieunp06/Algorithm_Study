@@ -2,17 +2,16 @@ class Solution {
     public String solution(String s) {
         StringBuilder stringBuilder = new StringBuilder();
         
-        boolean isAfterSpace = true;
-        for (char alpha : s.toCharArray()) {
-            if (isAfterSpace && alpha != ' ') {
-                stringBuilder.append(Character.toUpperCase(alpha));
-                isAfterSpace = false;
-                continue;
+        boolean isFirst = true;
+        for (char c : s.toCharArray()) {
+            if (isFirst) {
+                stringBuilder.append(Character.toUpperCase(c));
+            } else {
+                stringBuilder.append(Character.toLowerCase(c));
             }
-        
-            stringBuilder.append(Character.toLowerCase(alpha));
-            if (alpha == ' ') {
-                isAfterSpace = true;
+            isFirst = false;
+            if (c == ' ') {
+                isFirst = true;
             }
         }
         
