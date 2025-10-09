@@ -2,25 +2,23 @@ import java.util.Stack;
 
 class Solution {
     boolean solution(String s) {
-        Stack<Character> st = new Stack<>();
-        
-        for (char target : s.toCharArray()) {
-            if (target == '(') {
-                st.add(target);
-                continue;
+        Stack<Character> stack = new Stack();
+        for (char c : s.toCharArray()) {
+            if (c == ')') {
+                if (stack.isEmpty()) { 
+                    return false;
+                }
+                if (stack.peek() == '(') {
+                    stack.pop();
+                } else {
+                    return false;
+                }
+            } else {
+                stack.push('(');
             }
-            if (st.isEmpty()) {
-                return false;
-            }
-            if (st.peek() == '(') {
-                st.pop();
-                continue;
-            }
-            return false;
         }
-
-        if (!st.isEmpty()) {
-            return false;
+        if (!stack.isEmpty()) {
+           return false; 
         }
         return true;
     }
