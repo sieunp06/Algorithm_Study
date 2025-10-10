@@ -3,10 +3,9 @@ class Solution {
         int[] answer = {0, 0};
         
         while (!s.equals("1")) {
-            int len = s.length();
-            s = s.replaceAll("0", "");
-            answer[1] += len - s.length();
-            s = Integer.toString(s.length(), 2);
+            String target = s.replaceAll("0", "");
+            answer[1] += s.length() - target.length();
+            s = Integer.toString(target.length(),  2);
             answer[0]++;
         }
         
