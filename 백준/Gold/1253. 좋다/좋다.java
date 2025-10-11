@@ -1,44 +1,59 @@
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.StringTokenizer;
 
 public class Main {
+    static final BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+    static final StringBuilder stringBuilder = new StringBuilder();
+    static StringTokenizer stringTokenizer;
+
+    static int N;
+    static int[] numbers;
+
     public static void main(String[] args) throws IOException {
-        BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
+        init();
+        System.out.print(process());
+    }
 
-        int N = Integer.parseInt(bf.readLine());
-        StringTokenizer st = new StringTokenizer(bf.readLine());
-        long[] nums = new long[N];
+    private static void init() throws IOException {
+        N = Integer.parseInt(bufferedReader.readLine());
+        numbers = new int[N];
 
-        for (int i = 0; i < N; i++) nums[i] = Long.parseLong(st.nextToken());
+        stringTokenizer = new StringTokenizer(bufferedReader.readLine());
+        for (int i = 0; i < N; i++) {
+            numbers[i] = Integer.parseInt(stringTokenizer.nextToken());
+        }
+        Arrays.sort(numbers);
+    }
 
-        Arrays.sort(nums);
-
+    private static int process() {
         int count = 0;
 
-        for (int key = 0; key < N; key++) {
-            long find =  nums[key];
-            int startIdx = 0;
-            int endIdx = N - 1;
-            while (startIdx < endIdx) {
-                if (nums[startIdx] + nums[endIdx] == find) {
-                    if (startIdx != key && endIdx != key) {
-                        count++;
-                        break;
-                    } else if (startIdx == key) {
-                        startIdx++;
-                    } else {
-                        endIdx--;
-                    }
-                } else if (nums[startIdx] + nums[endIdx] < find) {
-                    startIdx++;
-                } else {
-                    endIdx--;
-                }
+        for (int i = 0; i < N; i++) {
+            if (isGood(i)) count++;
+        }
+
+        return count;
+    }
+
+    private static boolean isGood(int target) {
+        int start = 0; int end = N - 1;
+
+        while (start < end) {
+            if (start == target) { start++; continue; }
+            if (end == target) { end--; continue; }
+
+            int total = numbers[start] + numbers[end];
+            if (total == numbers[target]) {
+                return true;
+            } else if (total < numbers[target]) {
+                start++;
+            } else {
+                end--;
             }
         }
-        System.out.println(count);
+        return false;
     }
 }
