@@ -1,58 +1,50 @@
-import java.io.IOException;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.io.IOException;
 import java.util.StringTokenizer;
 
 public class Main {
-    public static void main(String[] args) throws IOException {
-        BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st = new StringTokenizer(bf.readLine());
-        
-        int N = Integer.parseInt(st.nextToken());
-        int S = Integer.parseInt(st.nextToken());
+    static final BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+    static final StringBuilder stringBuilder = new StringBuilder();
+    static StringTokenizer stringTokenizer;
 
-        int[] numbers = new int[N];
-        
-        StringTokenizer st1 = new StringTokenizer(bf.readLine());
-        int arr_sum = 0;
-        
+    static int N, S;
+    static int[] numbers;
+    static int answer = Integer.MAX_VALUE;
+
+    public static void main(String[] args) throws IOException {
+        init();
+        process();
+        System.out.print(answer != Integer.MAX_VALUE ? answer : 0);
+    }
+
+    private static void init() throws IOException {
+        stringTokenizer = new StringTokenizer(bufferedReader.readLine());
+
+        N = Integer.parseInt(stringTokenizer.nextToken());
+        S = Integer.parseInt(stringTokenizer.nextToken());
+
+        numbers = new int[N];
+        stringTokenizer = new StringTokenizer(bufferedReader.readLine());
         for (int i = 0; i < N; i++) {
-            numbers[i] = Integer.parseInt(st1.nextToken());
-            arr_sum += numbers[i];
+            numbers[i] = Integer.parseInt(stringTokenizer.nextToken());
         }
-        
-        int answer;
-        
-        if (S == 0 || S > arr_sum) {
-        	answer = 0;
-        } else {
-        	answer = Integer.MAX_VALUE;
-        	int len = 0;
-        	int sum = 0;
-        	int lt = 0;
-        
-        	for (int rt = 0; rt < N; rt++) {
-            	sum += numbers[rt];
-            	len++;
-            	if (sum >= S) {
-                	if (answer > len) {
-                		answer = len;
-                	}
-            	}
-            	while (sum >= S) {
-                	sum -= numbers[lt++];
-                	len--;
-                	if (sum >= S) {
-                    	if (answer > len) {
-                        	answer = len;
-                    	}
-                	}
-            	}
-        	}
+    }
+
+    private static void process() {
+        int start = 0; int end = 0;
+        int total = numbers[0];
+
+        while (end < N) {
+            if (total >= S) {
+                answer = Math.min(answer, end - start + 1);
+                total -= numbers[start];
+                start++;
+            } else {
+                end++;
+                if (end == N) break;
+                total += numbers[end];
+            }
         }
-        
-        System.out.println(answer);
-        
-        bf.close();
     }
 }
