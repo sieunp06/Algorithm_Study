@@ -1,23 +1,19 @@
-import java.util.StringTokenizer;
-
-class Solution {    
-    public String solution(String s) {
-        StringBuilder stringBuilder = new StringBuilder();
-        StringTokenizer stringTokenizer = new StringTokenizer(s);
+class Solution {
+    private StringBuilder answer = new StringBuilder();
     
-        int max = Integer.MIN_VALUE;
+    public String solution(String s) {
         int min = Integer.MAX_VALUE;
-        
-        while (stringTokenizer.hasMoreTokens()) {
-            int target = Integer.parseInt(stringTokenizer.nextToken());
-            if (max < target) {
-                max = target;
+        int max = Integer.MIN_VALUE;
+        for (String num : s.split(" ")) {
+            int cur = Integer.parseInt(num);
+            if (min > cur) {
+                min = cur;
             }
-            if (min > target) {
-                min = target;
+            if (max < cur) {
+                max = cur;
             }
         }
-        
-        return stringBuilder.append(min).append(" ").append(max).toString();
+        answer.append(min).append(" ").append(max);
+        return answer.toString();
     }
 }
