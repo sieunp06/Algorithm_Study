@@ -1,26 +1,25 @@
-import java.util.Scanner;
-import java.util.Arrays;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
 public class Main {
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        
-        int A = scanner.nextInt();
-        int B = scanner.nextInt();
-        int C = scanner.nextInt();
-        
-        int total = A * B * C;
-        String total_st = Integer.toString(total);
-        
-        for (int i = 0; i < 10; i++) {
-            int count = 0;
-            for (int j = 0; j < total_st.length(); j++) {
-                if ((total_st.charAt(j) - '0') == i) 
-                    count++;
-            }
-            System.out.println(count);
+    public static void main(String[] args) throws IOException {
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+        StringBuilder answer = new StringBuilder();
+        int[] count = new int[10];
+
+        int total = Integer.parseInt(bufferedReader.readLine());
+        for (int i = 0; i < 2; i++) {
+            total *= Integer.parseInt(bufferedReader.readLine());
         }
-        
-        scanner.close();
+
+        for (char number : String.valueOf(total).toCharArray()) {
+            count[number - '0']++;
+        }
+
+        for (int num : count) {
+            answer.append(num).append("\n");
+        }
+        System.out.print(answer);
     }
 }
