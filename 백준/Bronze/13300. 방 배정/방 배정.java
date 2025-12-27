@@ -25,8 +25,12 @@ public class Main {
 
         int answer = 0;
         for (int i = 0; i < 6; i++) {
-            answer += person[i][0] / K + person[i][0] % K;
-            answer += person[i][1] / K + person[i][1] % K;
+            for (int j = 0; j <= 1; j++) {
+                answer += person[i][j] / K;
+                if (person[i][j] % K != 0) {
+                    answer++;
+                }
+            }
         }
         System.out.println(answer);
     }
