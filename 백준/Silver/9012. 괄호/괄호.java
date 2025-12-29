@@ -1,44 +1,34 @@
-import java.io.*;
-import java.util.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
 public class Main {
-    static final BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
-    static final StringBuilder stringBuilder = new StringBuilder();
-    static StringTokenizer stringTokenizer;
-
     public static void main(String[] args) throws IOException {
-        int N = Integer.parseInt(bufferedReader.readLine());
-        while (N-- > 0) {
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+        StringBuilder stringBuilder = new StringBuilder();
+
+        int T = Integer.parseInt(bufferedReader.readLine());
+
+        for (int i = 0; i < T; i++) {
             String input = bufferedReader.readLine();
+            int count = 0;
+            boolean isValid = true;
 
-            if (input.equals(".")) {
-                break;
-            }
+            for (int j = 0; j < input.length(); j++) {
+                char c = input.charAt(j);
 
-            Stack<Character> st = new Stack<>();
-            boolean isBalanced = true;
-
-            for (int i = 0; i < input.length(); i++) {
-                char ch = input.charAt(i);
-
-                if (ch == '(' || ch == '[') {
-                    st.push(ch);
-                } else if (ch == ')') {
-                    if (st.isEmpty() || st.peek() != '(') {
-                        isBalanced = false;
+                if (c == '(') {
+                    count++;
+                } else {
+                    if (count == 0) {
+                        isValid = false;
                         break;
                     }
-                    st.pop();
-                } else if (ch == ']') {
-                    if (st.isEmpty() || st.peek() != '[') {
-                        isBalanced = false;
-                        break;
-                    }
-                    st.pop();
+                    count--;
                 }
             }
 
-            if (isBalanced && st.isEmpty()) {
+            if (isValid && count == 0) {
                 stringBuilder.append("YES\n");
             } else {
                 stringBuilder.append("NO\n");
