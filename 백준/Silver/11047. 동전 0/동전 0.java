@@ -1,27 +1,30 @@
-import java.io.*;
-import java.util.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Arrays;
+import java.util.StringTokenizer;
 
 public class Main {
-    static final BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
-    static final StringBuilder stringBuilder = new StringBuilder();
-    static StringTokenizer stringTokenizer;
-
     public static void main(String[] args) throws IOException {
-        stringTokenizer = new StringTokenizer(bufferedReader.readLine());
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer stringTokenizer = new StringTokenizer(bufferedReader.readLine());
         int N = Integer.parseInt(stringTokenizer.nextToken());
         int K = Integer.parseInt(stringTokenizer.nextToken());
 
         int[] coins = new int[N];
-        for (int i = N - 1; i >= 0; i--) {
+        for (int i = 0; i < N; i++) {
             coins[i] = Integer.parseInt(bufferedReader.readLine());
         }
+        Arrays.sort(coins);
 
-        int total = 0;
-        for (int coin : coins) {
-            total += K / coin;
-            K %= coin;
+        int answer = 0;
+        for (int i = N - 1; i >= 0; i--) {
+            int value = coins[i];
+            int num = K / value;
+            K %= value;
+            answer += num;
         }
 
-        System.out.println(total);
+        System.out.println(answer);
     }
 }
