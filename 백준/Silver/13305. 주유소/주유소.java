@@ -1,39 +1,29 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.*;
+import java.util.StringTokenizer;
 
 public class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer stringTokenizer;
 
         int N = Integer.parseInt(bufferedReader.readLine());
-        int[] distances = new int[N - 1];
-        int[] prices = new int[N];
-        
-        stringTokenizer = new StringTokenizer(bufferedReader.readLine());
+        int[] len = new int[N - 1];
+        int[] price = new int[N - 1];
+
+        StringTokenizer stringTokenizer1 = new StringTokenizer(bufferedReader.readLine());
+        StringTokenizer stringTokenizer2 = new StringTokenizer(bufferedReader.readLine());
         for (int i = 0; i < N - 1; i++) {
-            int distance = Integer.parseInt(stringTokenizer.nextToken());
-            distances[i] = distance;
+            len[i] = Integer.parseInt(stringTokenizer1.nextToken());
+            price[i] = Integer.parseInt(stringTokenizer2.nextToken());
         }
 
-        stringTokenizer = new StringTokenizer(bufferedReader.readLine());
-        for (int i = 0; i < N; i++) {
-            prices[i] = Integer.parseInt(stringTokenizer.nextToken());
-        }
-
-        int total = prices[0] * distances[0];
-        int now = prices[0];
-        int distanceIdx = 1;
+        int cheapestPrice = price[0];
+        int answer = len[0] * price[0];
         for (int i = 1; i < N - 1; i++) {
-            if (now >= prices[i]) {
-                now = prices[i];
-            }
-            total += now * distances[distanceIdx];
-            distanceIdx++;
+            cheapestPrice = Math.min(cheapestPrice, price[i]);
+            answer += len[i] * cheapestPrice;
         }
-
-        System.out.println(total);
+        System.out.println(answer);
     }
 }
