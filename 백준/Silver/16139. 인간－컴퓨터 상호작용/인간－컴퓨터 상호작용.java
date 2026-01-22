@@ -9,6 +9,15 @@ public class Main {
 
         String input = bufferedReader.readLine();
         int q = Integer.parseInt(bufferedReader.readLine());
+        int[][] prefix = new int[26][input.length() + 1];
+
+        for (int i = 0; i < input.length(); i++) {
+            int c = input.charAt(i) - 'a';
+            for (int j = 0; j < 26; j++) {
+                prefix[j][i + 1] = prefix[j][i];
+            }
+            prefix[c][i + 1]++;
+        }
 
         for (int i = 0; i < q; i++) {
             stringTokenizer = new StringTokenizer(bufferedReader.readLine());
@@ -16,15 +25,8 @@ public class Main {
             int l = Integer.parseInt(stringTokenizer.nextToken());
             int r = Integer.parseInt(stringTokenizer.nextToken());
 
-            int[] alphabet = new int[input.length() + 1];
-            for (int j = 1; j <= input.length(); j++) {
-                if (input.charAt(j - 1) == a) {
-                    alphabet[j] = alphabet[j - 1] + 1;
-                } else {
-                    alphabet[j] = alphabet[j - 1];
-                }
-            }
-            stringBuilder.append(alphabet[r + 1] - alphabet[l]).append("\n");
+            int idx = a - 'a';
+            stringBuilder.append(prefix[idx][r + 1] - prefix[idx][l]).append("\n");
         }
         System.out.println(stringBuilder);
     }
