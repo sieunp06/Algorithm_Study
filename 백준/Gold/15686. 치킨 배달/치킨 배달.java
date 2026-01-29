@@ -3,11 +3,20 @@ import java.util.*;
 
 public class Main {
     private static int N, M;
-    private static List<int[]> houses = new ArrayList<>();
-    private static List<int[]> chickenRes = new ArrayList<>();
-    private static int min = Integer.MAX_VALUE;
+    private static List<Point> houses = new ArrayList<>();
+    private static List<Point> chickens = new ArrayList<>();
+    private static int[] selected;
+    private static int answer = Integer.MAX_VALUE;
 
-    public static void main(String[] args) throws IOException {
+    private static class Point {
+        int x, y;
+        Point(int x, int y) {
+            this.x = x;
+            this.y = y;
+        }
+    }
+
+    public static void main(String[] args) throws Exception {
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer stringTokenizer = new StringTokenizer(bufferedReader.readLine());
 
@@ -17,42 +26,44 @@ public class Main {
         for (int i = 0; i < N; i++) {
             stringTokenizer = new StringTokenizer(bufferedReader.readLine());
             for (int j = 0; j < N; j++) {
-                int value = Integer.parseInt(stringTokenizer.nextToken());
-                if (value == 1) {
-                    houses.add(new int[] {i, j});
-                } else if (value == 2) {
-                    chickenRes.add(new int[] {i, j});
-                }
+                int v = Integer.parseInt(stringTokenizer.nextToken());
+                if (v == 1) houses.add(new Point(i, j));
+                if (v == 2) chickens.add(new Point(i, j));
             }
         }
 
-        chooseChicken(0, 0, new ArrayList<>());
-        System.out.println(min);
+        selected = new int[M];
+        comb(0, 0);
+
+        System.out.println(answer);
     }
 
-    private static void chooseChicken(int start, int count, List<int[]> selected) {
-        if (count == M) {
-            min = Math.min(min, calChickenLen(selected));
+    private static void comb(int idx, int cnt) {
+        if (cnt == M) {
+            calc();
             return;
         }
+        if (idx == chickens.size()) return;
 
-        for (int i = start; i < chickenRes.size(); i++) {
-            selected.add(chickenRes.get(i));
-            chooseChicken(i + 1, count + 1, selected);
-            selected.remove(selected.size() - 1);
-        }
+        selected[cnt] = idx;
+        comb(idx + 1, cnt + 1);
+        comb(idx + 1, cnt);
     }
 
-    private static int calChickenLen(List<int[]> selectedChicken) {
-        int total = 0;
-        for (int[] house : houses) {
+    private static void calc() {
+        int sum = 0;
+
+        for (Point h : houses) {
             int minDist = Integer.MAX_VALUE;
-            for (int[] chicken : selectedChicken) {
-                int dist = Math.abs(house[0] - chicken[0]) + Math.abs(house[1] - chicken[1]);
+
+            for (int i = 0; i < M; i++) {
+                Point c = chickens.get(selected[i]);
+                int dist = Math.abs(h.x - c.x) + Math.abs(h.y - c.y);
                 minDist = Math.min(minDist, dist);
             }
-            total += minDist;
+            sum += minDist;
         }
-        return total;
+
+        answer = Math.min(answer, sum);
     }
 }
