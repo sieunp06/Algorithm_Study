@@ -1,73 +1,55 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.*;
 
 public class Main {
-    static int N, K;
-    static PriorityQueue<Jewel> jewels;
-    static PriorityQueue<Integer> bags;
-
-    static class Jewel {
-        int M, V;
-
-        Jewel(int M, int V) {
-            this.M = M;
-            this.V = V;
+    private static class Jewel {
+        int weight;
+        int value;
+        Jewel(int weight, int value) {
+            this.weight = weight;
+            this.value = value;
         }
     }
 
-    static final BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
-    static final StringBuilder stringBuilder = new StringBuilder();
-    static StringTokenizer stringTokenizer;
+    public static void main(String[] args) throws Exception {
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer stringTokenizer = new StringTokenizer(bufferedReader.readLine());
 
-    public static void main(String[] args) throws IOException {
-        init();
-        System.out.println(steal());
-    }
+        int N = Integer.parseInt(stringTokenizer.nextToken());
+        int K = Integer.parseInt(stringTokenizer.nextToken());
 
-    static void init() throws IOException {
-        stringTokenizer = new StringTokenizer(bufferedReader.readLine());
-        N = Integer.parseInt(stringTokenizer.nextToken());
-        K = Integer.parseInt(stringTokenizer.nextToken());
-        jewels = new PriorityQueue<>((o1, o2) -> {
-            if (o1.M == o2.M) {
-                return o2.V - o1.V;
-            }
-            return o1.M - o2.M;
-        });
-        bags = new PriorityQueue<>();
+        Jewel[] jewels = new Jewel[N];
+        int[] bags = new int[K];
 
         for (int i = 0; i < N; i++) {
             stringTokenizer = new StringTokenizer(bufferedReader.readLine());
-
             int M = Integer.parseInt(stringTokenizer.nextToken());
             int V = Integer.parseInt(stringTokenizer.nextToken());
-
-            jewels.add(new Jewel(M, V));
+            jewels[i] = new Jewel(M, V);
         }
 
         for (int i = 0; i < K; i++) {
-            bags.add(Integer.parseInt(bufferedReader.readLine()));
-        }
-    }
-
-    static long steal() {
-        long total = 0;
-        PriorityQueue<Integer> valueQueue = new PriorityQueue<>(Collections.reverseOrder());
-
-        while (!bags.isEmpty()) {
-            int now = bags.poll();
-
-            while (!jewels.isEmpty() && jewels.peek().M <= now) {
-                valueQueue.add(jewels.poll().V);
-            }
-
-            if (!valueQueue.isEmpty()) {
-                total += valueQueue.poll();
-            }
+            bags[i] = Integer.parseInt(bufferedReader.readLine());
         }
 
-        return total;
+        Arrays.sort(jewels, Comparator.comparingInt(a -> a.weight));
+        Arrays.sort(bags);
+
+        PriorityQueue<Integer> pq = new PriorityQueue<>(Collections.reverseOrder());
+
+        long answer = 0;
+        int j = 0;
+        for (int i = 0; i < K; i++) {
+            while (j < N && jewels[j].weight <= bags[i]) {
+                pq.offer(jewels[j].value);
+                j++;
+            }
+
+            if (!pq.isEmpty()) {
+                answer += pq.poll();
+            }
+        }
+
+        System.out.println(answer);
     }
 }
