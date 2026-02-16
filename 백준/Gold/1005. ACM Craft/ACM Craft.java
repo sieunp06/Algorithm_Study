@@ -1,79 +1,62 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.*;
 
 public class Main {
-    private static int T;   // 테스트 케이스의 개수
-    private static int N, K;
-    private static int W;
-    private static int[] buildings;
-
-    private static List<Integer>[] constructions;
-    private static int[] inDegree;
-    private static int[] dp;
-
     private static final BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+    private static final StringBuilder stringBuilder = new StringBuilder();
     private static StringTokenizer stringTokenizer;
+    private static int N, K, W;
+    private static int[] times, dp;
+    private static List<Integer>[] list;
 
-    public static void main(String[] args) throws IOException {
-        T = Integer.parseInt(bufferedReader.readLine());
-        for (int testCase = 1; testCase <= T; testCase++) {
+    public static void main(String[] args) throws Exception {
+        int T = Integer.parseInt(bufferedReader.readLine());
+        while (T-- > 0) {
             init();
-            topologySort();
-            System.out.println(dp[W]);
+            stringBuilder.append(dp(W)).append("\n");
         }
+        System.out.print(stringBuilder);
     }
 
     private static void init() throws IOException {
         stringTokenizer = new StringTokenizer(bufferedReader.readLine());
-        N = Integer.parseInt(stringTokenizer.nextToken());  // 건물의 개수
-        K = Integer.parseInt(stringTokenizer.nextToken());  // 건설 순서 규칙의 총 개수
+        N = Integer.parseInt(stringTokenizer.nextToken());
+        K = Integer.parseInt(stringTokenizer.nextToken());
 
+        times = new int[N + 1];
         dp = new int[N + 1];
-        buildings = new int[N + 1];
+        Arrays.fill(dp, -1);
+
         stringTokenizer = new StringTokenizer(bufferedReader.readLine());
         for (int i = 1; i <= N; i++) {
-            int weight = Integer.parseInt(stringTokenizer.nextToken());
-            buildings[i] = weight;
-            dp[i] = weight;
+            times[i] = Integer.parseInt(stringTokenizer.nextToken());
         }
 
-        constructions = new List[N + 1];
-        inDegree = new int[N + 1];
-
+        list = new List[N + 1];
         for (int i = 1; i <= N; i++) {
-            constructions[i] = new ArrayList<>();
+            list[i] = new ArrayList<>();
         }
+
 
         for (int i = 0; i < K; i++) {
             stringTokenizer = new StringTokenizer(bufferedReader.readLine());
-            int A = Integer.parseInt(stringTokenizer.nextToken());
-            int B = Integer.parseInt(stringTokenizer.nextToken());
+            int X = Integer.parseInt(stringTokenizer.nextToken());
+            int Y = Integer.parseInt(stringTokenizer.nextToken());
 
-            constructions[A].add(B);
-            inDegree[B]++;
+            list[Y].add(X);
         }
+
         W = Integer.parseInt(bufferedReader.readLine());
     }
 
-    private static void topologySort() {
-        Queue<Integer> queue = new ArrayDeque<>();
-        for (int i = 1; i <= N; i++) {
-            if (inDegree[i] == 0) {
-                queue.offer(i);
-            }
-        }
+    private static int dp(int target) {
+        if (dp[target] != -1) return dp[target];
 
-        while (!queue.isEmpty()) {
-            int now = queue.poll();
-            for (int num : constructions[now]) {
-                dp[num] = Math.max(dp[num], dp[now] + buildings[num]);
-                inDegree[num]--;
-                if (inDegree[num] == 0) {
-                    queue.offer(num);
-                }
-            }
+        int best = 0;
+        for (int num : list[target]) {
+            best = Math.max(best, dp(num));
         }
+        dp[target] = best + times[target];
+        return dp[target];
     }
 }
