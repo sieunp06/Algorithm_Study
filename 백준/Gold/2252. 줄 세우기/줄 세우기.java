@@ -2,30 +2,23 @@ import java.io.*;
 import java.util.*;
 
 public class Main {
-    private static int N, M;
-    private static List<Integer>[] graph;
-    private static int[] inDegree;
-
     private static final BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
     private static final StringBuilder stringBuilder = new StringBuilder();
     private static StringTokenizer stringTokenizer;
 
-    public static void main(String[] args) throws IOException {
-        init();
-        topologySort();
-        System.out.println(stringBuilder);
-    }
+    private static int N, M;
+    private static List<Integer>[] lists;
+    private static int[] indegree;
 
-    private static void init() throws IOException {
+    public static void main(String[] args) throws Exception {
         stringTokenizer = new StringTokenizer(bufferedReader.readLine());
         N = Integer.parseInt(stringTokenizer.nextToken());
         M = Integer.parseInt(stringTokenizer.nextToken());
 
-        graph = new List[N + 1];
-        inDegree = new int[N + 1];
-
+        lists = new List[N + 1];
+        indegree = new int[N + 1];
         for (int i = 1; i <= N; i++) {
-            graph[i] = new ArrayList<>();
+            lists[i] = new ArrayList<>();
         }
 
         for (int i = 0; i < M; i++) {
@@ -33,27 +26,35 @@ public class Main {
             int A = Integer.parseInt(stringTokenizer.nextToken());
             int B = Integer.parseInt(stringTokenizer.nextToken());
 
-            graph[A].add(B);
-            inDegree[B]++;
+            addEdge(A, B);
         }
+
+        topologicalSort();
+        System.out.println(stringBuilder);
     }
 
-    private static void topologySort() {
+    private static void addEdge(int A, int B) {
+        lists[A].add(B);
+        indegree[B]++;
+    }
+
+    private static void topologicalSort() {
         Queue<Integer> queue = new ArrayDeque<>();
+
         for (int i = 1; i <= N; i++) {
-            if (inDegree[i] == 0) {
+            if (indegree[i] == 0) {
                 queue.add(i);
             }
         }
 
         while (!queue.isEmpty()) {
-            int now = queue.poll();
-            stringBuilder.append(now).append(" ");
+            int current = queue.poll();
+            stringBuilder.append(current).append(" ");
 
-            for (int num : graph[now]) {
-                inDegree[num]--;
-                if (inDegree[num] == 0) {
-                    queue.add(num);
+            for (int next : lists[current]) {
+                indegree[next]--;
+                if (indegree[next] == 0) {
+                    queue.add(next);
                 }
             }
         }
