@@ -2,31 +2,26 @@ import java.io.*;
 import java.util.*;
 
 public class Main {
-    static final BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
-    static final StringBuilder stringBuilder = new StringBuilder();
-    static StringTokenizer stringTokenizer;
-
-    private static int M, N, V;
+    private static int N, M, V;
     private static List<Integer>[] lists;
-    private static boolean[] visited;
+    private static boolean[] isVisted;
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws Exception {
         init();
-        visited = new boolean[N + 1];
-        dfs(V);
-        System.out.println();
-        visited = new boolean[N + 1];
-        bfs(V);
+        makeAnswer(dfs(V));
+        makeAnswer(bfs(V));
     }
 
     private static void init() throws IOException {
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer stringTokenizer;
+
         stringTokenizer = new StringTokenizer(bufferedReader.readLine());
         N = Integer.parseInt(stringTokenizer.nextToken());
         M = Integer.parseInt(stringTokenizer.nextToken());
         V = Integer.parseInt(stringTokenizer.nextToken());
 
         lists = new List[N + 1];
-
         for (int i = 1; i <= N; i++) {
             lists[i] = new ArrayList<>();
         }
@@ -45,33 +40,59 @@ public class Main {
         }
     }
 
-    private static void dfs(int num) {
-        if (visited[num]) {
-            return;
-        }
-        visited[num] = true;
-        System.out.print(num + " ");
-        for (int now : lists[num]) {
-            if (!visited[now]) {
-                dfs(now);
-            }
-        }
-    }
+    private static List<Integer> dfs(int start) {
+        List<Integer> result = new ArrayList<>();
+        isVisted = new boolean[N + 1];
 
-    private static void bfs(int num) {
-        Queue<Integer> queue = new ArrayDeque<>();
-        queue.add(num);
-        visited[num] = true;
+        Deque<Integer> stack = new ArrayDeque<>();
+        stack.push(start);
 
-        while (!queue.isEmpty()) {
-            int now = queue.poll();
-            System.out.print(now + " ");
-            for (int n : lists[now]) {
-                if (!visited[n]) {
-                    visited[n] = true;
-                    queue.add(n);
+        while (!stack.isEmpty()) {
+            int target = stack.pop();
+
+            if (isVisted[target]) continue;
+            isVisted[target] = true;
+            result.add(target);
+
+            for (int i = lists[target].size() - 1; i >= 0; i--) {
+                int next = lists[target].get(i);
+                if (!isVisted[next]) {
+                    stack.push(next);
                 }
             }
         }
+        return result;
+    }
+
+    private static List<Integer> bfs(int start) {
+        List<Integer> result = new ArrayList<>();
+        isVisted = new boolean[N + 1];
+
+        Queue<Integer> queue = new ArrayDeque<>();
+        queue.add(start);
+
+        while (!queue.isEmpty()) {
+            int target = queue.poll();
+
+            if (isVisted[target]) continue;
+            isVisted[target] = true;
+            result.add(target);
+
+            for (int num : lists[target]) {
+                if (!isVisted[num]) {
+                    queue.add(num);
+                }
+            }
+        }
+        return result;
+    }
+
+    private static void makeAnswer(List<Integer> list) {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (int num : list) {
+            stringBuilder.append(num).append(" ");
+        }
+        stringBuilder.append("\n");
+        System.out.print(stringBuilder);
     }
 }
