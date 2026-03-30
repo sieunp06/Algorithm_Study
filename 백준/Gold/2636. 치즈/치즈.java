@@ -2,93 +2,62 @@ import java.io.*;
 import java.util.*;
 
 public class Main {
-    private static int R, C;
-    private static int[][] cheese;
-    private static boolean[][] isWall;
-    private static boolean[][] clonedWall;
+    private static int N, M;
+    private static int[][] board;
+    private static boolean[][] isVisited;
 
-    private static int countOneTimeAgo = 0;
-    private static int time = 0;
+    private static class Point {
+        int r, c;
+        Point(int r, int c) {
+            this.r = r;
+            this.c = c;
+        }
+    }
 
-    // 상 하 좌 우
     private static int[] dr = {-1, 1, 0, 0};
     private static int[] dc = {0, 0, -1, 1};
 
-    private static final BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
-    private static final StringBuilder stringBuilder = new StringBuilder();
-    private static StringTokenizer stringTokenizer;
-
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws Exception {
         init();
-        findWall(0, 0);
 
-        do {
-            time++;
-            countOneTimeAgo = count();
+        int time = 0;
+        int lastCount = 0;
+
+        while (true) {
+            int cheese = countCheese();
+            if (cheese == 0) break;
+
+            lastCount = cheese;
             melt();
-        } while (count() > 0);
+            time++;
+        }
+
         System.out.println(time);
-        System.out.println(countOneTimeAgo);
+        System.out.println(lastCount);
     }
 
     private static void init() throws IOException {
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer stringTokenizer;
+
         stringTokenizer = new StringTokenizer(bufferedReader.readLine());
-        R = Integer.parseInt(stringTokenizer.nextToken());
-        C = Integer.parseInt(stringTokenizer.nextToken());
+        N = Integer.parseInt(stringTokenizer.nextToken());
+        M = Integer.parseInt(stringTokenizer.nextToken());
 
-        cheese = new int[R][C];
-        isWall = new boolean[R][C];
-        for (int i = 0; i < R; i++) {
+        board = new int[N][M];
+        for (int i = 0; i < N; i++) {
             stringTokenizer = new StringTokenizer(bufferedReader.readLine());
-            for (int j = 0; j < C; j++) {
-                cheese[i][j] = Integer.parseInt(stringTokenizer.nextToken());
-            }
-        }
-    }
-    
-    private static void findWall(int r, int c) {
-        for (int i = 0; i < 4; i++) {
-            int nr = r + dr[i];
-            int nc = c + dc[i];
-            if (isIn(nr, nc) && !isWall[nr][nc] && cheese[nr][nc] == 0) {
-                isWall[nr][nc] = true;
-                findWall(nr, nc);
+            for (int j = 0; j < M; j++) {
+                board[i][j] = Integer.parseInt(stringTokenizer.nextToken());
             }
         }
     }
 
-    private static void melt() {
-        clonedWall = new boolean[R][C];
-        for (int i = 0; i < R; i++) {
-            for (int j = 0; j < C; j++) {
-                clonedWall[i][j] = isWall[i][j];
-            }
-        }
-
-        for (int i = 0; i < R; i++) {
-            for (int j = 0; j < C; j++) {
-                if (cheese[i][j] == 1) {
-                    for (int k = 0; k < 4; k++) {
-                        int nr = i + dr[k];
-                        int nc = j + dc[k];
-
-                        if (isIn(nr, nc) && clonedWall[nr][nc]) {
-                            isWall[i][j] = true;
-                            cheese[i][j] = 0;
-                            findWall(i, j);
-                            break;
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    private static int count() {
+    private static int countCheese() {
         int count = 0;
-        for (int i = 0; i < R; i++) {
-            for (int j = 0; j < C; j++) {
-                if (cheese[i][j] == 1) {
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < M; j++) {
+                if (board[i][j] == 1) {
                     count++;
                 }
             }
@@ -96,7 +65,40 @@ public class Main {
         return count;
     }
 
+    private static void melt() {
+        List<Point> meltList = new ArrayList<>();
+        isVisited = new boolean[N][M];
+        Queue<Point> queue = new ArrayDeque<>();
+        queue.add(new Point(0, 0));
+        isVisited[0][0] = true;
+
+        while (!queue.isEmpty()) {
+            Point now = queue.poll();
+            int r = now.r;
+            int c = now.c;
+
+            for (int d = 0; d < 4; d++) {
+                int nr = r + dr[d];
+                int nc = c + dc[d];
+
+                if (!isIn(nr, nc)) continue;
+                if (isVisited[nr][nc]) continue;
+
+                isVisited[nr][nc] = true;
+                if (board[nr][nc] == 1) {
+                    meltList.add(new Point(nr, nc));
+                } else {
+                    queue.add(new Point(nr, nc));
+                }
+            }
+        }
+
+        for (Point p : meltList) {
+            board[p.r][p.c] = 0;
+        }
+    }
+
     private static boolean isIn(int r, int c) {
-        return r >= 0 && r < R && c >= 0 && c < C;
+        return r >= 0 && r < N && c >= 0 && c < M;
     }
 }
